@@ -28,6 +28,7 @@ pygame.display.set_caption("Professor Craven's Cool Game")
 done = False
 clock = pygame.time.Clock()
  
+delta=0.0
 colour=red
 thickness=0
 i=0
@@ -67,10 +68,11 @@ while done == False:
 	y_offset = R*math.cos(theta/10)+ 240.0
 	x_offset = R*math.sin(theta/10)+ 400.0
 	if (n>0):
-		cx=int(120*(math.sin(theta/10)+1)+10)
-		cy=int(120*(math.sin(theta*6/10)+1)+10)
-		cz=int(120*(math.sin(theta/10-PI)+1)+10)
+		cx=int(120*(math.sin((theta-delta)/10)+1)+10)
+		cy=int(120*(math.sin((theta-delta)*6/10)+1)+10)
+		cz=int(120*(math.sin((theta-delta)/10-PI)+1)+10)
         	pygame.draw.line(screen,[cx,cy,cz],[xorigin,yorigin],[x_offset,y_offset],5)
+		delta=delta+0.001
 	
     	##pygame.draw.ellipse(screen,black,[y_offset,x_offset,30,30],1/3) 
      
