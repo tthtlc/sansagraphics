@@ -32,6 +32,7 @@ pygame.display.set_caption("Professor Craven's Cool Game")
 done = False
 clock = pygame.time.Clock()
  
+delta = 0.0
 colour=red
 thickness=0
 i=0
@@ -72,28 +73,16 @@ while done == False:
 	thickness=0
     for n in range(1200):
         ##pygame.draw.line(screen,red,[0,10+y_offset],[100,110+y_offset],5)
-	theta = n * 2*PI/120
-	y_offset = R*math.cos(theta/10)+r*math.cos(theta) + 240.0
-	x_offset = R*math.sin(theta/10)+r*math.sin(theta) + 400.0
+	theta = n * 2*PI/120 - delta
+    	delta = delta + 0.0001
+	y_offset = R*math.cos(2*theta)+r*math.cos(theta) + 240.0
+	x_offset = R*math.sin(2*theta)+r*math.sin(theta) + 400.0
 	if (n>0):
-        	pygame.draw.line(screen,colour,[prevx,prevy],[x_offset,y_offset],3)
-
-	### the following are derived from differentiated function of y_offset and x_offset
-	### dy/dt = d(y_offset)/dt  (t = theta)
-	### dx/dt = d(x_offset)/dt  (t = theta)
-	gradient_y=(-R*math.sin(theta/10)/10 - r*math.sin(theta))
-	gradient_x=(R*math.cos(theta/10)/10 + r*math.cos(theta))
-	
-	### atan cannot be used, because there is an infinite value somewhere.
-	angle=math.atan2(gradient_y, gradient_x) + PI/2
-
-	norm_x1=ortho_distance*(math.sin(6*theta)+1)*math.cos(angle) + x_offset
-	norm_y1=ortho_distance*(math.cos(6*theta)+1)*math.sin(angle) + y_offset
-	if (n>0):
-		cx=int(120*(math.sin(7*theta)+1)+10)
-		cy=int(120*(math.sin(5*theta)+1)+10)
-		cz=int(120*(math.sin(8*theta-PI)+1)+10)
-        	pygame.draw.line(screen,[cx,cy,cz],[x_offset,y_offset],[norm_x1,norm_y1],2*thickness)
+		cx=int(120*(math.sin((theta)*3)+1)+10)
+		cy=int(120*(math.sin(2*theta)+1)+10)
+		cz=int(120*(math.sin(2*theta-PI)+1)+10)
+        	pygame.draw.line(screen,[cx,cy,cz],[400.0,240.0],[x_offset,y_offset],3)
+        	##pygame.draw.line(screen,[cx,cy,cz],[x_offset,y_offset],[norm_x1,norm_y1],2)
 	prevx=x_offset
 	prevy=y_offset
 	
