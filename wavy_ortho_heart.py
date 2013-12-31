@@ -1,10 +1,6 @@
+### by adjusting the delta rate and the periodic frequencies of the cx/cy/cz it is possibl to modify the waviness of the colour changes
 
-# Sample Python/Pygame Programs
-# Simpson College Computer Science
-# http://programarcadegames.com/
-# http://simpson.edu/computer-science/
- 
-# Import a library of functions called 'pygame'
+
 import pygame
 import math
  
@@ -40,6 +36,7 @@ cx=10
 cy=155
 cz=240
 ortho_distance=100
+delta=0.0
 
 while done == False:
  
@@ -68,15 +65,16 @@ while done == False:
     else:
 	colour=red
     thickness+=1 
-    if thickness > 10:
-	thickness=0
-    for n in range(3600):
+    if thickness > 6:
+	thickness=5
+
+    for n in range(360*5):
         ##pygame.draw.line(screen,red,[0,10+y_offset],[100,110+y_offset],5)
 	theta = n * 2*PI/360
 	y_offset = R*math.cos(theta/5)+r*math.cos(theta) + 240.0
 	x_offset = R*math.sin(theta/5)+r*math.sin(theta) + 400.0
 	if (n>0):
-        	pygame.draw.line(screen,colour,[prevx,prevy],[x_offset,y_offset],thickness)
+        	pygame.draw.line(screen,[cz,cx,cy],[prevx,prevy],[x_offset,y_offset],thickness)
 
 	### the following are derived from differentiated function of y_offset and x_offset
 	### dy/dt = d(y_offset)/dt  (t = theta)
@@ -90,10 +88,11 @@ while done == False:
 	norm_x1=ortho_distance*math.sin(theta*5)*math.cos(angle) + x_offset
 	norm_y1=ortho_distance*math.cos(theta*5)*math.sin(angle) + y_offset
 	if (n>0):
-        	pygame.draw.line(screen,[cx,cy,cz],[x_offset,y_offset],[norm_x1,norm_y1],thickness)
-		cx=int(120*(math.sin(theta)+1)+10)
-		cy=int(120*(math.sin(theta/5)+1)+10)
-		cz=int(120*(math.sin(theta-PI)+1)+10)
+        	pygame.draw.line(screen,[cx,cy,cz],[x_offset,y_offset],[norm_x1,norm_y1],3)
+		cx=int(120*(math.sin((theta-delta)/3)+1)+10)
+		cy=int(120*(math.sin((theta-delta)/5)+1)+10)
+		cz=int(120*(math.sin((theta-delta)-PI)+1)+10)
+		delta = delta + 0.0003
 	prevx=x_offset
 	prevy=y_offset
 	
