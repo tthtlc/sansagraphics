@@ -32,15 +32,12 @@ pygame.display.set_caption("Professor Craven's Cool Game")
 done = False
 clock = pygame.time.Clock()
  
-delta = 0.0
 colour=red
 thickness=0
 i=0
-
-cx=10
-cy=155
-cz=240
-ortho_distance=100
+xorigin=400.0
+yorigin=240.0
+delta=0.0
 
 while done == False:
  
@@ -56,9 +53,7 @@ while done == False:
     # inside the main while done==False loop.
      
     # Clear the screen and set the screen background
-    #screen.fill(white)
-    prevx=400.0
-    prevy=240.0
+    screen.fill(white)
  
     # Draw on the screen several green lines from (0,10) to (100,110) 
     # 5 pixels wide using a loop
@@ -71,20 +66,17 @@ while done == False:
     thickness+=1 
     if thickness > 100:
 	thickness=0
-    for n in range(1200):
+    for n in range(1441):
         ##pygame.draw.line(screen,red,[0,10+y_offset],[100,110+y_offset],5)
-	theta = n * 2*PI/120 - delta
-    	delta = delta + 0.0001
-	y_offset = R*math.cos(2*theta)+r*math.cos(theta) + 240.0
-	x_offset = R*math.sin(2*theta)+r*math.sin(theta) + 400.0
+	theta = n * 2*PI/120
+	y_offset = R*math.cos(theta/10)*math.sin(theta/5)+ 240.0
+	x_offset = R*math.sin(theta/10)*math.sin(theta/5)+ 400.0
 	if (n>0):
-		cx=int(120*(math.sin((theta)*3)+1)+10)
-		cy=int(120*(math.sin(2*theta)+1)+10)
-		cz=int(120*(math.sin(2*theta-PI)+1)+10)
-        	pygame.draw.line(screen,[cx,cy,cz],[400.0,240.0],[x_offset,y_offset],3)
-        	##pygame.draw.line(screen,[cx,cy,cz],[x_offset,y_offset],[norm_x1,norm_y1],2)
-	prevx=x_offset
-	prevy=y_offset
+		cx=int(120*(math.sin(2*(theta-delta))+1)+10)
+		cy=int(120*(math.sin(theta-delta)+1)+10)
+		cz=int(120*(math.sin(theta-delta-PI)+1)+10)
+        	pygame.draw.line(screen,[cx,cy,cz],[xorigin,yorigin],[x_offset,y_offset],2)
+		delta=delta+0.0001
 	
     	##pygame.draw.ellipse(screen,black,[y_offset,x_offset,30,30],1/3) 
      
