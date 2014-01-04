@@ -63,8 +63,8 @@ while not done:
 
     # a texture
 
-    #pulse = sin(t/30)*0.5+0.5 # try this one
-    pulse = 0
+    pulse = sin(t/30)*0.5+0.5 # try this one
+    #pulse = 0
 
     texdata=[[[0.0,0,1,1],
               [0.0,0,0,0],
@@ -98,22 +98,22 @@ while not done:
     # vertices & texture data
 
     glBegin(GL_TRIANGLE_STRIP);
-    pulse2 = 0.5
+    #pulse2 = 0.5
 
     for i in range(0,100):
 
         r=5.0 # try other values - integers as well
         d=1   # try other values
 
-	pulse2 += 0.5
+	#pulse2 += 0.5
         if (i%2==0):
             glTexCoord2f(0,i);
-#            glVertex3f( cos(i/r), -2.5+i*0.05, sin(i/r));            
-            glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
+            glVertex3f( cos(i/r), -2.5+i*0.05, sin(i/r));            
+#            glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
         else:
             glTexCoord2f(1,i);
-#            glVertex3f( cos(i/r+3.14), -2.5+i*0.05+d, sin(i/r+3.14));
-            glVertex3f( cos(i/r+3.14)*pulse2, -2.5+i*0.05+d+pulse2*1, sin(i/r+3.14)*pulse2);
+            glVertex3f( cos(i/r+3.14), -2.5+i*0.05+d, sin(i/r+3.14));
+#            glVertex3f( cos(i/r+3.14)*pulse2, -2.5+i*0.05+d+pulse2*1, sin(i/r+3.14)*pulse2);
         
 
     glEnd();
