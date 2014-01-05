@@ -5,6 +5,7 @@
 #
 # Keywords: Alpha Blending, Textures, Animation, Double Buffer
 
+
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
