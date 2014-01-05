@@ -1,10 +1,6 @@
 
-# Sample Python/Pygame Programs
-# Simpson College Computer Science
-# http://programarcadegames.com/
-# http://simpson.edu/computer-science/
- 
-# Import a library of functions called 'pygame'
+# implement a gradual change of colour
+
 import pygame
 import math
  
@@ -20,7 +16,7 @@ red =   [255,  0,  0]
 
 PI = 3.141592653
 r=50
-R=200
+R=300
  
 # Set the height and width of the screen
 size = [800,480]
@@ -32,15 +28,15 @@ pygame.display.set_caption("Professor Craven's Cool Game")
 done = False
 clock = pygame.time.Clock()
  
-delta = 0.0
+delta=0.0
 colour=red
 thickness=0
 i=0
-
-cx=10
-cy=155
-cz=240
-ortho_distance=100
+xorigin=400
+yorigin=240
+cx=1
+cy=1
+cz=1
 
 while done == False:
  
@@ -56,9 +52,7 @@ while done == False:
     # inside the main while done==False loop.
      
     # Clear the screen and set the screen background
-    screen.fill(black)
-    prevx=400.0
-    prevy=240.0
+    screen.fill(white)
  
     # Draw on the screen several green lines from (0,10) to (100,110) 
     # 5 pixels wide using a loop
@@ -69,23 +63,24 @@ while done == False:
     else:
 	colour=red
     thickness+=1 
-    if thickness > 100:
-	thickness=0
-    for n in range(120):
+    if thickness > 10:
+	thickness=0 
+
+    for n in range(1400):
         ##pygame.draw.line(screen,red,[0,10+y_offset],[100,110+y_offset],5)
 	theta = n * 2*PI/120
-	##y_offset = R*math.cos(2*theta)+0*math.cos(theta) + 240.0
-	y_offset = R*math.cos(theta-delta)+240.0
-	x_offset = theta*90  ###R*math.sin(2*theta)+r*math.sin(theta) + 400.0
+	width = int(300*(math.cos(theta/10)+1.0)+10)
+	height = int(150*(math.sin(theta/10)+1.0)+10)
 	if (n>0):
-    		delta = delta - 0.0004
-		cx=int(120*(math.sin((theta-delta)*5.3)+1)+10)
-		cy=int(120*(math.sin((theta-delta)*3.7)+1)+10)
-		cz=int(120*(math.sin((theta-delta)*4-PI)+1)+10)
-        	pygame.draw.line(screen,[cx,cy,cz],[x_offset,240.0],[x_offset, y_offset],3)
-        	##pygame.draw.line(screen,[cx,cy,cz],[x_offset,y_offset],[norm_x1,norm_y1],2)
-	prevx=x_offset
-	prevy=y_offset
+		cx=int(120*(math.sin((theta-delta)/10)+1)+10)
+		cy=int(120*(math.sin((theta-delta)*6/10)+1)+10)
+		cz=int(120*(math.sin((theta-delta)/10-PI)+1)+10)
+    		pygame.draw.ellipse(screen,[cx,cy,cz],[xorigin,yorigin,width, height], 5)
+
+		###ellipse(Surface, color, Rect, width=0) -> Rect
+        	#pygame.draw.ellipse(screen,[cx,cy,cz],[xorigin,yorigin,width, height], 5)
+	###	circle(Surface, color, pos, radius, width=0) -> Rect
+		delta=delta+0.001
 	
     	##pygame.draw.ellipse(screen,black,[y_offset,x_offset,30,30],1/3) 
      

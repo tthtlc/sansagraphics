@@ -56,7 +56,7 @@ while done == False:
     # inside the main while done==False loop.
      
     # Clear the screen and set the screen background
-    screen.fill(black)
+    #screen.fill(white)
     prevx=400.0
     prevy=240.0
  
@@ -71,18 +71,17 @@ while done == False:
     thickness+=1 
     if thickness > 100:
 	thickness=0
-    for n in range(120):
+    for n in range(1200):
         ##pygame.draw.line(screen,red,[0,10+y_offset],[100,110+y_offset],5)
-	theta = n * 2*PI/120
-	##y_offset = R*math.cos(2*theta)+0*math.cos(theta) + 240.0
-	y_offset = R*math.cos(theta-delta)+240.0
-	x_offset = theta*90  ###R*math.sin(2*theta)+r*math.sin(theta) + 400.0
+	theta = n * 2*PI/120 
+    	delta = delta + 0.0001
+	y_offset = R*math.cos(2*(theta-delta))+r*math.cos(theta-delta) + 240.0
+	x_offset = R*math.sin(2*(theta-delta))+r*math.sin(theta-delta) + 400.0
 	if (n>0):
-    		delta = delta - 0.0004
-		cx=int(120*(math.sin((theta-delta)*5.3)+1)+10)
-		cy=int(120*(math.sin((theta-delta)*3.7)+1)+10)
-		cz=int(120*(math.sin((theta-delta)*4-PI)+1)+10)
-        	pygame.draw.line(screen,[cx,cy,cz],[x_offset,240.0],[x_offset, y_offset],3)
+		cx=int(120*(math.sin((theta)*3)+1)+10)
+		cy=int(120*(math.sin(2*theta)+1)+10)
+		cz=int(120*(math.sin(2*theta-PI)+1)+10)
+        	pygame.draw.line(screen,[cx,cy,cz],[400.0,240.0],[x_offset,y_offset],3)
         	##pygame.draw.line(screen,[cx,cy,cz],[x_offset,y_offset],[norm_x1,norm_y1],2)
 	prevx=x_offset
 	prevy=y_offset
