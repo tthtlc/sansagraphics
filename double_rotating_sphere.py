@@ -38,6 +38,8 @@ while not done:
 
     glLoadIdentity()
     gluPerspective(90,1,0.01,1000)
+
+    ## this will rotate the angle of view all the time, approximately around the x-z axis
     gluLookAt(sin(t/200.0)*3,sin(t/500.0)*3,cos(t/200.0)*3,0,0,0,0,1,0)
 
     # Draw the helix (this ought to be a display list call)
@@ -86,6 +88,7 @@ while not done:
     glTexImage2Df(GL_TEXTURE_2D, 0,4,0,GL_RGBA,
                   texdata)
 
+
     glEnable(GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE); # XXX Why GL_ONE?
 # alternatively:
@@ -100,20 +103,27 @@ while not done:
     glBegin(GL_TRIANGLE_STRIP);
     #pulse2 = 0.5
 
-    for i in range(0,100):
+    r=1.1 # try other values - integers as well
+    R=1.5 # try other values - integers as well
+    rr=4.0 # try other values - integers as well
+    d=1   # try other values
+	
+    for k in range(0,10):
+    	for i in range(0,25):
+    		for j in range(0,25):
 
-        r=5.0 # try other values - integers as well
-        d=1   # try other values
-
-	#pulse2 += 0.5
-        if (i%2==0):
-            glTexCoord2f(0,i);
-            glVertex3f( cos(i/r), -2.5+i*0.05, sin(i/r));            
-#            glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
-        else:
-            glTexCoord2f(1,i);
-            glVertex3f( cos(i/r+3.14), -2.5+i*0.05+d, sin(i/r+3.14));
-#            glVertex3f( cos(i/r+3.14)*pulse2, -2.5+i*0.05+d+pulse2*1, sin(i/r+3.14)*pulse2);
+			#pulse2 += 0.5
+		        if (i%2==0):
+		            glTexCoord2f(0,i);
+		            #glVertex3f( R*cos(i/r)+r*sin(j/r), R*cos(j/r), R*sin(j/r)+r*sin(i/r));            
+		            glVertex3f( rr*cos(k/r)+R*cos(i/r)*sin(j/r), R*cos(j/r), rr*sin(k/r)+R*sin(j/r)*sin(i/r));            
+		           ## glVertex3f( cos(i/r)*sin(j/r), -2.5+i*0.05, sin(i/r));            
+		#            glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
+		        else:
+		            glTexCoord2f(1,i);
+		            glVertex3f( rr*cos(k/r)+R*cos(i/r+3.14)*sin(j/r), R*cos(j/r+3.14), rr*sin(k/r)+R*sin(j/r)*sin(i/r+3.14));            
+		            #glVertex3f( R*cos(i/r+3.14)+r*sin(j/r), R*cos(j/r+3.14), R*sin(j/r)+r*sin(i/r+3.14));            
+		#            glVertex3f( cos(i/r+3.14)*pulse2, -2.5+i*0.05+d+pulse2*1, sin(i/r+3.14)*pulse2);
         
 
     glEnd();
