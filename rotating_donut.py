@@ -21,11 +21,13 @@ pygame.display.set_mode((800,600), pygame.OPENGL|pygame.DOUBLEBUF)
 
 done = False
 
-t=0
+t=600
+PI = 3.141592653
+PI2 = 2*3.141592653
 
 while not done:
 
-    t=t+1
+    t=t+3
     
     # for fun comment out these two lines
 
@@ -104,24 +106,35 @@ while not done:
     #pulse2 = 0.5
 
     r=1.1 # try other values - integers as well
-    R=3.0 # try other values - integers as well
+    R=1.5 # try other values - integers as well
+    rr=3.0 # try other values - integers as well
+    krange=30
+    kw=krange/PI2
+    jrange=20
+    jw=jrange/PI2
+    irange=100
+    iw=irange/PI2
     d=1   # try other values
 	
-    for i in range(0,50):
-    	for j in range(0,50):
+    ## rotating around the y axis , so only x and z coord depends on k
+    for k in range(0,krange):
+    ## x-z plane circle rotating around the y axis , so only x and z plane will generate a circle (generator is j) and projected on y (generator is i)
+    	for i in range(0,25):
+    		for j in range(0,25):
 
-		#pulse2 += 0.5
-	        if (i%2==0):
-	            glTexCoord2f(0,i);
-	            #glVertex3f( R*cos(i/r)+r*sin(j/r), R*cos(j/r), R*sin(j/r)+r*sin(i/r));            
-	            glVertex3f( R*cos(i/r)*sin(j/r), R*cos(j/r), R*sin(j/r)*sin(i/r));            
-	           ## glVertex3f( cos(i/r)*sin(j/r), -2.5+i*0.05, sin(i/r));            
-	#            glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
-	        else:
-	            glTexCoord2f(1,i);
-	            glVertex3f( R*cos(i/r+3.14)*sin(j/r), R*cos(j/r+3.14), R*sin(j/r)*sin(i/r+3.14));            
-	            #glVertex3f( R*cos(i/r+3.14)+r*sin(j/r), R*cos(j/r+3.14), R*sin(j/r)+r*sin(i/r+3.14));            
-	#            glVertex3f( cos(i/r+3.14)*pulse2, -2.5+i*0.05+d+pulse2*1, sin(i/r+3.14)*pulse2);
+			#pulse2 += 0.5
+		        if (i%2==0):
+		            glTexCoord2f(0,i);
+		            #glVertex3f( R*cos(i/r)+r*sin(j/r), R*cos(j/r), R*sin(j/r)+r*sin(i/r));            
+		            ##glVertex3f( rr*cos(k/rr)+R*cos(i/r/4)*sin(j/r), R*cos(j/r), rr*sin(k/rr)+R*sin(j/r)*sin(i/r/4));            
+		            glVertex3f( rr*cos(k/kw)+R*cos(i/iw)*sin(j/jw), R*cos(j/jw), rr*sin(k/kw)+R*sin(j/jw)*sin(i/iw));            
+		           ## glVertex3f( cos(i/r)*sin(j/r), -2.5+i*0.05, sin(i/r));            
+		#            glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
+		        else:
+		            glTexCoord2f(i%10,i);
+		            glVertex3f( rr*cos(k/kw)+R*cos(i/iw+3.14)*sin(j/jw), R*cos(j/jw+3.14), rr*sin(k/kw)+R*sin(j/jw)*sin(i/iw+3.14));            
+		            #glVertex3f( R*cos(i/r+3.14)+r*sin(j/r), R*cos(j/r+3.14), R*sin(j/r)+r*sin(i/r+3.14));            
+		#            glVertex3f( cos(i/r+3.14)*pulse2, -2.5+i*0.05+d+pulse2*1, sin(i/r+3.14)*pulse2);
         
 
     glEnd();
