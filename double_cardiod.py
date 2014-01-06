@@ -21,7 +21,7 @@ red =   [255,  0,  0]
 
 PI = 3.141592653
 r=50
-R=5
+R=160
  
 # Set the height and width of the screen
 size = [800,480]
@@ -60,16 +60,17 @@ while done == False:
     screen.fill(white)
     prevx=400.0
     prevy=240.0
+    bigbig=3.0
  
     # Draw on the screen several green lines from (0,10) to (100,110) 
     # 5 pixels wide using a loop
     colour=red
     ###for i in range(itotal*2):
-    for n in range(ntotal*2):
+    for n in range(ntotal*3):
 	        ##pygame.draw.line(screen,red,[0,10+y_offset],[100,110+y_offset],5)
 		theta = n * 2*PI/ntotal
-		y_offset = R*math.cos((theta-delta)*(1-math.cos((theta-delta+PI)*b)) + 0.0)
-		x_offset = R*math.sin((theta-delta)*(1-math.cos((theta-delta+PI)*b)) + 00.0)
+		y_offset = R*math.cos(theta-delta)*(1-math.cos((theta-delta-PI)*b))*math.cos(theta/bigbig) + 100.0
+		x_offset = R*math.sin(theta-delta)*(1-math.cos((theta-delta-PI)*b))*math.sin(theta/bigbig) + 400.0
 	        cx=int(120*(math.sin((theta-delta)/10)+1)+10)
 	        cy=int(120*(math.sin((theta-delta)*6/10)+1)+10)
 	        cz=int(120*(math.sin((theta-delta)/10-PI)+1)+10)
@@ -77,7 +78,7 @@ while done == False:
 		if (n>0):
 	        	pygame.draw.line(screen,[cx,cy,cz],[prevx,prevy],[x_offset,y_offset],thickness)
 	        	##pygame.draw.line(screen,[cx,cy,cz],[prevx,prevy],[x_offset,y_offset],thickness)
-			pygame.draw.circle(screen, [cx,cy,cz], (int(prevx),int(prevy)), R, thickness)
+			#pygame.draw.circle(screen, [cx,cy,cz], (int(prevx),int(prevy)), R, thickness)
 		prevx=x_offset
 		prevy=y_offset
 	
