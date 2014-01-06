@@ -4,6 +4,7 @@
 # http://programarcadegames.com/
 # http://simpson.edu/computer-science/
  
+##  http://mathworld.wolfram.com/Epicycloid.html
 # Import a library of functions called 'pygame'
 import pygame
 import math
@@ -19,22 +20,27 @@ green = [  0,255,  0]
 red =   [255,  0,  0]
 
 PI = 3.141592653
-r=50
-R=200
+r=100
+R=100
  
 # Set the height and width of the screen
 size = [800,480]
 screen = pygame.display.set_mode(size)
  
-pygame.display.set_caption("Professor Craven's Cool Game")
+pygame.display.set_caption("Sansagraphics World")
  
 #Loop until the user clicks the close button.
 done = False
 clock = pygame.time.Clock()
  
 colour=red
-thickness=0
+thickness=2
 i=0
+ntotal=60
+ddelta = 2*PI/ntotal
+delta=ddelta*20*5
+a=2.0
+b=3.0
 
 while done == False:
  
@@ -56,22 +62,19 @@ while done == False:
  
     # Draw on the screen several green lines from (0,10) to (100,110) 
     # 5 pixels wide using a loop
-    if colour==red:
-	colour=blue
-    elif colour==blue:
-	colour=green
-    else:
-	colour=red
-    thickness+=1 
-    if thickness > 10:
-	thickness=0
-    for n in range(1441):
+    colour=red
+    for n in range(ntotal*3):
         ##pygame.draw.line(screen,red,[0,10+y_offset],[100,110+y_offset],5)
-	theta = n * 2*PI/120
-	y_offset = R*math.cos(theta/10)+r*math.cos(theta) + 240.0
-	x_offset = R*math.sin(theta/10)+r*math.sin(theta) + 400.0
+	theta = n * 2*PI/ntotal
+	y_offset = R*math.cos((theta-delta)*a)+r*math.cos((theta-delta)*b) + 240.0
+	x_offset = R*math.sin((theta-delta)*a)+r*math.sin((theta-delta+PI)*b) + 400.0
+        cx=int(120*(math.sin((theta-delta)/10)+1)+10)
+	cy=int(120*(math.sin((theta-delta)*6/10)+1)+10)
+        cz=int(120*(math.sin((theta-delta)/10-PI)+1)+10)
+
 	if (n>0):
-        	pygame.draw.line(screen,colour,[prevx,prevy],[x_offset,y_offset],thickness)
+        	pygame.draw.line(screen,[cx,cy,cz],[prevx,prevy],[x_offset,y_offset],thickness)
+#		pygame.draw.circle(screen, [cx,cy,cz], (int(prevx),int(prevy)), R, thickness)
 	prevx=x_offset
 	prevy=y_offset
 	
@@ -79,6 +82,7 @@ while done == False:
      
     # Go ahead and update the screen with what we've drawn.
     # This MUST happen after all the other drawing commands.
+    ##delta += ddelta
     pygame.display.flip()
  
 # Be IDLE friendly

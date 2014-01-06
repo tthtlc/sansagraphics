@@ -32,15 +32,11 @@ pygame.display.set_caption("Sansagraphics World")
 done = False
 clock = pygame.time.Clock()
  
-delta = 0.0
 colour=red
 thickness=0
 i=0
-
-cx=10
-cy=155
-cz=240
-ortho_distance=100
+delta=0.0
+ntotal=30
 
 while done == False:
  
@@ -56,7 +52,7 @@ while done == False:
     # inside the main while done==False loop.
      
     # Clear the screen and set the screen background
-    #screen.fill(white)
+    screen.fill(white)
     prevx=400.0
     prevy=240.0
  
@@ -69,21 +65,16 @@ while done == False:
     else:
 	colour=red
     thickness+=1 
-    if thickness > 100:
+    if thickness > 10:
 	thickness=0
-    for n in range(120):
+    for n in range(ntotal):
         ##pygame.draw.line(screen,red,[0,10+y_offset],[100,110+y_offset],5)
-	theta = n * 2*PI/120 - delta
-	##y_offset = R*math.cos(2*theta)+0*math.cos(theta) + 240.0
-	y_offset = R*math.cos(theta)+240.0
-	x_offset = theta*90  ###R*math.sin(2*theta)+r*math.sin(theta) + 400.0
+	theta = n * 2*PI/ntotal
+	delta += 2*PI/ntotal/10
+	y_offset = R*math.cos((theta-delta)/10)+r*math.cos((theta-delta)) + 240.0
+	x_offset = R*math.sin((theta-delta)/10)+r*math.sin((theta-delta)) + 400.0
 	if (n>0):
-    		delta = delta - 0.0004
-		cx=int(120*(math.sin((theta-delta)*3)+1)+10)
-		cy=int(120*(math.sin(2*(theta-delta))+1)+10)
-		cz=int(120*(math.sin(2*(theta-delta)-PI)+1)+10)
-        	pygame.draw.line(screen,[cx,cy,cz],[x_offset,240.0],[x_offset, y_offset],3)
-        	##pygame.draw.line(screen,[cx,cy,cz],[x_offset,y_offset],[norm_x1,norm_y1],2)
+        	pygame.draw.line(screen,colour,[prevx,prevy],[x_offset,y_offset],thickness)
 	prevx=x_offset
 	prevy=y_offset
 	

@@ -22,7 +22,7 @@ R=300
 size = [800,480]
 screen = pygame.display.set_mode(size)
  
-pygame.display.set_caption("Professor Craven's Cool Game")
+pygame.display.set_caption("Sansagraphics World")
  
 #Loop until the user clicks the close button.
 done = False
