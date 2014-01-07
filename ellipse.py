@@ -19,10 +19,23 @@ green = [  0,255,  0]
 red =   [255,  0,  0]
  
 PI = 3.141592653
-r=200
+r=100
+nrange=60
+shift=0.0
+delta=0.0
+
+### inverse of factor determine the nos of spokes in the flower shapes
+factor=0.25
+
+
+## ddelta determines the changing rate of the colour
+ddelta=2*PI/nrange/10
+
+## sshift determines the rotation rate
+sshift=ddelta/6
  
 # Set the height and width of the screen
-size = [400,500]
+size = [800,600]
 screen = pygame.display.set_mode(size)
  
 pygame.display.set_caption("Sansagraphics World")
@@ -47,14 +60,24 @@ while done == False:
     # Clear the screen and set the screen background
     screen.fill(white)
  
-    # Draw on the screen several green lines from (0,10) to (100,110) 
-    # 5 pixels wide using a loop
-    for n in range(0,30):
+    for n in range(0,nrange):
         ##pygame.draw.line(screen,red,[0,10+y_offset],[100,110+y_offset],5)
-	theta = n * 2*PI/30
-	y_offset = r*math.cos(theta)
-	x_offset = r*math.sin(theta)
-    	pygame.draw.ellipse(screen,black,[y_offset,x_offset,30,30],1/3) 
+	theta = n * 2*PI/nrange
+	x_offset = r*(1+math.sin((theta-shift)/factor))*math.cos(theta) + 200.0
+	y_offset = r*(1+math.sin((theta-shift)/factor))*math.sin(theta) + 400.0
+
+        cx=int(120*(math.sin((theta-delta)/10)+1)+10)
+        cy=int(120*(math.sin((theta-delta)*6/10)+1)+10)
+        cz=int(120*(math.sin((theta-delta)/10-PI)+1)+10)
+
+	## ex and ey determine the shape of the ellipse and its rate of change
+	ex=int(30*(2+math.sin(theta*2)))
+	ey=int(30*(2+math.cos(theta*2)))
+
+	## thickness 0==> filled in
+    	pygame.draw.ellipse(screen,[cx,cy,cz],[y_offset,x_offset,ex,ey],0) 
+	shift+=sshift
+	delta+=ddelta
      
     # Go ahead and update the screen with what we've drawn.
     # This MUST happen after all the other drawing commands.
