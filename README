@@ -1,0 +1,18 @@
+
+Pygame is necessary.   Install this:
+
+sudo apt-get install python-pygame
+
+
+For more information:
+
+http://askubuntu.com/questions/203630/easy-install-pygame-not-working-due-to-linux-videodev-h-no-such-file-or-direct
+
+mv /usr/include/linux/videodev.h /tmp
+sudo apt-get install libv4l-dev
+cd /usr/include/linux
+sudo ln -s ../libv4l1-videodev.h videodev.h
+
+And this:
+
+sudo apt-get install python-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev   libsdl1.2-dev libsmpeg-dev python-numpy subversion libportmidi-dev ffmpeg libswscale-dev libavformat-dev libavcodec-dev
