@@ -37,9 +37,6 @@ def displayFun():
     glEnd()
     glFlush()
 
-
-
-
 def display(  ):
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT )
 	glMatrixMode( GL_PROJECTION )
@@ -50,9 +47,9 @@ def display(  ):
 	glRotatef( animationAngle, 1, 1, 1 )
 	glEnableClientState( GL_COLOR_ARRAY )
 	glEnableClientState( GL_VERTEX_ARRAY )
-	glColorPointer( 3, GL_FLOAT, 0, colors.tostring( ) )
 	glVertexPointer( 3, GL_FLOAT, 0, vertices.tostring( ) )
 	glDrawElements( GL_QUADS, 24, GL_UNSIGNED_BYTE, cIndices.tostring( ) )
+	glColorPointer( 3, GL_FLOAT, 0, colors.tostring( ) )
 	glDisableClientState( GL_COLOR_ARRAY )
 	glDisableClientState( GL_VERTEX_ARRAY )
 	glutSwapBuffers( )
