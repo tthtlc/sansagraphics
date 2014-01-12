@@ -9,7 +9,6 @@ except:
 
 import array
 import signal
-import sys
 
 def signal_handler(signal, frame):
         print 'You pressed Ctrl+C!'
