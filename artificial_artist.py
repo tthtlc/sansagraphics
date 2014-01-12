@@ -48,9 +48,9 @@ while True:
     	ya=r*math.cos(angle)
 
     delta+=theta
-    cx=int(120*(math.sin((delta)/10)+1)+10)
-    cy=int(120*(math.sin((delta)*6/10)+1)+10)
-    cz=int(120*(math.sin((delta)/10-PI)+1)+10)
+    cx=int(120*(math.sin((x)/20)+1)+10)
+    cy=int(120*(math.sin((y-0.3)/20)+1)+10)
+    cz=int(120*(math.sin((x+y-0.6)/20-PI)+1)+10)
 
     pygame.draw.line(screen, [cx,cy,cz], (x, y), (x+xa, y+ya), width)
     x=x+xa
