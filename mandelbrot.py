@@ -1,4 +1,6 @@
 
+print "This will generate a M.bmp files"
+
 _                                      =   (
                                         255,
                                       lambda
