@@ -178,7 +178,7 @@ class Torus(object):
 
 setup()
 batch = pyglet.graphics.Batch()
-torus = Torus(1, 0.3, 100, 60, batch=batch)
+torus = pygame_quadratic(1, 0.3, 100, 60, batch=batch)
 rx = ry = rz = 0
 
 pyglet.app.run()
