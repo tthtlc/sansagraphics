@@ -63,32 +63,12 @@ class Simulation:
             Point3D(-1,-1,-1)
         ]
 
-        self.vertices.append(self.vertices[0].rotateX(60))
-        self.vertices.append(self.vertices[1].rotateX(60))
-        self.vertices.append(self.vertices[2].rotateX(60))
-        self.vertices.append(self.vertices[3].rotateX(60))
-
-        self.vertices.append(self.vertices[0].rotateY(120))
-        self.vertices.append(self.vertices[1].rotateY(120))
-        self.vertices.append(self.vertices[2].rotateY(120))
-        self.vertices.append(self.vertices[3].rotateY(120))
-
-        self.vertices.append(self.vertices[0].rotateZ(60).rotateX(30))
-        self.vertices.append(self.vertices[1].rotateZ(60).rotateX(30))
-        self.vertices.append(self.vertices[2].rotateZ(60).rotateX(30))
-        self.vertices.append(self.vertices[3].rotateZ(60).rotateX(30))
-        #for v in self.vertices:
-        #        r = v.rotateZ(120)
-	#	t.append(r)
-
-	#self.vertices.append(t)
-
         # Define the vertices that compose each of the 6 faces. These numbers are
         # indices to the vertices list defined above.
-        self.faces  = [(0,1,2,3),(4,5,6,7),(8,9,10,11),(12,13,14,15)]
+        self.faces  = [(0,1,2,3)]
 
         # Define colors for each face
-        self.colors = [(255,0,255),(125,125,125),(100,100,100),(111,118,222)]
+        self.colors = [(255,0,255)]
 
         self.angle = 0
         
