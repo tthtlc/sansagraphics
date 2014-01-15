@@ -17,55 +17,47 @@ def signal_handler(signal, frame):
 signal.signal(signal.SIGINT, signal_handler)
 ###signal.pause()
 
+import math
+
+PI = 3.141592653
+ngon=120
+angle_step=2*PI/ngon
+r1_step = 0.05
+r2_step = -0.05
+delta=0.0
+theta1 = 2*PI/30
+
+def draw_ellipse(R1, R2, alpha, beta,theta):
+	global delta
+	global ngon
+	i=0
+	angle=0
+	glBegin(GL_POLYGON)
+
+        cx=(math.sin((theta-delta)*2)+1)
+        cy=(math.sin((theta-delta)*2-PI/2)+1)
+        cz=(math.sin((theta-delta)*2-PI/4)+1)
+
+        glColor3f(cx, cy, cz)
+
+	while i < ngon:
+	    y = R1*math.sin(angle+alpha)*math.cos(beta)
+	    x = R2*math.sin(angle)*math.sin(beta)
+	    z = R2*math.cos(angle)
+	    glVertex3f(x,y,z)
+	    angle += angle_step
+	    i+=1
+	glEnd()
+
 fullscreen = False
 mouseDown = False
 
-xrot = 0.0
+xrot = 0.2
 yrot = 0.0
 
 xdiff = 0.0
 ydiff = 0.0
-
-def drawBox():
-	glBegin(GL_QUADS)
-
-	glColor3f(1.0, 0.0, 0.0)
-	## FRONT
-	glVertex3f(-0.5, -0.5, 0.5)
-	glVertex3f( 0.5, -0.5, 0.5)
-	glVertex3f( 0.5, 0.5, 0.5)
-	glVertex3f(-0.5, 0.5, 0.5)
-	## BACK
-	glVertex3f(-0.5, -0.5, -0.5)
-	glVertex3f(-0.5, 0.5, -0.5)
-	glVertex3f( 0.5, 0.5, -0.5)
-	glVertex3f( 0.5, -0.5, -0.5)
-
-	glColor3f(0.0, 1.0, 0.0)
-	## LEFT
-	glVertex3f(-0.5, -0.5, 0.5)
-	glVertex3f(-0.5, 0.5, 0.5)
-	glVertex3f(-0.5, 0.5, -0.5)
-	glVertex3f(-0.5, -0.5, -0.5)
-	## RIGHT
-	glVertex3f( 0.5, -0.5, -0.5)
-	glVertex3f( 0.5, 0.5, -0.5)
-	glVertex3f( 0.5, 0.5, 0.5)
-	glVertex3f( 0.5, -0.5, 0.5)
-
-	glColor3f(0.0, 0.0, 1.0)
-	## TOP
-	glVertex3f(-0.5, 0.5, 0.5)
-	glVertex3f( 0.5, 0.5, 0.5)
-	glVertex3f( 0.5, 0.5, -0.5)
-	glVertex3f(-0.5, 0.5, -0.5)
-	## BOTTOM
-	glVertex3f(-0.5, -0.5, 0.5)
-	glVertex3f(-0.5, -0.5, -0.5)
-	glVertex3f( 0.5, -0.5, -0.5)
-	glVertex3f( 0.5, -0.5, 0.5)
-	glEnd()
-
+ndisc = 20
 
 def init():
 	glClearColor(0.93, 0.93, 0.93, 0.0)
@@ -79,6 +71,7 @@ def init():
 
 def display():
 	global xrot, yrot
+	global ndisc
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glLoadIdentity()
 
@@ -90,7 +83,19 @@ def display():
 	glRotatef(xrot, 1.0, 0.0, 0.0)
 	glRotatef(yrot, 0.0, 1.0, 0.0)
 
-	drawBox()
+	beta=2*PI/8
+	alpha=2*PI/8
+	R1=1
+	R2=0.8
+	theta=0.0
+
+	for i in range(ndisc):
+		R1 += r1_step
+		R2 += r2_step
+		alpha += 2*angle_step
+		beta -= angle_step
+		theta += theta1
+		draw_ellipse(R1, R2, alpha, beta,theta)
 
 	glFlush()
 	glutSwapBuffers()
