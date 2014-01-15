@@ -27,7 +27,7 @@ angle_step=2*PI/ngon
 r1_step = 0.005
 r2_step = 0.001
 delta=0.6
-theta1 = 2*PI/ngon
+theta1 = 2*PI/niteration
 
 def draw_chasing_polygon(R1, R2, alpha, beta,theta):
 	global delta
@@ -37,7 +37,7 @@ def draw_chasing_polygon(R1, R2, alpha, beta,theta):
 	angle=0
 	glBegin(GL_LINES)
 
-        cx=(math.sin((theta-delta)*3)+1)
+        cx=(math.sin((theta-delta)*3)/10+1)
         cy=(math.sin((theta-delta)*3-PI/2)+1)
         cz=(math.sin((theta-delta)*3-PI/4)+1)
 	myangle = 0.0
@@ -51,9 +51,13 @@ def draw_chasing_polygon(R1, R2, alpha, beta,theta):
 	    	x = R2*math.sin(myangle)*math.sin(beta)
 	    	z = R2*math.cos(myangle)
 	    	glVertex3f(x,y,z)
-		R1 += 0.01
-		R2 += 0.01
-		myangle+=angle_step+1/360*2*PI
+	#	if (i%2==0):
+	#    		glVertex3f(x,y,z)
+		if (i%ngon==0):
+			myangle += 6/360*2*PI
+			R1 += 0.02
+			R2 += 0.02
+		myangle+=angle_step
 	glEnd()
 
 fullscreen = False
