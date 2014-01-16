@@ -184,12 +184,21 @@ class Simulation:
 		### it is not natural to have colour changing too fast...leading to flickering effect
 		### this will slow down color changing
 		total_count += 1
-		if total_count==20:
+		if total_count>-1:
 			total_count = 0
-			xx = (xx+self.colors[face_index][0] + 11 ) % 255 +1 
-			yy = (yy+self.colors[face_index][1] + 13) % 255 +1 
-			zz = (yy+self.colors[face_index][2] + 17) % 255 +1 
-			self.colors[face_index] = (xx,yy,zz)
+			cx = self.colors[face_index][0]
+			cy = self.colors[face_index][1]
+			cz = self.colors[face_index][2]
+
+			cx ^= (1 << random.randint(0,31))
+	                cy ^= (1 << random.randint(0,31))
+       	         	cx ^= (1 << random.randint(0,31))
+       	         	cx = cx & 0xff
+                	cy = cy & 0xff
+                	cz = cz & 0xff
+			self.colors[face_index] = (cx,cy,cz)
+
+
 		#print "AAA",self.colors[face_index]
 		#print self.colors[face_index][0]
 		#print self.colors[face_index][1]
