@@ -132,9 +132,10 @@ class Simulation:
             
             theta2 += theta1
 
+	    ###implementing the figure of eight motion
 	    big_radius = 2
-            vx=big_radius*(math.sin((theta2-delta)*2))
-            vy=big_radius*(math.sin((theta2-delta)*2-PI/2))
+            vx=big_radius*(math.sin((theta2-delta)*2) + 1) * math.sin(theta2*3)
+            vy=big_radius*(math.sin((theta2-delta)*2-PI/2)+1)*math.cos(theta2*3)
             vz=big_radius*(math.sin((theta2-delta)*2-PI/4))
             for v in self.vertices:
                 # Rotate the point around X axis, then around Y axis, and finally around Z axis.
@@ -165,10 +166,10 @@ class Simulation:
                              (t[f[2]].x, t[f[2]].y), (t[f[3]].x, t[f[3]].y),
                              (t[f[3]].x, t[f[3]].y), (t[f[0]].x, t[f[0]].y)]
 		##print t[f[3]].x, t[f[3]].y, t[f[0]].x, t[f[0]].y
-        	theta += theta1
-                cx=int(250*(math.sin((theta-delta)*3)+1)+10) % 255 +1 
-                cy=int(250*(math.sin((theta-delta)*3-PI/2)+1)+10) % 255 +1 
-                cz=int(250*(math.sin((theta-delta)*2-PI/4)+1)+10) % 255 +1 
+        	#theta += theta1
+                #cx=int(250*(math.sin((theta-delta)*3)+1)+10) % 255 +1 
+                #cy=int(250*(math.sin((theta-delta)*3-PI/2)+1)+10) % 255 +1 
+                #cz=int(250*(math.sin((theta-delta)*2-PI/4)+1)+10) % 255 +1 
 		#print "color = %d %d %d"%(cx,cy,cz)
 
                 #pygame.draw.polygon(self.screen,(cx,cy,cz),pointlist)
@@ -178,18 +179,22 @@ class Simulation:
 		#xx = (self.colors[face_index][0] + xx + 25) % 255
 		#yy = (self.colors[face_index][1] + yy + 25) % 255
 		#zz = (self.colors[face_index][2] + zz + 25) % 255
-		xx = (xx+self.colors[face_index][0] * 2) % 255 +1 
-		yy = (yy+self.colors[face_index][1] * 4) % 255 +1 
-		zz = (yy+self.colors[face_index][2] * 8) % 255 +1 
+
+
+		### it is not natural to have colour changing too fast...leading to flickering effect
+		### this will slow down color changing
+		total_count += 1
+		if total_count==20:
+			total_count = 0
+			xx = (xx+self.colors[face_index][0] + 11 ) % 255 +1 
+			yy = (yy+self.colors[face_index][1] + 13) % 255 +1 
+			zz = (yy+self.colors[face_index][2] + 17) % 255 +1 
+			self.colors[face_index] = (xx,yy,zz)
 		#print "AAA",self.colors[face_index]
 		#print self.colors[face_index][0]
 		#print self.colors[face_index][1]
 		#print self.colors[face_index][2]
-		self.colors[face_index] = (xx,yy,zz)
 		#print "BBB",self.colors[face_index]
-		#total_count += 1
-		#if total_count > 20:
-                #    	sys.exit()
 		#self.colors[face_index][0] = self.colors[face_index][0] % 255
 		#self.colors[face_index][1] += 25
 		#self.colors[face_index][1] = self.colors[face_index][1] % 255
@@ -200,7 +205,7 @@ class Simulation:
             self.angle += 1
             
             pygame.display.flip()
-#	    time.sleep(0.001)
+	    time.sleep(0.01)
 
 if __name__ == "__main__":
     Simulation().run()
