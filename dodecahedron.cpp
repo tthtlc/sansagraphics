@@ -9,6 +9,9 @@
 // it lies within the view volume.  This is a lousy way to do things (it's
 // easier to use gluLookAt()), but it's nice to see how viewing is done at
 // a very low level.
+#include <stdlib.h>
+
+#define myrand() (unsigned char)(1<<(rand() % 8))
 
 #ifdef __APPLE_CC__
 #include <GLUT/glut.h>
@@ -21,9 +24,18 @@ void draw_dodecahedron();
 // Clears the window and draws the dodecahedron.  The dodecahedron is  easily
 // specified with a triangle strip, though the specification really isn't very
 // easy to read.
-void draw_pentagon(GLfloat ptr[5][3], int index1, int index2, int index3, int index4, int index5) {
+unsigned char cx=0xff;
+unsigned char cy=0xff;
+unsigned char cz=0xff;
+void draw_pentagon(GLfloat ptr[20][3], int index1, int index2, int index3, int index4, int index5) {
 
-  glColor3f(1.0, 1.0, 1.0);
+  static int counter=0;
+
+  //glColor3f(1.0, 1.0, 1.0);
+  if (counter++==1999) {
+  		glColor3b(cx,cy,cz);
+		counter=0;
+	}
   glBegin(GL_POLYGON);
     	glVertex3f(ptr[index1][0], ptr[index1][1], ptr[index1][2]);
     	glVertex3f(ptr[index2][0], ptr[index2][1], ptr[index2][2]);
@@ -43,7 +55,7 @@ void init() {
   // white.
   glClearColor(0.1, 0.39, 0.88, 1.0);
   glColor3f(1.0, 1.0, 1.0);
-  glColor3ub(23, 23, 25);
+  //glColor3ub(23, 23, 25);
 
   // Tell the rendering engine not to draw backfaces.  Without this code,
   // all four faces of the dodecahedron would be drawn and it is possible
@@ -134,22 +146,23 @@ void draw_dodecahedron(){
   }
 
   /* map vertices to 12 faces */
-  glClear(GL_COLOR_BUFFER_BIT);
-  draw_pentagon(vertices, 0,1,2,3,4);
+  //glClear(GL_COLOR_BUFFER_BIT);
 
-  draw_pentagon(vertices, 0,1,6,10,5);
-  draw_pentagon(vertices, 1,2,7,11,6);
-  draw_pentagon(vertices, 2,3,8,12,7);
-  draw_pentagon(vertices, 3,4,9,13,8);
-  draw_pentagon(vertices, 4,0,5,14,9);
+  cx ^= myrand(); draw_pentagon(vertices, 0,1,2,3,4);
 
-  draw_pentagon(vertices, 15,16,11,6,10);
-  draw_pentagon(vertices, 16,17,12,7,11);
-  draw_pentagon(vertices, 17,18,13,8,12);
-  draw_pentagon(vertices, 18,19,14,9,13);
-  draw_pentagon(vertices, 19,15,10,5,14);
+  cy ^= myrand(); draw_pentagon(vertices, 0,1,6,10,5);
+  cz ^= myrand(); draw_pentagon(vertices, 1,2,7,11,6);
+  cx ^= myrand(); draw_pentagon(vertices, 2,3,8,12,7);
+  cy ^= myrand(); draw_pentagon(vertices, 3,4,9,13,8);
+  cz ^= myrand(); draw_pentagon(vertices, 4,0,5,14,9);
+
+  cx ^= myrand(); draw_pentagon(vertices, 15,16,11,6,10);
+  cy ^= myrand(); draw_pentagon(vertices, 16,17,12,7,11);
+  cz ^= myrand(); draw_pentagon(vertices, 17,18,13,8,12);
+  cx ^= myrand(); draw_pentagon(vertices, 18,19,14,9,13);
+  cy ^= myrand(); draw_pentagon(vertices, 19,15,10,5,14);
   
-  draw_pentagon(vertices, 15,16,17,18,19);
+  cx ^= myrand(); draw_pentagon(vertices, 15,16,17,18,19);
   glFlush();
 }
 
@@ -193,8 +206,8 @@ void idle()
 {
         if (!mouseDown)
         {
-                xrot += 0.003f;
-                yrot += 0.004f;
+                xrot += 0.03f;
+                yrot += 0.04f;
         }
 
         glutPostRedisplay();
