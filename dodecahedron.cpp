@@ -1,6 +1,7 @@
 
+#include <stdio.h>
 
-/// g++ dodecahedron.cpp -lglut
+/// g++ dodecahedron.cpp -lglut -lGLU
 
 // This is a simple introductory program; its main window contains a static
 // picture of a dodecahedron, whose top vertex is white and whose bottom
@@ -19,6 +20,8 @@
 #include <GL/glut.h>
 #endif
 
+GLfloat vertices[20][3]; /* 20 vertices with x, y, z coordinate */
+
 void draw_dodecahedron();
 
 // Clears the window and draws the dodecahedron.  The dodecahedron is  easily
@@ -27,22 +30,36 @@ void draw_dodecahedron();
 unsigned char cx=0xff;
 unsigned char cy=0xff;
 unsigned char cz=0xff;
-void draw_pentagon(GLfloat ptr[20][3], int index1, int index2, int index3, int index4, int index5) {
+void draw_pentagon(float mycolor, int index1, int index2, int index3, int index4, int index5) {
 
   static int counter=0;
 
-  //glColor3f(1.0, 1.0, 1.0);
-  if (counter++==1999) {
-  		glColor3b(cx,cy,cz);
-		counter=0;
-	}
+  //if (counter++==1999) {
+  		//glColor3b(mycolor,mycolor,mycolor);
+//		counter=0;
+  //}
   glBegin(GL_POLYGON);
-    	glVertex3f(ptr[index1][0], ptr[index1][1], ptr[index1][2]);
-    	glVertex3f(ptr[index2][0], ptr[index2][1], ptr[index2][2]);
-    	glVertex3f(ptr[index3][0], ptr[index3][1], ptr[index3][2]);
-    	glVertex3f(ptr[index4][0], ptr[index4][1], ptr[index4][2]);
-    	glVertex3f(ptr[index5][0], ptr[index5][1], ptr[index5][2]);
+        glColor3f(0.5f, 0.0f, 1.0f); // make this vertex purple
+    	glVertex3f(vertices[index1][0], vertices[index1][1], vertices[index1][2]);
+               glColor3f(1.0f, 0.0f, 0.0f); // make this vertex red
+    	glVertex3f(vertices[index2][0], vertices[index2][1], vertices[index2][2]);
+               glColor3f(0.0f, 1.0f, 0.0f); // make this vertex green
+    	glVertex3f(vertices[index3][0], vertices[index3][1], vertices[index3][2]);
+               glColor3f(1.0f, 1.0f, 0.0f); // make this vertex yellow
+    	glVertex3f(vertices[index4][0], vertices[index4][1], vertices[index4][2]);
+        glColor3f(0.5f, 0.0f, 1.0f); // make this vertex purple
+    	glVertex3f(vertices[index5][0], vertices[index5][1], vertices[index5][2]);
+
+
+
+    	/*printf(" %0.5f %0.5f %0.5f \n",vertices[index1][0], vertices[index1][1], vertices[index1][2]);
+    	printf(" %0.5f %0.5f %0.5f \n",vertices[index2][0], vertices[index2][1], vertices[index2][2]);
+    	printf(" %0.5f %0.5f %0.5f \n",vertices[index3][0], vertices[index3][1], vertices[index3][2]);
+    	printf(" %0.5f %0.5f %0.5f \n",vertices[index4][0], vertices[index4][1], vertices[index4][2]);
+    	printf(" %0.5f %0.5f %0.5f \n",vertices[index5][0], vertices[index5][1], vertices[index5][2]);
+*/
   glEnd();
+	glutWireDodecahedron();
 }
 
 // Sets up global attributes like clear color and drawing color, enables and
@@ -96,9 +113,9 @@ The "C" pseudo code to generate the vertices is:
 */
 #include <math.h>
 
+
 void draw_dodecahedron(){
 
-  GLfloat vertices[20][3]; /* 20 vertices with x, y, z coordinate */
   double Pi = 3.141592653589793238462643383279502884197;
 
   double phiaa = 52.62263590; /* the two phi angles needed for generation */
@@ -146,23 +163,22 @@ void draw_dodecahedron(){
   }
 
   /* map vertices to 12 faces */
-  //glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT);
 
-  cx ^= myrand(); draw_pentagon(vertices, 0,1,2,3,4);
+  draw_pentagon(0.0, 0,1,2,3,4);
 
-  cy ^= myrand(); draw_pentagon(vertices, 0,1,6,10,5);
-  cz ^= myrand(); draw_pentagon(vertices, 1,2,7,11,6);
-  cx ^= myrand(); draw_pentagon(vertices, 2,3,8,12,7);
-  cy ^= myrand(); draw_pentagon(vertices, 3,4,9,13,8);
-  cz ^= myrand(); draw_pentagon(vertices, 4,0,5,14,9);
-
-  cx ^= myrand(); draw_pentagon(vertices, 15,16,11,6,10);
-  cy ^= myrand(); draw_pentagon(vertices, 16,17,12,7,11);
-  cz ^= myrand(); draw_pentagon(vertices, 17,18,13,8,12);
-  cx ^= myrand(); draw_pentagon(vertices, 18,19,14,9,13);
-  cy ^= myrand(); draw_pentagon(vertices, 19,15,10,5,14);
+  draw_pentagon(0.2, 0,1,6,10,5);
+  draw_pentagon(1.3, 1,2,7,11,6);
+  draw_pentagon(1.4, 2,3,8,12,7);
+  draw_pentagon(1.5, 3,4,9,13,8);
+  draw_pentagon(1.6, 4,0,5,14,9);
+  draw_pentagon(1.7, 15,16,11,6,10);
+  draw_pentagon(1.8, 16,17,12,7,11);
+  draw_pentagon(1.9, 17,18,13,8,12);
+  draw_pentagon(0.0, 18,19,14,9,13);
+  draw_pentagon(0.1, 19,15,10,5,14);
   
-  cx ^= myrand(); draw_pentagon(vertices, 15,16,17,18,19);
+  draw_pentagon(0.2, 15,16,17,18,19);
   glFlush();
 }
 
@@ -219,9 +235,9 @@ void display()
         glLoadIdentity();
 
         gluLookAt(
-                0.0f, 0.0f, 3.0f,
-                0.0f, 0.0f, 0.0f,
-                0.0f, 1.0f, 0.0f);
+                0.0f, 0.0f, 10.0f,
+                1.0f, 0.0f, 0.0f,
+                0.0f, 3.0f, 0.0f);
 
         glRotatef(xrot, 1.0f, 0.0f, 0.0f);
         glRotatef(yrot, 0.0f, 1.0f, 0.0f);
