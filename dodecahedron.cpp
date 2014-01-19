@@ -41,16 +41,15 @@ void draw_pentagon(float mycolor, int index1, int index2, int index3, int index4
   glBegin(GL_POLYGON);
         glColor3f(0.5f, 0.0f, 1.0f); // make this vertex purple
     	glVertex3f(vertices[index1][0], vertices[index1][1], vertices[index1][2]);
-               glColor3f(1.0f, 0.0f, 0.0f); // make this vertex red
+        glColor3f(1.0f, 0.0f, 0.0f); // make this vertex red
     	glVertex3f(vertices[index2][0], vertices[index2][1], vertices[index2][2]);
-               glColor3f(0.0f, 1.0f, 0.0f); // make this vertex green
+        glColor3f(0.0f, 1.0f, 0.0f); // make this vertex green
     	glVertex3f(vertices[index3][0], vertices[index3][1], vertices[index3][2]);
-               glColor3f(1.0f, 1.0f, 0.0f); // make this vertex yellow
+        glColor3f(1.0f, 1.0f, 0.0f); // make this vertex yellow
     	glVertex3f(vertices[index4][0], vertices[index4][1], vertices[index4][2]);
         glColor3f(0.5f, 0.0f, 1.0f); // make this vertex purple
     	glVertex3f(vertices[index5][0], vertices[index5][1], vertices[index5][2]);
-
-
+  glEnd();
 
     	/*printf(" %0.5f %0.5f %0.5f \n",vertices[index1][0], vertices[index1][1], vertices[index1][2]);
     	printf(" %0.5f %0.5f %0.5f \n",vertices[index2][0], vertices[index2][1], vertices[index2][2]);
@@ -58,7 +57,6 @@ void draw_pentagon(float mycolor, int index1, int index2, int index3, int index4
     	printf(" %0.5f %0.5f %0.5f \n",vertices[index4][0], vertices[index4][1], vertices[index4][2]);
     	printf(" %0.5f %0.5f %0.5f \n",vertices[index5][0], vertices[index5][1], vertices[index5][2]);
 */
-  glEnd();
 	glutWireDodecahedron();
 }
 
@@ -235,7 +233,7 @@ void display()
         glLoadIdentity();
 
         gluLookAt(
-                0.0f, 0.0f, 10.0f,
+                0.0f, 0.0f, 3.0f,
                 1.0f, 0.0f, 0.0f,
                 0.0f, 3.0f, 0.0f);
 
