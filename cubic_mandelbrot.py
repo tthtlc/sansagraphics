@@ -1,5 +1,6 @@
 # Recursively draw the Mandelbrot set
 # Dependencies: Python 2.7.5, PyGame 1.9.1
+### originate from pygame_mandelbrot.py
 
 import pygame
 from pygame.locals import QUIT
@@ -35,7 +36,7 @@ def point(x, y):
     z = zx + zy * 1j
     c = z
     for i in xrange(maxIt):
-        if abs(z) > 2.0: break
+        if abs(z) > 2.5: break
         z = z * z * z + c
     return i
 

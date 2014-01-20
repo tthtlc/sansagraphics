@@ -1,33 +1,38 @@
 """
- Originally from:
- http://www.pygame.org/project-Rotating+3D+Cube-1859-.html
- Simulation of a rotating 3D Cube
- Developed by Leonel Machava <leonelmachava@gmail.com>
-
- http://codeNtronix.com
+This program demonstrate how to draw a plane in 3D, and capturing the mouse action (via pygame) to rotate the plane.
+Rotation of plane is done via polar coordinates and cartesian coordinates.
 """
 import sys, math, pygame
 from operator import itemgetter
 
 ### generate x-z plane vector
 PI = 3.141592653
+mouseDown = False
+theta = 0.0
+alpha = 0.0
 
-class Plane3D:
+class PlaneCircle3D:
     def __init__(self, radius = 50.0, ngon = 360):
         theta = 2 * math.pi / ngon
 	self.vertices=[]
 	for i in range(ngon):
-		x = radius * cos(i*theta)
-		z = radius * sin(i*theta)
+		x = radius * math.cos(i*theta)
+		z = radius * math.sin(i*theta)
 		y = 0.0
         	self.vertices.append(Point3D(x,y,z))
 
+    def get_vertices(self):
+	return self.vertices
+
     def rotate_theta_alpha(self, theta, alpha):
 	##for i in range(len(vertices)):
+	new_vertices=[]
         for v in self.vertices:
-		v.x *= sin(theta) * cos(alpha)
-		v.y *= cos(theta)
-		v.z *= sin(theta) * sin(alpha)
+		v.x *= math.sin(theta) * math.cos(alpha)
+		v.y *= math.cos(theta)
+		v.z *= math.sin(theta) * math.sin(alpha)
+        	new_vertices.append(Point3D(v.x,v.y,v.z))
+	return new_vertices
 		#self.vertices[i].x *= sin(theta) * cos(alpha)
 		#self.vertices[i].y *= cos(theta)
 		#self.vertices[i].z *= sin(theta) * sin(alpha)
@@ -99,8 +104,11 @@ class Point3D:
         y = -self.y * factor + win_height / 2
         return Point3D(x, y, self.z)
 
+WIN_WIDTH=640
+WIN_HEIGHT=480
+
 class Simulation:
-    def __init__(self, win_width = 640, win_height = 480):
+    def __init__(self, win_width = WIN_WIDTH, win_height = WIN_HEIGHT):
         pygame.init()
 
         self.screen = pygame.display.set_mode((win_width, win_height))
@@ -190,28 +198,77 @@ class Simulation:
             
             pygame.display.flip()
 
+
     def myrun(self):
         """ Main Loop """
+	global mouseDown
+	global theta, alpha
+	LEFT=1
         while 1:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+	        #elif event.type == KEYDOWN and event.key == K_ESCAPE:
+                #    pygame.quit()
+                #    sys.exit()
+	        #elif event.type == KEYDOWN and event.key == K_p:
+	        #    pygame.image.save(self.screen, "rotating_planar_vector.png")
+	        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
+			x,y = event.pos
+			mouseDown = True
+                	prevx = x 
+                	prevy = y
 
-            self.clock.tick(50)
-            self.screen.fill((0,32,0))
+		elif event.type == pygame.MOUSEMOTION:
+		        if (mouseDown):
+				x,y=event.pos
+               			theta = x - prevx
+               			alpha = y - prevy
+	        elif event.type == pygame.MOUSEBUTTONUP:
+                	mouseDown = False
 
-	    vertices=Plane3D(radius=50.0, ngon=360)
-	    cx=0
-	    cy=0
-	    cz=0
-            z_angle =  30 * math.pi / 180
-	    for v in vertices:
-        	new_x = -v.z * math.cos(z_angle) + v.x
-        	new_y = -v.z * math.sin(z_angle) + v.y
-	    	pygame.draw.line(self.screen,[cz,cx,cy],[0,0],[new_x,new_y],2)
+
+
+#	            body = pm.Body(10, 100)
+#	            body.position = p
+#	            shape = pm.Circle(body, 10, (0,0))
+#	            shape.friction = 0.5
+#	            shape.collision_type = COLLTYPE_BALL
+#	            space.add(body, shape)
+#	            balls.append(shape)
+#	        elif event.type == MOUSEBUTTONDOWN and event.button == 3: 
+#	            if line_point1 is None:
+#	                    line_point1 = Vec2d(event.pos[X], flipy(event.pos[Y]))
+#	        elif event.type == MOUSEBUTTONUP and event.button == 3: 
+#	            if line_point1 is not None:
+#	  
+#	                    line_point2 = Vec2d(event.pos[X], flipy(event.pos[Y]))
+#	                    print line_point1, line_point2
+#	                    body = pm.Body()
+#	                    shape= pm.Segment(body, line_point1, line_point2, 0.0)
+#	                    shape.friction = 0.99
+#	                    space.add(shape)
+#	                    static_lines.append(shape)
+#	                    line_point1 = None
+#	  
+#	            elif event.type == KEYDOWN and event.key == K_SPACE:    
+#	                run_physics = not run_physics
+	  
+            	self.clock.tick(50)
+            	self.screen.fill((0,32,0))
+
+	    	vertices=PlaneCircle3D(radius=200.0, ngon=360).rotate_theta_alpha(theta, alpha)
+	    	cx=0
+	    	cy=0
+	    	cz=0
+            	z_angle =  30 * math.pi / 180
+	    	for v in vertices:
+        		new_x = -v.z * math.cos(z_angle) + v.x + WIN_WIDTH/2
+        		new_y = -v.z * math.sin(z_angle) + v.y + WIN_HEIGHT/2
+	    		pygame.draw.line(self.screen,[cz,cx,cy],[WIN_WIDTH/2,WIN_HEIGHT/2],[new_x,new_y],2)
             
-            pygame.display.flip()
+            	pygame.display.flip()
 
 if __name__ == "__main__":
     Simulation().myrun()
