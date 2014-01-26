@@ -63,6 +63,14 @@ def init():
 	glDepthFunc(GL_LEQUAL)
 	glClearDepth(1.0)
 
+	### attempted but worst...
+	#glEnable(GL_BLEND)
+        #glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+
+        #glEnable(GL_POINT_SMOOTH)
+        #glEnable(GL_LINE_SMOOTH)
+        #glEnable(GL_POLYGON_SMOOTH)
+
 	return True
 
 import sys
