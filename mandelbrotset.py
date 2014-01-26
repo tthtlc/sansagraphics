@@ -1,5 +1,3 @@
-import psyco
-psyco.full()
 import pygame
 from pygame.locals import *
 import sys, os
