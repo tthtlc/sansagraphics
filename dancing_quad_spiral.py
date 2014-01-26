@@ -83,6 +83,10 @@ Colors   = ((0,0,0), (1,0,0),
             (1,1,1), (0,1,1))
 
 def planespiral(radius,ngon,turn,phi,theta,yc):
+
+	glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
+	glEnable(GL_BLEND)
+
     	glBegin(GL_LINE_STRIP)
  	#glColor3f(0.1, 0.2, 0.3)
 	theta = 2 * math.pi / ngon
