@@ -6,9 +6,11 @@ if sys.platform == 'win32' or sys.platform == 'win64':
     os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
 
-import Settings
-width, height, width2, height2 = Settings.main()
+##import Settings
+##width, height, width2, height2 = Settings.main()
 
+(width,height) = (800,600)
+(width2,height2) = (400,300)
 Screen = (width,height)
 pygame.display.set_caption("Mandelbrot Set - Ian Mallett - v.2.0.0 - 2008")
 icon = pygame.Surface((1,1)); icon.set_alpha(0); pygame.display.set_icon(icon)
@@ -24,7 +26,7 @@ ColourPalette = [(255, 140, 140),(255, 145, 135), (255, 150, 130), (254, 155, 12
 def CalculateMandelbrotSet():
     width = MandelbrotSet.get_width()
     height = MandelbrotSet.get_height()
-    row = 0
+    #row = 0
     for ypixel in xrange(height):
         for xpixel in xrange(width):
             x = -2 + (3*(float(xpixel)/float(width)))
@@ -42,18 +44,32 @@ def CalculateMandelbrotSet():
                     else:
                         Colour = iteration
             MandelbrotSet.set_at((xpixel,height-ypixel),Colour)
-        row += 1
-        PercentDone = round( (float(row)/float(height)), 3 ) * 100
-        print "Row "+str(row)+"/"+str(height)+" ("+str(PercentDone)+"%) Complete!"
+        #row += 1
+        #PercentDone = round( (float(row)/float(height)), 3 ) * 100
+        #print "Row "+str(row)+"/"+str(height)+" ("+str(PercentDone)+"%) Complete!"
     print 'Saving Image as "Mandelbrot Set.png"...'
     pygame.image.save(MandelbrotSet,"Mandelbrot Set.png")
     print "Image Saved!"
+
+mouseDown = False
+
 def GetInput():
     global ViewPosition
+    global mouseDown
     key = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == QUIT or key[K_ESCAPE]:
-            pygame.quit(); sys.exit()
+		pygame.quit()	
+		sys.exit()
+	elif event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
+		x,y = event.pos
+		mouseDown = True
+		prevx = x
+		prevy = y
+
+
+
+
     if key[K_LEFT ]: ViewPosition[0] += 1
     if key[K_RIGHT]: ViewPosition[0] -= 1
     if key[K_UP   ]: ViewPosition[1] += 1
