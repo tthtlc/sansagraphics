@@ -221,7 +221,7 @@ def myrun():
         clock.tick(50)
         screen.fill((0,32,0))
 
-        vertices=rotate_theta_alpha(PlaneCircle3D(radius=200.0, ngon=360), theta, alpha)
+        vertices=rotate_theta_alpha(PlaneCircle3D(radius=200.0, ngon=36), theta, alpha)
 	theta += 0.005
 	alpha += 0.005
         cx=0
