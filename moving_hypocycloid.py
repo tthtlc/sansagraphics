@@ -19,6 +19,12 @@ green = [  0,255,  0]
 red =   [255,  0,  0]
 a=200.0
 b=50.0
+factora_max=20.0
+factorb_max=20.0
+factora=1.0
+factorb=1.0
+factorc=1.0
+factord=1.0
 
 PI = 3.141592653
 r=50
@@ -40,7 +46,7 @@ i=0
 xorigin=999.9
 yorigin=999.9
 delta=0.0
-total_rot=360
+total_rot=10000
 
 while done == False:
  
@@ -69,11 +75,19 @@ while done == False:
     thickness+=1 
     if thickness > 100:
 	thickness=0
+    factora+=1.0
+    if factora> factora_max:
+	factora=1.0
+	factorb+=1.0
+	if (factorb>factorb_max):
+		factorb=1.0
+		factora=1.0
+    print factora, factorb, factorc, factord
     for n in range(total_rot):
         ##pygame.draw.line(screen,red,[0,10+y_offset],[100,110+y_offset],5)
 	phi = n * 2*PI/120
-	x_offset = (a-b)*math.cos(phi)-b*math.cos((a-b)/b*phi)+400.0
-	y_offset = (a-b)*math.sin(phi)-b*math.sin((a-b)/b*phi)+240.0
+	x_offset = (a-b)*math.cos(factora*phi)-b*math.cos(factorc*(a-b)/b*phi)+400.0
+	y_offset = (a-b)*math.sin(factorb*phi)-b*math.sin(factord*(a-b)/b*phi)+240.0
 
 	if (n>0) and (xorigin!=999.9):
 		cx=int(120*(math.sin(2*(phi-delta))+1)+10)
@@ -89,7 +103,9 @@ while done == False:
      
     # Go ahead and update the screen with what we've drawn.
     # This MUST happen after all the other drawing commands.
+    
     pygame.display.flip()
+    factorf = raw_input()
  
 # Be IDLE friendly
 pygame.quit()
