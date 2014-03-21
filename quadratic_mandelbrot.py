@@ -46,10 +46,10 @@ class DrawingPanel(wx.Panel):
       
     if abs(z) >= 3:
      ##dc.SetPen(wx.Pen(wx.Colour(0, 8.5*i, 8.5*i)))
-     dc.SetPen(wx.Pen(wx.Colour(0, 8.5*i, abs(z))))
+     dc.SetPen(wx.Pen(wx.Colour(3.0*i, 8.5*i, abs(z))))
      dc.DrawPoint(x, y)
     elif abs(z) >= 2:
-     dc.SetPen(wx.Pen(wx.Colour(0, abs(z), abs(z))))
+     dc.SetPen(wx.Pen(wx.Colour(3.0*i, abs(z), abs(z))))
      dc.DrawPoint(x, y)
     elif abs(z) >= 1:
      dc.SetPen(wx.Pen(wx.Colour(abs(z), abs(z), abs(z))))

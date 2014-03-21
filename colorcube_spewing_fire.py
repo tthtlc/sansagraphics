@@ -128,6 +128,23 @@ def wireCube():
     edge(3,7)
     glEnd()
 
+
+def normal_face():
+	norm_face(3,6,2,7)
+	norm_face(2,1,3,6)
+	norm_face(6,4,1,3)
+	norm_face(1,6,2,5)
+	norm_face(4,7,6,5)
+	norm_face(5,1,6,4)
+	norm_face(7,6,3,4)
+	norm_face(0,4,3,1)
+	
+v1=u2-u1
+v2=u3-u2
+
+n1=v1xv2
+n1 + peak......vector for spewing
+
 def display():
 	global xrot, yrot
 	global ndisc
