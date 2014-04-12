@@ -70,11 +70,11 @@ def spiral(n, min_radius, max_radius, nos_parts, centerx, centery, max_spiral_an
 
 		xorigin = x_offset
 		yorigin = y_offset
-	if (min_radius*fraction> 6.0):
+	if (min_radius*fraction> 5.0):
 		spiral(n, min_radius*fraction, max_radius*fraction, nos_parts, xorigin, yorigin, max_spiral_angle)
 
 print "Hey you....trying min_radius*fraction>7.0"
-print "don't be lazy....change 7.0 to other values and see!!! "
+print "don't be lazy....change 7.0 (5.0, 6.0, and 7.0 have different effects) to other values and see!!! "
 
 while done == False:
  
