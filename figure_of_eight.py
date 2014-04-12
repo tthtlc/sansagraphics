@@ -40,46 +40,33 @@ xorigin=999.9
 yorigin=999.9
 n=3
 max_spiral_angle=PI/3.0
+radius=100.0
 
-def spiral(n, min_radius, max_radius, nos_parts, centerx, centery, max_spiral_angle):
-    gap = (max_radius - min_radius)/nos_parts
-    angle_increment=max_spiral_angle/nos_parts
+
+def figure_of_eight(n, centerx, centery, a, b):
     phi = 2*PI/n
     xorigin=999.9
-    sub_parts=3
     cx=0.5
     cy=0.5
     cz=0.5
 
     for i in range(0, n+1):
+
 	angle = i*phi
-	radius = min_radius
-	spiral_angle=angle
-	xorigin = 999.9
-    	for j in range(0, nos_parts+1):
-		x_offset = radius*(math.cos(spiral_angle))+centerx
-		y_offset = radius*(math.sin(spiral_angle))+centery
-		x_offset1 = radius*(math.cos(spiral_angle+right_angle))+centerx
-		y_offset1 = radius*(math.sin(spiral_angle+right_angle))+centery
-		radius = radius + gap
-		spiral_angle=spiral_angle + angle_increment
+	x_offset = radius*(math.cos(a*angle))+centerx
+	y_offset = radius*(math.sin(b*angle))+centery
+	if (i>0) and (xorigin!=999.9):
+		cx=int(120*(math.sin(2*(angle))+1)+10)
+		cy=int(120*(math.sin(angle)+1)+10)
+		cz=int(120*(math.sin(angle-PI)+1)+10)
+       	 	pygame.draw.line(screen,[cx,cy,cz],[xorigin,yorigin],[x_offset,y_offset],2)
 
-		if (j>0) and (xorigin!=999.9):
-			cx=int(120*(math.sin(2*(spiral_angle))+1)+10)
-			cy=int(120*(math.sin(spiral_angle)+1)+10)
-			cz=int(120*(math.sin(spiral_angle-PI)+1)+10)
-       		 	pygame.draw.line(screen,[cx,cy,cz],[xorigin,yorigin],[x_offset,y_offset],2)
-			if (sub_parts==0):
-       		 		pygame.draw.line(screen,[cx,cy,cz],[xorigin,yorigin],[xorigin+30*(x_offset-xorigin),yorigin+30*(y_offset-yorigin)],2)
-       		 		pygame.draw.line(screen,[cx,cy,cz],[xorigin,yorigin],[xorigin+30*(x_offset1-xorigin),yorigin+30*(y_offset1-yorigin)],2)
-			else:
-				sub_parts=sub_parts-1
-		else:
-       			pygame.draw.line(screen,[cx,cy,cz],[centerx,centery],[x_offset,y_offset],2)
+	xorigin = x_offset
+	yorigin = y_offset
 
-		xorigin = x_offset
-		yorigin = y_offset
-
+a=2
+b=1
+n=100
 while done == False:
  
     # This limits the while loop to a max of 10 times per second.
@@ -99,12 +86,13 @@ while done == False:
     # draw the point from radius a (which can be 0 or not) to radius b (slowly increasin)
     # the point as a series of contour which spiral...ie spiral of spiral
  
-    min_radius=10.0
-    max_radius=100.0
-    nos_parts=10
-    spiral(n, min_radius, max_radius, nos_parts, centerx, centery, max_spiral_angle)
+    print "a=%d b=%d"%(a,b)
+    figure_of_eight(n, centerx, centery, a, b)
 
-    n = n + 1 
+    if (a%2):
+    	a = a + 1 
+    else:
+    	b = b + 1 
     pygame.display.flip()
     print "Press enter.."
     raw = raw_input()
