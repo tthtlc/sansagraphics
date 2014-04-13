@@ -1,9 +1,4 @@
 
-# Sample Python/Pygame Programs
-# Simpson College Computer Science
-# http://programarcadegames.com/
-# http://simpson.edu/computer-science/
- 
 # Import a library of functions called 'pygame'
 import pygame
 import math
@@ -20,7 +15,6 @@ green = [  0,255,  0]
 red =   [255,  0,  0]
 
 PI = 3.141592653
-right_angle=-PI/2
  
 # Set the height and width of the screen
 xscreen=900
@@ -38,10 +32,7 @@ clock = pygame.time.Clock()
  
 xorigin=999.9
 yorigin=999.9
-n=3
-max_spiral_angle=PI/3.0
 radius=100.0
-
 
 def figure_of_eight(n, centerx, centery, a, b):
     phi = 2*PI/n
@@ -77,22 +68,21 @@ while done == False:
         if event.type == pygame.QUIT: # If user clicked close
             done = True # Flag that we are done so we exit this loop
  
-    # All drawing code happens after the for loop and but
-    # inside the main while done==False loop.
-     
     # Clear the screen and set the screen background
     #screen.fill(white)
-    # move the angle from 0 to x
-    # draw the point from radius a (which can be 0 or not) to radius b (slowly increasin)
-    # the point as a series of contour which spiral...ie spiral of spiral
  
-    print "a=%d b=%d"%(a,b)
+    print "a=%d b=%d n=%d"%(a,b,n)
     figure_of_eight(n, centerx, centery, a, b)
 
     if (a%2):
     	a = a + 1 
-    else:
+    elif (b%2):
     	b = b + 1 
+    elif (a>b):
+    	b = b + 1 
+    else:
+    	a = a + 1 
+    n = n + 10
     pygame.display.flip()
     print "Press enter.."
     raw = raw_input()
