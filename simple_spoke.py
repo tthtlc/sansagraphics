@@ -21,6 +21,42 @@ class Point3D:
     def __init__(self, x = 0, y = 0, z = 0):
         self.x, self.y, self.z = float(x), float(y), float(z)
  
+	###  angle in degrees
+    def rotate(self, angle):
+        """ Rotates the point around the YZ plane first """
+        rad = angle # * math.pi / 180
+        cosa = math.cos(rad)
+        sina = math.sin(rad)
+        y = self.y * cosa - self.z * sina
+	self.y = y
+        z = self.y * sina + self.z * cosa
+	self.z = z
+        return ### Point3D(self.x, y, z)
+
+    def rotate8(self, angle):
+        """ Rotates the point around the figure of 8 shapes """
+    	##self.rotate(angle)
+        rad = angle # * math.pi / 180
+        cosa = math.cos(rad)
+        sina = math.sin(rad)
+        x = self.x * cosa + self.z * sina
+	#self.x = x
+        z = self.x * sina + self.z * cosa
+	#y = self.y
+        return Point3D(x, self.y, z)
+ 
+    def rotate_in_plane(self, angle):
+        """ Rotates the point around the figure of 8 shapes """
+    	#self.rotate(angle)
+        rad = angle ## * math.pi / 180
+        cosa = math.cos(rad)
+        sina = math.sin(rad)
+        x = self.x * cosa - self.y * sina
+	#self.x = x
+        y = self.x * sina + self.y * cosa
+	#self.y = y
+        return Point3D(x, y, self.z)
+ 
     def rotateX(self, angle):
         """ Rotates the point around the X axis by the given angle in degrees. """
         rad = angle #* math.pi / 180
@@ -62,6 +98,13 @@ class Point3D:
         y = self.x - self.z * sina
         return (x, y)
 
+    def Project(self, win_width, win_height, fov, viewer_distance):
+        """ Transforms this 3D point to 2D using a perspective projection. """
+        factor = fov / (viewer_distance + self.z)
+        x = self.x * factor + win_width / 2
+        y = -self.y * factor + win_height / 2
+        return Point3D(x, y, self.z)
+
 class Simulation:
     def __init__(self, win_width = 640, win_height = 480):
 	myradius = 200.0
@@ -77,7 +120,7 @@ class Simulation:
 	angle=2*math.pi/spoke_number
         self.vertices=[]
 	
-	### generate the first generation of points
+	### initially all points on the x-y planes
 	for i in range(spoke_number*2):
 		x = myradius*(math.cos(2*i*angle)+1)*math.cos(i*angle)
 		y = myradius*(math.cos(2*i*angle)+1)*math.sin(i*angle)
@@ -94,8 +137,6 @@ class Simulation:
 
 	cx = 400
 	cy = 200
-	yrot = 0.0
-	angle_quantum = math.pi / 8
 
         while 1:
             for event in pygame.event.get():
@@ -108,9 +149,8 @@ class Simulation:
             vlist = []
 	    count = count + 1
             for v in self.vertices:
-                w = v.rotateY(yrot/5)  
-                r = w.translate(cx, cy, 0.0)
-		vlist.append((r.x, r.y))
+                w = v.translate(cx, cy, 0.0)
+		vlist.append((w.x, w.y))
 
             for vx,vy in vlist:
 		pygame.draw.line(self.screen,mycolor[colour_counter],[cx,cy],[vx,vy],5)
@@ -118,7 +158,6 @@ class Simulation:
 		colour_counter = colour_counter + 1
 		colour_counter = colour_counter % 6
 
-	    yrot += angle_quantum
             pygame.display.flip()
 
 if __name__ == "__main__":
