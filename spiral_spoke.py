@@ -64,7 +64,7 @@ class Point3D:
 
 class Simulation:
     def __init__(self, win_width = 640, win_height = 480):
-	myradius = 200.0
+	myradius = 50.0
 
         pygame.init()
 
@@ -92,13 +92,16 @@ class Simulation:
 	colour_counter = 0
 	count=0
 
-	cx = 400
-	cy = 200
+	small_y = 1
+	initx = 400
+	inity = 200
 	yrot = 0.0
-	zrot = 0.0
+	zrot = 0.
 	xrot = 0.0
 	scene = 1
-	angle_quantum = math.pi / 8
+	cx = initx
+	cy = inity
+	angle_quantum = math.pi / 32
 
         while 1:
             for event in pygame.event.get():
@@ -112,9 +115,13 @@ class Simulation:
 	            vlist = []
 		    count = count + 1
 	            for v in self.vertices:
-	                w = v.rotateY(yrot/5)  
-	                r = w.translate(cx, cy, 0.0)
+	                w = v.rotateY(yrot*12)  
+	                u = w.rotateZ(yrot)  
+	                r = u.translate(cx, cy, 0.0)
 			vlist.append((r.x, r.y))
+		    #cy = cy + small_y
+		    if (cy > 800):
+			cy = inity
 	
 	            for vx,vy in vlist:
 			pygame.draw.line(self.screen,mycolor[colour_counter],[cx,cy],[vx,vy],5)
