@@ -96,8 +96,6 @@ class Simulation:
 	zrot = 0.
 	xrot = 0.0
 	scene = 1
-	#cx = initx
-	#cy = inity
 	angle_quantum = math.pi / 16
 	radius=100.0
 
@@ -115,28 +113,18 @@ class Simulation:
 		    dx = initx + radius * math.cos(yrot/36)
 		    dy = inity + radius * math.sin(yrot/36)
 	            [new_cx, new_cy, new_cz] = self.translate([cx,cy,0.0], dx, dy, 0.0)
-		    #if (count==1):
-		#	cx = dx
-		#	cy = dy
 	            for v in self.vertices:
 	                w = self.rotate(v, 0, yrot, yrot/36)  
 	                r = self.translate(w, dx, dy, 0.0)
 			[x,y,z]=r
 			vlist.append([x, y])
-		    #cy = cy + small_y
-		    #if (cy > 800):
-		#	cy = inity
 	
 	            for vx,vy in vlist:
 			pygame.draw.line(self.screen,mycolor[colour_counter],[new_cx,new_cy],[vx,vy],5)
-			#print vx, vy
 			colour_counter = colour_counter + 1
 			colour_counter = colour_counter % 6
 	
 		    yrot += angle_quantum
-		    #if (yrot > math.pi * 16):
-			#scene = scene + 1
-			#yrot = 0.0
 	    
             pygame.display.flip()
 
