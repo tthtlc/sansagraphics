@@ -20,30 +20,27 @@ signal.signal(signal.SIGINT, signal_handler)
 
 import math
 
-PI = 3.141592653
-niteration=120
 ngon=3
-angle_step=2*PI/ngon
+angle_step=2*math.pi/ngon
 r1_step = 0.005
 r2_step = 0.001
-delta=0.6
-theta1 = 2*PI/niteration
 
 def draw_chasing_polygon(R1, R2, alpha, beta,theta):
-	global delta
 	global ngon
 	global angle_step
+	delta=0.6
 	i=0
 	angle=0
 	glBegin(GL_LINES)
 
-        cx=(math.sin((theta-delta)*3)/10+1)
-        cy=(math.sin((theta-delta)*3-PI/2)+1)
-        cz=(math.sin((theta-delta)*3-PI/4)+1)
+        rc=(0.5*math.sin((theta)*11)+0.5)
+        gc=(0.5*math.sin((theta)*7-math.pi/2)+0.5)
+        bc=(0.5*math.sin((theta)*5-math.pi/4)+0.5)
 	myangle = 0.0
 
-        glColor3f(cx, cy, cz)
-	myangle+=angle_step+1/360*2*PI
+        glColor3f(rc, gc, bc)
+	myangle+=angle_step+1/360*2*math.pi
+	niteration=120
 
 	for i in range(niteration): 
 		#glTranslatef(vx,vy,vz) 
@@ -54,7 +51,7 @@ def draw_chasing_polygon(R1, R2, alpha, beta,theta):
 	#	if (i%2==0):
 	#    		glVertex3f(x,y,z)
 		if (i%ngon==0):
-			myangle += 6/360*2*PI
+			myangle += 6/360*2*math.pi
 			R1 += 0.02
 			R2 += 0.02
 		myangle+=angle_step
@@ -94,11 +91,12 @@ def display():
 	glRotatef(xrot, 1.0, 0.0, 0.0)
 	glRotatef(yrot, 0.0, 1.0, 0.0)
 
-	beta=2*PI/8
-	alpha=2*PI/8
+	beta=2*math.pi/8
+	alpha=2*math.pi/8
 	R1=1
 	R2=0.8
 	theta=0.0
+	theta1 = 2*math.pi/ngon
 
 	for i in range(ndisc):
 		R1 += r1_step
