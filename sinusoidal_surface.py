@@ -9,6 +9,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 from math import * # trigonometry
+import math
 
 import pygame # just to get a display
 
@@ -99,11 +100,11 @@ while not done:
 
     glBegin(GL_TRIANGLE_STRIP);
     #pulse2 = 0.5
+    round = 4
+    ngon = 90
+    theta=2*math.pi/ngon
 
-    for i in range(0,100):
-
-        r=5.0 # try other values - integers as well
-        d=1   # try other values
+    for i in range(0,round*ngon):
 
 	#pulse2 += 0.5
         #if (i%2==0):
@@ -112,11 +113,9 @@ while not done:
 #            glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
         #else:
         #glTexCoord2f(1,i);
-######### to do:   
-	change the y axiss via a loop round the z axis.
-        glVertex3f( cos(i/r+3.14), -2.5+i*0.05+d, sin(i/r+3.14));
+        glVertex3f( cos(i*theta), sin(i*theta*4)-cos(i*theta*3), sin(i*theta));
         #glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
-        glVertex3f( cos(i/r), -2.5+i*0.05, sin(i/r));            
+        glVertex3f( cos(i*theta), sin(i*theta)+cos(i*theta), sin(i*theta));            
 #            glVertex3f( cos(i/r+3.14)*pulse2, -2.5+i*0.05+d+pulse2*1, sin(i/r+3.14)*pulse2);
         
 
