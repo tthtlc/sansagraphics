@@ -86,11 +86,10 @@ Vertices = ((-1,-1,-1), (1,-1,-1),
             (-1,-1,1), (1,-1,1),
             (1,1,1), (-1,1,1))
 
-Colors   = ((0.2,0.5,0.9), (1,0,0),
+Colors   = ((0,0,0), (1,0,0),
             (1,1,0), (0,1,0),
             (0,0,1), (1,0,1),
             (1,1,1), (0,1,1))
-
 
 def nlobe(radius,phi,theta,yc, lobe_number):
 
@@ -106,10 +105,12 @@ def nlobe(radius,phi,theta,yc, lobe_number):
 	rad1=radius/turn/ngon/lobe_number
 	rad=0.0
 	y=0.0
-    	glColor3fv(Colors[lobe_number%8])
 	for i in range(ngon*turn*lobe_number):
-		x = rad * math.cos(lobe_number*i*theta) 
-		z = rad * math.sin(i*theta)
+    		glColor3fv(Colors[i%8])
+		#x = rad * math.cos(lobe_number*i*theta) 
+		#z = rad * math.sin(i*theta)
+		x = rad * (math.cos(4*i*theta)+1)*math.cos(i*theta)
+		z = rad * (math.sin(4*i*theta)+1)*math.sin(i*theta)
 		y += yc 
 		(x1,y1,z1) = point_rotatex(x,y,z, phi)
 		(x2,y2,z2) = point_rotatez(x1,y1,z1, theta)
@@ -132,8 +133,8 @@ def planespiral(radius,ngon,turn,phi,theta,yc):
 	y=0.0
 	for i in range(ngon*turn):
     		glColor3fv(Colors[i%8])
-		x = rad * math.cos(4*i*theta) 
-		z = rad * math.sin(i*theta)
+		x = rad * (math.cos(4*i*theta)+1)*math.cos(i*theta)
+		z = rad * (math.sin(4*i*theta)+1)*math.sin(i*theta)
 		y += yc 
 		(x1,y1,z1) = point_rotatex(x,y,z, phi)
 		(x2,y2,z2) = point_rotatez(x1,y1,z1, theta)
@@ -272,15 +273,9 @@ def wireCube():
     edge(3,7)
     glEnd()
 
-counter = 0
-lobe_number = 2
-total_switching_rate = 30
-
 def display():
 	global xrot, yrot
 	global xrotspiral, zrotspiral
-	global counter, lobe_number
-	global total_switching_rate
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glLoadIdentity()
@@ -294,13 +289,7 @@ def display():
 	glRotatef(yrot, 0.0, 1.0, 0.0)
 
  	glColor3f(0.5, 0.0, 1.0)
-
-	nlobe(1.0,xrotspiral,zrotspiral,0.01/lobe_number, lobe_number)
-	counter = counter + 1
-	if (counter > total_switching_rate):
-		counter = 0
-		print lobe_number
-		lobe_number = lobe_number + 1
+	nlobe(1.0,xrotspiral,zrotspiral,0.005, 2)
 
     	glFlush()
     	glutSwapBuffers()
