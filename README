@@ -1,9 +1,14 @@
 Contributions and criticism welcome.
 
+Goto http://www.pyglet.org/download.html
+
+And download the pyglet.   
+
+"sudo python setup.py install" to install.
+
 Pygame is necessary.   Install this:
 
 sudo apt-get install python-pygame
-
 
 For more information:
 
