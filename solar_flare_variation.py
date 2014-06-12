@@ -25,6 +25,8 @@ import math
 xrotspiral = 1.0
 zrotspiral = 1.0
 
+counter=0
+lobe_number=2
 PI = 3.141592653
 ngon=120
 angle_step=2*PI/ngon
@@ -110,8 +112,8 @@ def nlobe(radius,phi,theta,yc, lobe_number):
 		#x = rad * math.cos(lobe_number*i*theta) 
 		#z = rad * math.sin(i*theta)
 		x = rad * (math.cos(4*i*theta)+1)*math.cos(i*theta)
-		z = rad * (math.sin(4*i*theta)+1)*math.sin(i*theta)
-		y += yc 
+		z = rad * (math.sin(3*i*theta)+1)*math.sin(i*theta)
+		y = rad * math.sin(i*theta)
 		(x1,y1,z1) = point_rotatex(x,y,z, phi)
 		(x2,y2,z2) = point_rotatez(x1,y1,z1, theta)
 		
@@ -276,6 +278,7 @@ def wireCube():
 def display():
 	global xrot, yrot
 	global xrotspiral, zrotspiral
+	global lobe_number, counter
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glLoadIdentity()
@@ -289,7 +292,13 @@ def display():
 	glRotatef(yrot, 0.0, 1.0, 0.0)
 
  	glColor3f(0.5, 0.0, 1.0)
-	nlobe(1.0,xrotspiral,zrotspiral,0.005, 2)
+	nlobe(1.0,xrotspiral,zrotspiral,0.005, lobe_number)
+	counter = counter + 1
+	if counter > 100:
+		counter=0
+		lobe_number=lobe_number+1
+		xrotspiral = 1.0
+		zrotspiral = 1.0
 
     	glFlush()
     	glutSwapBuffers()
