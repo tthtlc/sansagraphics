@@ -25,6 +25,7 @@ import math
 
 xrotspiral = 1.0
 zrotspiral = 1.0
+myraw = 999
 
 PI = 3.141592653
 ngon=120
@@ -320,6 +321,7 @@ def display():
 	global xrotspiral, zrotspiral
 	global counter, lobe_number
 	global total_switching_rate
+	global myraw
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glLoadIdentity()
@@ -342,6 +344,8 @@ def display():
 		lobe_number = lobe_number + 5
         	ngon=random.randint(2,23)
 
+	if (myraw==999):
+		myraw = raw_input()
     	glFlush()
     	glutSwapBuffers()
 

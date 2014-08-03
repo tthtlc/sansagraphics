@@ -119,6 +119,7 @@ def nlobe(radius,phi,theta,yc, lobe_number):
 #            glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
         #else:
         #glTexCoord2f(1,i);
+        #print ( 30.0+math.cos(i*theta+3.14+global_shift), -2.5+i*0.05, math.sin(i*theta+3.14+global_shift));
         glVertex3f( math.cos(i*theta+3.14+global_shift), -2.5+i*0.05, math.sin(i*theta+3.14+global_shift));
         #glVertex3f( math.cos(i*theta + 3.14/4), -2.5+i*0.05, math.sin(i*theta+3.14/2));            
         #glVertex3f( math.cos(i*theta + 3.14/2), -2.5+i*0.05, math.sin(i*theta+3.14/4));            
