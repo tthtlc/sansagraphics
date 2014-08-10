@@ -69,10 +69,10 @@ def init():
 	### attempted but worst...
 	#glEnable(GL_BLEND)
         #glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-
-        #glEnable(GL_POINT_SMOOTH)
-        #glEnable(GL_LINE_SMOOTH)
-        #glEnable(GL_POLYGON_SMOOTH)
+#
+#        glEnable(GL_POINT_SMOOTH)
+#        glEnable(GL_LINE_SMOOTH)
+#        glEnable(GL_POLYGON_SMOOTH)
 
 	return True
 
@@ -82,7 +82,6 @@ from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from OpenGL.GL import *
 import sys
-global_shift=0.0
 
 Vertices = ((-1,-1,-1), (1,-1,-1),
             (1,1,-1), (-1,1,-1),
@@ -95,17 +94,17 @@ Colors   = ((0.2,0.5,0.9), (1,0,0),
             (1,1,1), (0,1,1))
 
 
-def nlobe(radius,phi,theta,yc, lobe_number, ngon):
+def nlobe(radius,phi,theta,yc, c_number, ngon):
 
-    global global_shift
     glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
     glEnable(GL_BLEND)
 
     glBegin(GL_LINE_STRIP);
     #pulse2 = 0.5
 
-    round=4
+    round=10
     theta=math.pi/ngon
+    ashift=0.0
 
     for i in range(0,round*ngon):
 
@@ -119,19 +118,19 @@ def nlobe(radius,phi,theta,yc, lobe_number, ngon):
 #            glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
         #else:
         #glTexCoord2f(1,i);
-        glVertex3f( math.cos(i*theta+3.14+global_shift), -2.5+i*0.05, math.sin(i*theta+3.14+global_shift));
+        ashift+=theta/3
+        glVertex3f( radius*math.cos(i*theta+ashift), yc+i*0.05, radius*math.sin(i*theta+ashift));
         #glVertex3f( math.cos(i*theta + 3.14/4), -2.5+i*0.05, math.sin(i*theta+3.14/2));            
         #glVertex3f( math.cos(i*theta + 3.14/2), -2.5+i*0.05, math.sin(i*theta+3.14/4));            
         #glVertex3f( math.cos(i*theta), -2.5+i*0.05, math.sin(i*theta));            
         
-        global_shift+=math.pi/3
 	cx=(math.sin((theta*i)*2)+1)
         cy=(math.sin((theta*i)*3-math.pi/2)+1)
         cz=(math.sin((theta*i)*5-math.pi/4)+1)
 
         ##glColor3f(cx, cy, cz)
         ##glColor3f(0.0, 0.0, 1.0)
-    	glColor3fv(Colors[lobe_number%8])
+    	glColor3fv(Colors[c_number%8])
 
     glEnd();
     return 
@@ -311,17 +310,19 @@ def wireCube():
     glEnd()
 
 counter = 0
-lobe_number = 2
+c_number = 2
 total_switching_rate = 30
 ngon=5
+gradius = 1.0
 
 def display():
 	global ngon
 	global xrot, yrot
 	global xrotspiral, zrotspiral
-	global counter, lobe_number
+	global counter, c_number
 	global total_switching_rate
 	global myraw
+	global gradius
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glLoadIdentity()
@@ -336,16 +337,21 @@ def display():
 
  	glColor3f(0.5, 0.0, 1.0)
 
-	nlobe(1.0,xrotspiral,zrotspiral,0.01/lobe_number, lobe_number, ngon)
+	nlobe(gradius,xrotspiral,zrotspiral,0.01, c_number, ngon)
+	gradius = gradius + 0.1
 	counter = counter + 1
+	#	#print lobe_number
+	#	lobe_number = lobe_number + 5
+        #	ngon=random.randint(2,23)
+
 	if (counter > total_switching_rate):
 		counter = 0
-		#print lobe_number
-		lobe_number = lobe_number + 5
-        	ngon=random.randint(2,23)
-
-	if (myraw==999):
+	#if (myraw==999):
+		print "Enter anything on keyboard"
 		myraw = raw_input()
+		c_number = c_number + 1
+        	ngon=random.randint(2,8)
+		gradius =1.0
     	glFlush()
     	glutSwapBuffers()
 
