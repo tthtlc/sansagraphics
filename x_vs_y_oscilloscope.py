@@ -4,6 +4,7 @@
 import sys
 import math
 import pygame
+import random
 from pygame.locals import *
 pygame.init()
 
@@ -33,8 +34,10 @@ while True:
     color = 100, 255, 200
     width = 8
     angle+=theta
-    xa=r*math.sin(3*angle)
-    ya=r*math.cos(7*angle)
+    xangle=random.randint(2,21)
+    yangle=random.randint(2,21)
+    xa=r*math.sin(xangle*angle)
+    ya=r*math.cos(yangle*angle)
     pygame.draw.line(screen, color, (x, y), (x+xa, y+ya), width)
     x=x+xa
     y=y+ya
