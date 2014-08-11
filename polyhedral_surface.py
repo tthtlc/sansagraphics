@@ -1,4 +1,4 @@
-### originally from dancing_quad_spiral.py
+#0## originally from dancing_quad_spiral.py
 
 import sys
 try:
@@ -14,6 +14,7 @@ import math
 import signal
 import random
 
+
 def signal_handler(signal, frame):
         print 'You pressed Ctrl+C!'
         sys.exit(0)
@@ -25,10 +26,9 @@ import math
 
 xrotspiral = 1.0
 zrotspiral = 1.0
-myraw = 999
 
 PI = 3.141592653
-ngon=4
+ngon=120
 angle_step=2*PI/ngon
 r1_step = 0.005
 r2_step = 0.001
@@ -43,6 +43,7 @@ yrot = 0.0
 
 xdiff = 0.0
 ydiff = 0.0
+global_shift=0.0
 
 def spherical_to_cartesian3d(r,phi,theta):
 	x = r*math.sin(phi)*math.cos(theta)
@@ -69,10 +70,10 @@ def init():
 	### attempted but worst...
 	#glEnable(GL_BLEND)
         #glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-#
-#        glEnable(GL_POINT_SMOOTH)
-#        glEnable(GL_LINE_SMOOTH)
-#        glEnable(GL_POLYGON_SMOOTH)
+
+        #glEnable(GL_POINT_SMOOTH)
+        #glEnable(GL_LINE_SMOOTH)
+        #glEnable(GL_POLYGON_SMOOTH)
 
 	return True
 
@@ -94,45 +95,31 @@ Colors   = ((0.2,0.5,0.9), (1,0,0),
             (1,1,1), (0,1,1))
 
 
-def nlobe(radius,phi,theta,yc, c_number, ngon):
+def strand(radius,nx,ny,nz,ngon):
 
     glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
     glEnable(GL_BLEND)
 
-    glBegin(GL_LINE_STRIP);
-    #pulse2 = 0.5
+    glBegin(GL_TRIANGLE_STRIP)
 
-    round=10
-    theta=math.pi/ngon
-    ashift=0.0
+    theta1=2*math.pi/ngon/4
+    theta=0.0
 
-    for i in range(0,round*ngon):
+    for i in range(0,4*ngon):
 
-        #r=5.0 # try other values - integers as well
-        #d=1   # try other values
+	## phi = wrt y axis (sinusoidal, between 45 deg and 135 deg)
+	## theta = wrt x axis, on the zx plane (normal increment)
 
-	#pulse2 += 0.5
-        #if (i%2==0):
-        #    glTexCoord2f(0,i);
-        #    glVertex3f( cos(i/r), -2.5+i*0.05, sin(i/r));            
-#            glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
-        #else:
-        #glTexCoord2f(1,i);
-        ashift+=theta/3
-        glVertex3f( radius*math.cos(i*theta+ashift), yc+i*0.05, radius*math.sin(i*theta+ashift));
-        #glVertex3f( math.cos(i*theta + 3.14/4), -2.5+i*0.05, math.sin(i*theta+3.14/2));            
-        #glVertex3f( math.cos(i*theta + 3.14/2), -2.5+i*0.05, math.sin(i*theta+3.14/4));            
-        #glVertex3f( math.cos(i*theta), -2.5+i*0.05, math.sin(i*theta));            
-        
-	cx=(math.sin((theta*i)*2)+1)
-        cy=(math.sin((theta*i)*3-math.pi/2)+1)
-        cz=(math.sin((theta*i)*5-math.pi/4)+1)
+	phi1=math.pi*math.sin(ngon*theta)/4
+	phi=math.pi/2 - phi1
+	rx=radius*math.sin(phi)*math.cos(theta)
+	rz=radius*math.sin(phi)*math.sin(theta)
+	ry=radius*math.cos(phi)
+        glVertex3f( rx, ry, rz )
+    	glColor3fv(Colors[i%8])
+	theta += theta1
 
-        ##glColor3f(cx, cy, cz)
-        ##glColor3f(0.0, 0.0, 1.0)
-    	glColor3fv(Colors[c_number%8])
-
-    glEnd();
+    glEnd()
     return 
 
 #    	glBegin(GL_LINE_STRIP)
@@ -176,7 +163,7 @@ def planespiral(radius,ngon,turn,phi,theta,yc):
 		(x2,y2,z2) = point_rotatez(x1,y1,z1, theta)
 		
 		rad += rad1
-    		glVertex3fv((x2,y2,z2));
+    		glVertex3fv((x2,y2,z2))
     	glEnd()
 	return 
 
@@ -188,7 +175,7 @@ def planecircle(radius,ngon):
 		x = radius * math.cos(i*theta)
 		z = radius * math.sin(i*theta)
 		y = 0.0
-    		glVertex3fv((x,y,z));
+    		glVertex3fv((x,y,z))
     	glEnd()
 	return
 
@@ -270,10 +257,10 @@ def plane_rotatez(vertices, angle):
 def face(a,b,c,d):
     '''draw a face defined by four vertex indices'''
     glBegin(GL_QUADS)
-    glColor3fv(Colors[a]);    glVertex3fv(Vertices[a]);
-    glColor3fv(Colors[b]);    glVertex3fv(Vertices[b]);
-    glColor3fv(Colors[c]);    glVertex3fv(Vertices[c]);
-    glColor3fv(Colors[d]);    glVertex3fv(Vertices[d]);
+    glColor3fv(Colors[a]);    glVertex3fv(Vertices[a])
+    glColor3fv(Colors[b]);    glVertex3fv(Vertices[b])
+    glColor3fv(Colors[c]);    glVertex3fv(Vertices[c])
+    glColor3fv(Colors[d]);    glVertex3fv(Vertices[d])
     glEnd()
 
 def colorcube():
@@ -310,19 +297,14 @@ def wireCube():
     glEnd()
 
 counter = 0
-c_number = 2
+lobe_number = 3
 total_switching_rate = 30
-ngon=5
-gradius = 1.0
 
 def display():
-	global ngon
 	global xrot, yrot
 	global xrotspiral, zrotspiral
-	global counter, c_number
+	global counter, lobe_number
 	global total_switching_rate
-	global myraw
-	global gradius
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glLoadIdentity()
@@ -337,21 +319,14 @@ def display():
 
  	glColor3f(0.5, 0.0, 1.0)
 
-	nlobe(gradius,xrotspiral,zrotspiral,0.01, c_number, ngon)
-	gradius = gradius + 0.1
+	strand(4.0, 0.0,0.0,0.0,  10)
+	#strand(1.0,0.0,0.0,0.0,50,3)
 	counter = counter + 1
-	#	#print lobe_number
-	#	lobe_number = lobe_number + 5
-        #	ngon=random.randint(2,23)
-
 	if (counter > total_switching_rate):
 		counter = 0
-	#if (myraw==999):
-		print "Enter anything on keyboard"
-		myraw = raw_input()
-		c_number = c_number + 1
-        	ngon=random.randint(2,8)
-		gradius =1.0
+		#print lobe_number
+		#lobe_number = lobe_number + 5
+
     	glFlush()
     	glutSwapBuffers()
 
@@ -424,7 +399,7 @@ def main():
 
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE)
 
-	glutCreateWindow("Lobing Curves")
+	glutCreateWindow("Spiralling Strands Curves")
 
 	glutDisplayFunc(display)
 	glutKeyboardFunc(keyboard)
