@@ -95,7 +95,7 @@ Colors   = ((0.2,0.5,0.9), (1,0,0),
             (1,1,1), (0,1,1))
 
 
-def strand(radius,nx,ny,nz,ngon):
+def strand(radius, ngon):
 
     glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
     glEnable(GL_BLEND)
@@ -121,27 +121,6 @@ def strand(radius,nx,ny,nz,ngon):
 
     glEnd()
     return 
-
-#    	glBegin(GL_LINE_STRIP)
-# 	#glColor3f(0.1, 0.2, 0.3)
-#	ngon = 36
-#	turn = 10
-#	theta = 2 * math.pi / ngon / lobe_number
-#	# within turn*ngon turns, the spiral will grow to a length = radius
-#	rad1=radius/turn/ngon/lobe_number
-#	rad=0.0
-#	y=0.0
-#    	glColor3fv(Colors[lobe_number%8])
-#	for i in range(ngon*turn*lobe_number):
-#		x = rad * math.cos(lobe_number*i*theta) 
-#		z = rad * math.sin(i*theta)
-#		y = rad * math.cos(i*theta*2)
-#		(x1,y1,z1) = point_rotatex(x,y,z, phi)
-#		(x2,y2,z2) = point_rotatez(x1,y1,z1, theta)
-#		
-#		rad += rad1
-#    		glVertex3fv((x2,y2,z2));
-#    	glEnd()
 
 def planespiral(radius,ngon,turn,phi,theta,yc):
 
@@ -319,8 +298,7 @@ def display():
 
  	glColor3f(0.5, 0.0, 1.0)
 
-	strand(4.0, 0.0,0.0,0.0,  10)
-	#strand(1.0,0.0,0.0,0.0,50,3)
+	strand(4.0, 10)
 	counter = counter + 1
 	if (counter > total_switching_rate):
 		counter = 0
@@ -399,7 +377,7 @@ def main():
 
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE)
 
-	glutCreateWindow("Spiralling Strands Curves")
+	glutCreateWindow("Polyhedral Surface")
 
 	glutDisplayFunc(display)
 	glutKeyboardFunc(keyboard)
