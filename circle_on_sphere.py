@@ -85,25 +85,34 @@ Colors   = ((0.2,0.5,0.9), (1,0,0),
             (1,1,1), (0,1,1))
 
 
-def strand(radius, ngon):
+def circling_on_sphere(circle_radius, sphere_radius):
 
     glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
     glEnable(GL_BLEND)
 
-    glBegin(GL_TRIANGLE_STRIP)
+    glBegin(GL_LINE_STRIP)
 
-    theta1=2*math.pi/ngon/4
+    ngon=60
+    theta1=2*math.pi/ngon
+    sphere_gon=5
+    yrotate1=2*math.pi/sphere_gon/ngon
     theta=0.0
+    y_rotate_angle=0.0
 
-    for i in range(0,4*ngon):
+    for i in range(0,ngon):
 
 	## phi = wrt y axis (sinusoidal, between 45 deg and 135 deg)
 	## theta = wrt x axis, on the zx plane (normal increment)
-	phi1=math.pi*math.sin(ngon*theta)/4
-	phi=math.pi/2 - phi1
-	rx=radius*math.sin(phi)*math.cos(theta)
-	rz=radius*math.sin(phi)*math.sin(theta)
-	ry=radius*math.cos(phi)
+	#phi1=math.pi*math.sin(ngon*theta)/4
+	#phi=math.pi/2 - phi1
+	cx=circle_radius*math.sin(theta)
+	cy=circle_radius*math.cos(theta)
+	cz=sphere_radius
+	y_rotate_angle += yrotate1
+	(rx,ry,rz)=point_rotatey(cx,cy,cz, y_rotate_angle)
+	#rx=radius*math.sin(phi)*math.cos(theta)
+	#rz=radius*math.sin(phi)*math.sin(theta)
+	#ry=radius*math.cos(phi)
 
 	if (i==0):
 		rx0=rx
@@ -294,7 +303,7 @@ def display():
 
  	glColor3f(0.5, 0.0, 1.0)
 
-	strand(4.0, 10)
+	circling_on_sphere(1.0, 2.0)
 
     	glFlush()
     	glutSwapBuffers()
