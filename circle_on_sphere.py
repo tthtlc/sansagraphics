@@ -85,47 +85,47 @@ Colors   = ((0.2,0.5,0.9), (1,0,0),
             (1,1,1), (0,1,1))
 
 
-def circling_on_sphere(circle_radius, sphere_radius):
+def circling_on_sphere(circle_radius, sphere_radius, turns):
 
     glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
     glEnable(GL_BLEND)
 
     glBegin(GL_LINE_STRIP)
 
-    ngon=60
+    ngon=30
     theta1=2*math.pi/ngon
     sphere_gon=5
-    yrotate1=2*math.pi/sphere_gon/ngon
+    yrotate1=360.0/turns
     theta=0.0
     y_rotate_angle=0.0
 
-    for i in range(0,ngon):
-
-	## phi = wrt y axis (sinusoidal, between 45 deg and 135 deg)
-	## theta = wrt x axis, on the zx plane (normal increment)
-	#phi1=math.pi*math.sin(ngon*theta)/4
-	#phi=math.pi/2 - phi1
-	cx=circle_radius*math.sin(theta)
-	cy=circle_radius*math.cos(theta)
-	cz=sphere_radius
+    for i in range(0,turns):
+	for i in range(0,ngon):
+		## phi = wrt y axis (sinusoidal, between 45 deg and 135 deg)
+		## theta = wrt x axis, on the zx plane (normal increment)
+		#phi1=math.pi*math.sin(ngon*theta)/4
+		#phi=math.pi/2 - phi1
+		cx=circle_radius*math.sin(theta)
+		cy=circle_radius*math.cos(theta)
+		cz=sphere_radius
+		(rx,ry,rz)=point_rotatey(cx,cy,cz, y_rotate_angle)
+		#rx=radius*math.sin(phi)*math.cos(theta)
+		#rz=radius*math.sin(phi)*math.sin(theta)
+		#ry=radius*math.cos(phi)
+	
+		if (i==0):
+			rx0=rx
+			ry0=ry
+			rz0=rz
+		if (i==1):
+			rx1=rx
+			ry1=ry
+			rz1=rz
+	
+	        glVertex3f( rx, ry, rz )
+	    	glColor3fv(Colors[i%8])
+		theta += theta1
 	y_rotate_angle += yrotate1
-	(rx,ry,rz)=point_rotatey(cx,cy,cz, y_rotate_angle)
-	#rx=radius*math.sin(phi)*math.cos(theta)
-	#rz=radius*math.sin(phi)*math.sin(theta)
-	#ry=radius*math.cos(phi)
-
-	if (i==0):
-		rx0=rx
-		ry0=ry
-		rz0=rz
-	if (i==1):
-		rx1=rx
-		ry1=ry
-		rz1=rz
-
-        glVertex3f( rx, ry, rz )
-    	glColor3fv(Colors[i%8])
-	theta += theta1
     glVertex3f( rx0, ry0, rz0 )
     glVertex3f( rx1, ry1, rz1 )
 
@@ -196,9 +196,9 @@ def point_rotatex(x,y,z, angle):
 	rad = angle * math.pi / 180
 	cosa = math.cos(rad)
 	sina = math.sin(rad)
-	y = y * cosa - z * sina
-	z = y * sina + z * cosa
-	return (x,y,z)
+	y1 = y * cosa - z * sina
+	z1 = y * sina + z * cosa
+	return (x,y1,z1)
 
 def plane_rotatex(vertices, angle):
         """ Rotates the point around the X axis by the given angle in degrees. """
@@ -213,9 +213,9 @@ def point_rotatey(x,y,z, angle):
 	rad = angle * math.pi / 180
 	cosa = math.cos(rad)
 	sina = math.sin(rad)
-	z = z * cosa - x * sina
-	x = z * sina + x * cosa
-	return (x,y,z)
+	z1 = z * cosa - x * sina
+	x1 = z * sina + x * cosa
+	return (x1,y,z1)
  
 def plane_rotatey(vertices, angle):
         """ Rotates the point around the Y axis by the given angle in degrees. """
@@ -230,9 +230,9 @@ def point_rotatez(x,y,z,angle):
 	rad = angle * math.pi / 180
 	cosa = math.cos(rad)
         sina = math.sin(rad)
-        x = x * cosa - y * sina
-        y = x * sina + y * cosa
-	return (x,y,z)
+        x1 = x * cosa - y * sina
+        y1 = x * sina + y * cosa
+	return (x1,y1,z)
  
 def plane_rotatez(vertices, angle):
         """ Rotates the point around the Z axis by the given angle in degrees. """
@@ -303,7 +303,7 @@ def display():
 
  	glColor3f(0.5, 0.0, 1.0)
 
-	circling_on_sphere(1.0, 2.0)
+	circling_on_sphere(1.0, 2.0, 30)
 
     	glFlush()
     	glutSwapBuffers()
