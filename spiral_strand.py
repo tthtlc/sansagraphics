@@ -42,6 +42,7 @@ yrot = 0.0
 
 xdiff = 0.0
 ydiff = 0.0
+global_shift=0.0
 
 def spherical_to_cartesian3d(r,phi,theta):
 	x = r*math.sin(phi)*math.cos(theta)
@@ -95,6 +96,7 @@ Colors   = ((0.2,0.5,0.9), (1,0,0),
 
 def nlobe(radius,phi,theta,yc, lobe_number):
 
+    global global_shift
     glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
     glEnable(GL_BLEND)
 
@@ -117,13 +119,13 @@ def nlobe(radius,phi,theta,yc, lobe_number):
 #            glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
         #else:
         #glTexCoord2f(1,i);
-        glVertex3f( math.cos(i*theta+3.14), -2.5+i*0.05, math.sin(i*theta+3.14));
-        #glVertex3f( cos(i*theta)*pulse2, -2.5+i*0.05, sin(i*theta)*pulse2);
-        glVertex3f( math.cos(i*theta + 3.14/4), -2.5+i*0.05, math.sin(i*theta+3.14/2));            
-        glVertex3f( math.cos(i*theta + 3.14/2), -2.5+i*0.05, math.sin(i*theta+3.14/4));            
-        glVertex3f( math.cos(i*theta), -2.5+i*0.05, math.sin(i*theta));            
-#            glVertex3f( cos(i/r+3.14)*pulse2, -2.5+i*0.05+d+pulse2*1, sin(i/r+3.14)*pulse2);
+        #print ( 30.0+math.cos(i*theta+3.14+global_shift), -2.5+i*0.05, math.sin(i*theta+3.14+global_shift));
+        glVertex3f( math.cos(i*theta+3.14+global_shift), -2.5+i*0.05, math.sin(i*theta+3.14+global_shift));
+        #glVertex3f( math.cos(i*theta + 3.14/4), -2.5+i*0.05, math.sin(i*theta+3.14/2));            
+        #glVertex3f( math.cos(i*theta + 3.14/2), -2.5+i*0.05, math.sin(i*theta+3.14/4));            
+        #glVertex3f( math.cos(i*theta), -2.5+i*0.05, math.sin(i*theta));            
         
+        global_shift+=math.pi/90
 	cx=(math.sin((theta*i)*2)+1)
         cy=(math.sin((theta*i)*3-math.pi/2)+1)
         cz=(math.sin((theta*i)*5-math.pi/4)+1)

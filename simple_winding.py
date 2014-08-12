@@ -42,6 +42,7 @@ yrot = 0.0
 
 xdiff = 0.0
 ydiff = 0.0
+global_shift=0.0
 
 def spherical_to_cartesian3d(r,phi,theta):
 	x = r*math.sin(phi)*math.cos(theta)
@@ -93,19 +94,18 @@ Colors   = ((0.2,0.5,0.9), (1,0,0),
             (1,1,1), (0,1,1))
 
 
-def nlobe(radius,phi,theta,yc, lobe_number):
+def strand(radius,nx,ny,nz,turn_nos,ntheta):
 
     glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
     glEnable(GL_BLEND)
 
-    glBegin(GL_LINE_STRIP);
-    #pulse2 = 0.5
+    glBegin(GL_LINE_STRIP)
 
-    round=4
-    ngon=36
-    theta=math.pi/ngon
+    ngon=30   ###random.randint(2,30)
+    theta1=math.pi/ngon
+    theta=0.0
 
-    for i in range(0,round*ngon):
+    for i in range(0,2*ngon*turn_nos):
 
         #r=5.0 # try other values - integers as well
         #d=1   # try other values
@@ -117,22 +117,18 @@ def nlobe(radius,phi,theta,yc, lobe_number):
 #            glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
         #else:
         #glTexCoord2f(1,i);
-        glVertex3f( math.cos(i*theta+3.14), -2.5+i*0.05, math.sin(i*theta+3.14));
-        #glVertex3f( cos(i*theta)*pulse2, -2.5+i*0.05, sin(i*theta)*pulse2);
-        glVertex3f( math.cos(i*theta + 3.14/4), -2.5+i*0.05, math.sin(i*theta+3.14/2));            
-        glVertex3f( math.cos(i*theta + 3.14/2), -2.5+i*0.05, math.sin(i*theta+3.14/4));            
-        glVertex3f( math.cos(i*theta), -2.5+i*0.05, math.sin(i*theta));            
-#            glVertex3f( cos(i/r+3.14)*pulse2, -2.5+i*0.05+d+pulse2*1, sin(i/r+3.14)*pulse2);
-        
-	cx=(math.sin((theta*i)*2)+1)
-        cy=(math.sin((theta*i)*3-math.pi/2)+1)
-        cz=(math.sin((theta*i)*5-math.pi/4)+1)
 
-        ##glColor3f(cx, cy, cz)
-        ##glColor3f(0.0, 0.0, 1.0)
-    	glColor3fv(Colors[lobe_number%8])
+	## phi = wrt y axis
+	## theta = wrt x axis, on the zx plane
+	phi=math.pi - ntheta*theta
+	rx=radius*math.sin(phi)*math.cos(theta)
+	rz=radius*math.sin(phi)*math.sin(theta)
+	ry=radius*math.cos(phi)
+        glVertex3f( i*nx+rx, i*ny+ry, i*nz+rz )
+    	glColor3fv(Colors[i%8])
+	theta += theta1
 
-    glEnd();
+    glEnd()
     return 
 
 #    	glBegin(GL_LINE_STRIP)
@@ -176,7 +172,7 @@ def planespiral(radius,ngon,turn,phi,theta,yc):
 		(x2,y2,z2) = point_rotatez(x1,y1,z1, theta)
 		
 		rad += rad1
-    		glVertex3fv((x2,y2,z2));
+    		glVertex3fv((x2,y2,z2))
     	glEnd()
 	return 
 
@@ -188,7 +184,7 @@ def planecircle(radius,ngon):
 		x = radius * math.cos(i*theta)
 		z = radius * math.sin(i*theta)
 		y = 0.0
-    		glVertex3fv((x,y,z));
+    		glVertex3fv((x,y,z))
     	glEnd()
 	return
 
@@ -270,10 +266,10 @@ def plane_rotatez(vertices, angle):
 def face(a,b,c,d):
     '''draw a face defined by four vertex indices'''
     glBegin(GL_QUADS)
-    glColor3fv(Colors[a]);    glVertex3fv(Vertices[a]);
-    glColor3fv(Colors[b]);    glVertex3fv(Vertices[b]);
-    glColor3fv(Colors[c]);    glVertex3fv(Vertices[c]);
-    glColor3fv(Colors[d]);    glVertex3fv(Vertices[d]);
+    glColor3fv(Colors[a]);    glVertex3fv(Vertices[a])
+    glColor3fv(Colors[b]);    glVertex3fv(Vertices[b])
+    glColor3fv(Colors[c]);    glVertex3fv(Vertices[c])
+    glColor3fv(Colors[d]);    glVertex3fv(Vertices[d])
     glEnd()
 
 def colorcube():
@@ -310,7 +306,7 @@ def wireCube():
     glEnd()
 
 counter = 0
-lobe_number = 2
+lobe_number = 3
 total_switching_rate = 30
 
 def display():
@@ -332,12 +328,16 @@ def display():
 
  	glColor3f(0.5, 0.0, 1.0)
 
-	nlobe(1.0,xrotspiral,zrotspiral,0.01/lobe_number, lobe_number)
+	#strand(1.0,0.01,0.01,0.0,10)
+	##strand(1.0,0.0,0.0,0.0,50,2)
+	##strand(1.0,0.0,0.0,0.0,50,3)
+	strand(1.0,0.0,0.0,0.0,50,2)
+	#strand(1.0,0.0,0.0,0.0,50,3)
 	counter = counter + 1
 	if (counter > total_switching_rate):
 		counter = 0
 		#print lobe_number
-		lobe_number = lobe_number + 5
+		#lobe_number = lobe_number + 5
 
     	glFlush()
     	glutSwapBuffers()
@@ -411,7 +411,7 @@ def main():
 
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE)
 
-	glutCreateWindow("Lobing Curves")
+	glutCreateWindow("Spiralling Strands Curves")
 
 	glutDisplayFunc(display)
 	glutKeyboardFunc(keyboard)
