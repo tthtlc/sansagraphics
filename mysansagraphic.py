@@ -1,6 +1,13 @@
 import sys
 import math
 
+def translate(x0, y0, z0, x,y,z):
+	x = x0 + x
+	y = y0 + y
+	z = z0 + z
+        return (x, y, z)
+
+
 def spherical_to_cartesian3d(r,phi,theta):
 	x = r*math.sin(phi)*math.cos(theta)
 	y = r*math.sin(phi)*math.sin(theta)
