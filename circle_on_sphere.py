@@ -90,7 +90,7 @@ def circling_on_sphere(circle_radius, sphere_radius, turns):
     y_rotate_angle=0.0
 
     for i in range(0,turns):
-	for i in range(0,ngon):
+	for j in range(0,ngon):
 		## phi = wrt y axis (sinusoidal, between 45 deg and 135 deg)
 		## theta = wrt x axis, on the zx plane (normal increment)
 		#phi1=math.pi*math.sin(ngon*theta)/4
@@ -103,21 +103,12 @@ def circling_on_sphere(circle_radius, sphere_radius, turns):
 		#rz=radius*math.sin(phi)*math.sin(theta)
 		#ry=radius*math.cos(phi)
 	
-		if (i==0):
-			rx0=rx
-			ry0=ry
-			rz0=rz
-		if (i==1):
-			rx1=rx
-			ry1=ry
-			rz1=rz
-	
 	        glVertex3f( rx, ry, rz )
-	    	glColor3fv(Colors[i%8])
+	    	glColor3fv(Colors[j%8])
 		theta += theta1
 	y_rotate_angle += yrotate1
-    glVertex3f( rx0, ry0, rz0 )
-    glVertex3f( rx1, ry1, rz1 )
+    #glVertex3f( rx0, ry0, rz0 )
+    #glVertex3f( rx1, ry1, rz1 )
 
     glEnd()
     return 
