@@ -45,8 +45,8 @@ def fig8(n, centerx, centery, a):
     for i in range(0, n*a):
 
 	angle += phi
-	x_offset = radius*(math.cos(angle)*math.cos(a*angle))+centerx
-	y_offset = radius*(math.sin(angle)*math.cos(a*angle))+centery
+	x_offset = radius*(math.cos(angle)*(1+math.cos(a*angle)))+centerx
+	y_offset = radius*(math.sin(angle)*(1+math.cos(a*angle)))+centery
 	if (i==0):
 		xorigin1=x_offset
 		yorigin1=y_offset
