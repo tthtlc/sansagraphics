@@ -1,4 +1,3 @@
-
 # Sample Python/Pygame Programs
 # Simpson College Computer Science
 # http://programarcadegames.com/
