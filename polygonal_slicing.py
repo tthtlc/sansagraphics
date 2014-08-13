@@ -27,7 +27,7 @@ signal.signal(signal.SIGINT, signal_handler)
 import math
 
 turns1 = 30
-turns2 = 30
+turns2 = 3
 count=0
 
 fullscreen = False
@@ -86,10 +86,10 @@ def my2d_surface(radius1, radius2, turns1, turns2):
 			rx=radius1*math.cos(j*jtheta)
 			ry=radius2*math.sin(i*itheta)
 			rz=radius1*math.cos(i*itheta)+radius2*math.sin(j*jtheta)
-		#if (j%2==0):
-		glVertex3f( radius1*math.cos(j*jtheta), radius2*math.sin(i*itheta), (radius1*math.cos(i*itheta))+radius2*math.sin(j*jtheta) )
-		#else:
-		#	glVertex3f( radius1*math.cos(j*jtheta+xshift), radius2*math.sin(i*itheta+yshift), (radius1*math.cos(i*itheta+zshift))+radius2*math.sin(j*jtheta+zshift) )
+		if (j%2==0):
+			glVertex3f( radius1*math.cos(j*jtheta), radius2*math.sin(i*itheta), (radius1*math.cos(i*itheta))+radius2*math.sin(j*jtheta) )
+		else:
+			glVertex3f( radius1*math.cos(j*jtheta+xshift), radius2*math.sin(i*itheta+yshift), (radius1*math.cos(i*itheta+zshift))+radius2*math.sin(j*jtheta+zshift) )
                 glColor3fv(Colors[i%8])
 	glVertex3f( rx, ry, rz )
     	glEnd()
@@ -116,7 +116,7 @@ def display():
 	if count>60:
 		count=0
 		turns1 = random.randint(20,30)
-		turns2 = random.randint(20,30)
+		turns2 = random.randint(3,6)
 		print turns1, turns2
 	count = count + 1
 	my2d_surface(2.0, 2.0, turns1, turns2)
