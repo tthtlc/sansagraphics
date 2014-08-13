@@ -1,7 +1,7 @@
 #0## originally from dancing_quad_spiral.py
 
 import sys
-from mysansagraphic  import *
+from mysansagraphic import *
 
 try:
   from OpenGL.GLUT import *
@@ -82,7 +82,7 @@ def circling_on_sphere(circle_radius, sphere_radius, turns):
 
     glBegin(GL_LINE_STRIP)
 
-    ngon=30
+    ngon=60
     theta1=2*math.pi/ngon
     sphere_gon=5
     yrotate1=360.0/turns
@@ -90,25 +90,34 @@ def circling_on_sphere(circle_radius, sphere_radius, turns):
     y_rotate_angle=0.0
 
     for i in range(0,turns):
-	for j in range(0,ngon):
+	for i in range(0,ngon):
 		## phi = wrt y axis (sinusoidal, between 45 deg and 135 deg)
 		## theta = wrt x axis, on the zx plane (normal increment)
 		#phi1=math.pi*math.sin(ngon*theta)/4
 		#phi=math.pi/2 - phi1
 		cx=circle_radius*math.sin(theta)
-		cy=circle_radius*math.cos(theta)
+		cy=circle_radius*math.cos(2*theta)
 		cz=sphere_radius
 		(rx,ry,rz)=point_rotatey(cx,cy,cz, y_rotate_angle)
 		#rx=radius*math.sin(phi)*math.cos(theta)
 		#rz=radius*math.sin(phi)*math.sin(theta)
 		#ry=radius*math.cos(phi)
 	
+		if (i==0):
+			rx0=rx
+			ry0=ry
+			rz0=rz
+		if (i==1):
+			rx1=rx
+			ry1=ry
+			rz1=rz
+	
 	        glVertex3f( rx, ry, rz )
-	    	glColor3fv(Colors[j%8])
+	    	glColor3fv(Colors[i%8])
 		theta += theta1
 	y_rotate_angle += yrotate1
-    #glVertex3f( rx0, ry0, rz0 )
-    #glVertex3f( rx1, ry1, rz1 )
+    glVertex3f( rx0, ry0, rz0 )
+    glVertex3f( rx1, ry1, rz1 )
 
     glEnd()
     return 

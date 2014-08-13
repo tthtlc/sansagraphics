@@ -1,7 +1,7 @@
 #0## originally from dancing_quad_spiral.py
 
 import sys
-from mysansagraphic  import *
+from mysansagraphic import *
 
 try:
   from OpenGL.GLUT import *
@@ -84,7 +84,6 @@ def circling_on_sphere(circle_radius, sphere_radius, turns):
 
     ngon=30
     theta1=2*math.pi/ngon
-    sphere_gon=5
     yrotate1=360.0/turns
     theta=0.0
     y_rotate_angle=0.0
@@ -99,14 +98,19 @@ def circling_on_sphere(circle_radius, sphere_radius, turns):
 		cy=circle_radius*math.cos(theta)
 		cz=sphere_radius
 		(rx,ry,rz)=point_rotatey(cx,cy,cz, y_rotate_angle)
+		
+		x0=cx*math.sin(theta)
+		y0=cy*math.sin(theta)
+		z0=cz*math.sin(theta)
+
+		(rx,ry,rz)=translate(rx,ry,rz,x0,y0,z0)
 		#rx=radius*math.sin(phi)*math.cos(theta)
 		#rz=radius*math.sin(phi)*math.sin(theta)
 		#ry=radius*math.cos(phi)
-	
 	        glVertex3f( rx, ry, rz )
 	    	glColor3fv(Colors[j%8])
 		theta += theta1
-	y_rotate_angle += yrotate1
+	y_rotate_angle = 360.0*math.sin(i*yrotate1/360*2*math.pi)
     #glVertex3f( rx0, ry0, rz0 )
     #glVertex3f( rx1, ry1, rz1 )
 
