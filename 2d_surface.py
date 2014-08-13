@@ -11,6 +11,7 @@ from OpenGL.GLU import *
 from math import * # trigonometry
 
 import pygame # just to get a display
+import math # just to get a display
 
 # get an OpenGL surface
 
@@ -21,19 +22,15 @@ pygame.display.set_mode((800,600), pygame.OPENGL|pygame.DOUBLEBUF)
 
 done = False
 
-t=600
+t=0
 
-PI2 = 2*3.141592653
-Q=0.2
 irange=100
 jrange=10
 krange=10
-kw=krange/PI2
-jw=jrange/PI2/8
-iw=irange/PI2/8
 
 while not done:
 
+    ## auto rotation for gluLookAt()
     t=t+3
     
     # for fun comment out these two lines
@@ -109,29 +106,24 @@ while not done:
 
     # vertices & texture data
 
-    glBegin(GL_TRIANGLE_STRIP);
-    #pulse2 = 0.5
+    glBegin(GL_LINE_STRIP);
 
     r=1.1 # try other values - integers as well
     R=1.5 # try other values - integers as well
-    rr=3.0 # try other values - integers as well
-    P=5.0
-    kw=6*r
-    jw=4*r
-    d=1   # try other values
+    P=2.0
+    #d=1   # try other values
+    itheta = 2*math.pi/irange
+    jtheta = 2*math.pi/jrange
+    xshift = 2*math.pi/4
+    yshift = 2*math.pi/4
+    zshift = 2*math.pi/4
 	
     for i in range(0,irange):
     	for j in range(0,jrange):
-    	#	for j in range(0,25):
-
-			#pulse2 += 0.5
-		        if (i%2==0):
-#		            glTexCoord2f(0,i);
-		            glVertex3f( R*cos(j/jw), R*sin(i/iw), (R*cos(i/iw) + P)+R*sin(j/jw) )
-		        else:
-#		            glTexCoord2f(i%10,i);
-		            glVertex3f( R*cos(j/jw+3.14), R*sin(i/iw+3.14), (R*cos(i/iw+3.14))+R*sin(j/jw+3.14) )
-
+		if (i%2==0):
+		     glVertex3f( R*cos(j*jtheta), R*sin(i*itheta), (R*cos(i*itheta) + P)+R*sin(j*jtheta) )
+		else:
+		     glVertex3f( R*cos(j*jtheta + xshift), R*sin(i*itheta + yshift), (R*cos(i*itheta+zshift) + P)+R*sin(j*jtheta+zshift) )
     glEnd();
 
     glFlush()
