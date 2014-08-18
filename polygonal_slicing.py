@@ -26,17 +26,9 @@ signal.signal(signal.SIGINT, signal_handler)
 
 import math
 
-turns = 12
-lobe_number = 3
+turns1 = 30
+turns2 = 3
 count=0
-
-PI = 3.141592653
-ngon=120
-angle_step=2*PI/ngon
-r1_step = 0.005
-r2_step = 0.001
-delta=0.6
-theta1 = 2*PI/ngon
 
 fullscreen = False
 mouseDown = False
@@ -76,45 +68,37 @@ Colors   = ((0.2,0.5,0.9), (1,0,0),
             (1,1,1), (0,1,1))
 
 
-def petal_on_sphere(circle_radius, sphere_radius, lobe_number, turns):
+def my2d_surface(radius1, radius2, turns1, turns2):
 
     glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
     glEnable(GL_BLEND)
 
+    itheta=2*math.pi/turns1
+    jtheta=2*math.pi/turns2
+    xshift=2*math.pi/4
+    yshift=2*math.pi/4
+    zshift=2*math.pi/4
 
-    ngon=30
-    yrotate1=360/turns
-    theta1=2*math.pi/lobe_number/ngon
-    theta=0.0
-    y_rotate_angle=0.0
-
-    for j in range(0,turns):
-    	glBegin(GL_LINE_STRIP)
-        for i in range(0,ngon*lobe_number):
-    
-        	## phi = wrt y axis (sinusoidal, between 45 deg and 135 deg)
-        	## theta = wrt x axis, on the zx plane (normal increment)
-        	#phi1=math.pi*math.sin(ngon*theta)/4
-        	#phi=math.pi/2 - phi1
-        	cx=circle_radius*(1+math.sin(lobe_number*theta))*math.sin(theta)
-        	cy=circle_radius*(1+math.sin(lobe_number*theta))*math.cos(theta)
-        	cz=sphere_radius
-        	(rx,ry,rz)=point_rotatey(cx,cy,cz, y_rotate_angle)
-        	#rx=radius*math.sin(phi)*math.cos(theta)
-        	#rz=radius*math.sin(phi)*math.sin(theta)
-        	#ry=radius*math.cos(phi)
-        
-                glVertex3f( rx, ry, rz )
+    for i in range(0,turns1):
+        glBegin(GL_LINE_STRIP)
+    	for j in range(0,turns2):
+		if j==0:
+			rx=radius1*math.cos(j*jtheta)
+			ry=radius2*math.sin(i*itheta)
+			rz=radius1*math.cos(i*itheta)+radius2*math.sin(j*jtheta)
+		if (j%2==0):
+			glVertex3f( radius1*math.cos(j*jtheta), radius2*math.sin(i*itheta), (radius1*math.cos(i*itheta))+radius2*math.sin(j*jtheta) )
+		else:
+			glVertex3f( radius1*math.cos(j*jtheta+xshift), radius2*math.sin(i*itheta+yshift), (radius1*math.cos(i*itheta+zshift))+radius2*math.sin(j*jtheta+zshift) )
                 glColor3fv(Colors[i%8])
-        	theta += theta1
+	glVertex3f( rx, ry, rz )
     	glEnd()
-       	y_rotate_angle += yrotate1
 
     return 
 
 def display():
 	global xrot, yrot
-	global turns, lobe_number, count
+	global turns1, turns2, count
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glLoadIdentity()
@@ -129,13 +113,13 @@ def display():
 
  	glColor3f(0.5, 0.0, 1.0)
 
-	if count>30:
+	if count>60:
 		count=0
-		lobe_number = random.randint(3,6)
-		turns = random.randint(12,24)
-		print lobe_number, turns
+		turns1 = random.randint(20,30)
+		turns2 = random.randint(3,6)
+		print turns1, turns2
 	count = count + 1
-	petal_on_sphere(1.0, 2.0, lobe_number, turns)
+	my2d_surface(2.0, 2.0, turns1, turns2)
 
     	glFlush()
     	glutSwapBuffers()

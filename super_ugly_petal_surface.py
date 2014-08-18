@@ -29,14 +29,9 @@ import math
 turns = 12
 lobe_number = 3
 count=0
+ngon=3
 
 PI = 3.141592653
-ngon=120
-angle_step=2*PI/ngon
-r1_step = 0.005
-r2_step = 0.001
-delta=0.6
-theta1 = 2*PI/ngon
 
 fullscreen = False
 mouseDown = False
@@ -76,20 +71,19 @@ Colors   = ((0.2,0.5,0.9), (1,0,0),
             (1,1,1), (0,1,1))
 
 
-def petal_on_sphere(circle_radius, sphere_radius, lobe_number, turns):
+def petal_on_sphere(ngon, circle_radius, sphere_radius, lobe_number, turns):
 
     glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
     glEnable(GL_BLEND)
 
 
-    ngon=30
     yrotate1=360/turns
     theta1=2*math.pi/lobe_number/ngon
     theta=0.0
     y_rotate_angle=0.0
 
     for j in range(0,turns):
-    	glBegin(GL_LINE_STRIP)
+    	glBegin(GL_TRIANGLE_STRIP)
         for i in range(0,ngon*lobe_number):
     
         	## phi = wrt y axis (sinusoidal, between 45 deg and 135 deg)
@@ -114,7 +108,7 @@ def petal_on_sphere(circle_radius, sphere_radius, lobe_number, turns):
 
 def display():
 	global xrot, yrot
-	global turns, lobe_number, count
+	global ngon, turns, lobe_number, count
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glLoadIdentity()
@@ -133,9 +127,10 @@ def display():
 		count=0
 		lobe_number = random.randint(3,6)
 		turns = random.randint(12,24)
+		ngon = random.randint(3,6)
 		print lobe_number, turns
 	count = count + 1
-	petal_on_sphere(1.0, 2.0, lobe_number, turns)
+	petal_on_sphere(ngon, 1.0, 2.0, lobe_number, turns)
 
     	glFlush()
     	glutSwapBuffers()
