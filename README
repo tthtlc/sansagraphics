@@ -26,37 +26,3 @@ sudo apt-get install python-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-t
 
 sudo yum install python-devel SDL_image-devel SDL_mixer-devel SDL_ttf-devel SDL-devel smpeg-devel numpy subversion portmidi-devel 
 
-sudo yum install zlib
-yum -y install mingw32-gcc mingw32-SDL mingw32-zlib
-sudo yum -y install mingw32-gcc mingw32-SDL mingw32-zlib
-yum groupinfo "C Development Tools and Libraries"
-sudo yum groups install  "C Development Tools and Libraries"
-sudo yum groups install  "Development Tools"
-sudo yum install cmake
-sudo yum install wget
-sudo yum localinstall rpmfusion-free-release-20.noarch.rpm 
-sudo yum install rpmfusion-nonfree-release-20.noarch.rpm 
-sudo yum install ffmpeg
-vi yum.list 
-grep -i freetype yum.list 
-sudo yum install freetype
-vi yum.list 
-sudo yum localinstall google-chrome-stable_current_x86_64.rpm 
-sudo yum install openssh-server
-sudo yum install python-opengl
-sudo yum install python-pygame
-sudo yum install hg
-sudo yum install wireshark
-sudo yum install smpeg
-yum list|grep smpeg
-sudo yum localinstall smpeg-0.4.5-2.1.x86_64.rpm 
-grep -i freetype yum.*
-sudo yum install freetype-devel
-grep smpeg ../yum.list 
-grep -i pygame ../../yum.list 
-sudo yum install pygame pygame-devel
-history |grep yum
-sudo yum install python-opengl
-grep llvm yum.list 
-history |grep yum
-
