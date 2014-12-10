@@ -1,7 +1,13 @@
 sansagraphics
 =============
 
+What is it
+----
+
 Miscellaneous scripts to implement mathematical objects in graphics.
+
+How to see the drawing
+---
 
 For example, to see "Twisted Ribbon Surface" in action:
 
