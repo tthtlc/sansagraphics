@@ -1,7 +1,0 @@
-
-
-draw multiple waves as lines, multiply moving at slightly different speed from onther.   all lines are free to move independently.
-
-draw multiple spiral spewing out from the vertex of the box.
-
-
