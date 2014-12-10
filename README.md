@@ -13,6 +13,10 @@ For example, for Ubuntu 14.04, here are some of the additional steps needed:
 
 sudo easy_install pyopengl
 
+sudo easy_install matplotlib  (which include pylab)
+
+sudo apt-get install python-scitools python-matplotlib
+
 sudo apt-get install python-pygame
 
 sudo apt-get install python python-numpy python-opengl python-qt4 python-qt4-gl
