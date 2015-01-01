@@ -115,7 +115,6 @@ class Simulation:
                 t.append(p)
 
             # Calculate the average Z values of each face.
-	    print t
             avg_z = []
             i = 0
             for f in self.faces:
@@ -132,7 +131,6 @@ class Simulation:
                              (t[f[1]].x, t[f[1]].y), (t[f[2]].x, t[f[2]].y),
                              (t[f[2]].x, t[f[2]].y), (t[f[3]].x, t[f[3]].y),
                              (t[f[3]].x, t[f[3]].y), (t[f[0]].x, t[f[0]].y)]
-		print pointlist
                 pygame.draw.polygon(self.screen,self.colors[face_index],pointlist)
 
                 
