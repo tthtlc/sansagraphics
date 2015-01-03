@@ -9,9 +9,9 @@ j=0
 k=0
 ts = t.getscreen()
 ts.colormode(255)
-angle=360/3
+angle=360/5
 for i in range(1000): 
-	p.forward(i*3) 
+	p.forward(i*1) 
 	p.left(angle)
 	p.left(1)
 ###	p.pencolor((0.2,0.8,0.55))

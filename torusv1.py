@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+#### sudo pip install pyglet
+
 from math import pi, sin, cos
 
 import pyglet
