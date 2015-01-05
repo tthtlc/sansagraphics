@@ -37,6 +37,7 @@ thickness=0
 i=0
 
 a=200
+modifier=1.0
 
 while done == False:
  
@@ -47,6 +48,11 @@ while done == False:
     for event in pygame.event.get(): # User did something
         if event.type == pygame.QUIT: # If user clicked close
             done = True # Flag that we are done so we exit this loop
+	elif event.type == pygame.KEYDOWN:
+	    modifier-=0.2
+	elif event.type == pygame.KEYUP:
+	    modifier+=0.2
+	#print modifier
  
     # All drawing code happens after the for loop and but
     # inside the main while done==False loop.
@@ -74,8 +80,8 @@ while done == False:
 	#x_offset[i] = R*math.sin(theta/10)+r*math.sin(theta) + 400.0
 
 	t=n*2*PI/360
-	x_offset=a*math.sqrt(2)*math.cos(5*t)*math.cos(t)/(math.sin(t)*math.sin(t)+1) + 400.0
-	y_offset=a*math.sqrt(2)*math.cos(5*t)*math.sin(t)/(math.sin(t)*math.sin(t)+1) + 240.0
+	x_offset=a*math.sqrt(2)*math.cos(5*t*modifier)*math.cos(modifier*t)/(math.sin(t)*math.sin(t)+1) + 400.0
+	y_offset=a*math.sqrt(2)*math.cos(5*t*modifier)*math.sin(modifier*t)/(math.sin(t)*math.sin(t)+1) + 240.0
 
 	if (n>0):
         	pygame.draw.line(screen,colour,[prevx,prevy],[x_offset,y_offset],thickness)

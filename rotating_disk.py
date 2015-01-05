@@ -15,27 +15,24 @@ class Point3D:
  
     def rotateX(self, angle):
         """ Rotates the point around the X axis by the given angle in degrees. """
-        rad = angle * math.pi / 180
-        cosa = math.cos(rad)
-        sina = math.sin(rad)
+        cosa = math.cos(angle)
+        sina = math.sin(angle)
         y = self.y * cosa - self.z * sina
         z = self.y * sina + self.z * cosa
         return Point3D(self.x, y, z)
  
     def rotateY(self, angle):
         """ Rotates the point around the Y axis by the given angle in degrees. """
-        rad = angle * math.pi / 180
-        cosa = math.cos(rad)
-        sina = math.sin(rad)
+        cosa = math.cos(angle)
+        sina = math.sin(angle)
         z = self.z * cosa - self.x * sina
         x = self.z * sina + self.x * cosa
         return Point3D(x, self.y, z)
  
     def rotateZ(self, angle):
         """ Rotates the point around the Z axis by the given angle in degrees. """
-        rad = angle * math.pi / 180
-        cosa = math.cos(rad)
-        sina = math.sin(rad)
+        cosa = math.cos(angle)
+        sina = math.sin(angle)
         x = self.x * cosa - self.y * sina
         y = self.x * sina + self.y * cosa
         return Point3D(x, y, self.z)
@@ -56,27 +53,18 @@ class Simulation:
         
         self.clock = pygame.time.Clock()
 
-        self.vertices = [
-            Point3D(-1,1,-1),
-            Point3D(1,1,-1),
-            Point3D(1,-1,-1),
-            Point3D(-1,-1,-1)
-        ]
+	self.vertices = []
 
-        self.vertices.append(self.vertices[0].rotateX(60))
-        self.vertices.append(self.vertices[1].rotateX(60))
-        self.vertices.append(self.vertices[2].rotateX(60))
-        self.vertices.append(self.vertices[3].rotateX(60))
+	PI = math.pi
+	init_point=Point3D(200,200,0)
+	temp = []
+	ngon = 36
+	angle = 2*PI/ngon
+	(tx,ty,tz) = (200,200,200)
+	for i in range(0,ngon):
+        	self.vertices.append(Point3D(init_point.x + tx, init_point.y + ty, init_point.z + tz))
+		init_point = init_point.rotateZ(angle)   ###.rotateY(angle)
 
-        self.vertices.append(self.vertices[0].rotateY(120))
-        self.vertices.append(self.vertices[1].rotateY(120))
-        self.vertices.append(self.vertices[2].rotateY(120))
-        self.vertices.append(self.vertices[3].rotateY(120))
-
-        self.vertices.append(self.vertices[0].rotateZ(60).rotateX(30))
-        self.vertices.append(self.vertices[1].rotateZ(60).rotateX(30))
-        self.vertices.append(self.vertices[2].rotateZ(60).rotateX(30))
-        self.vertices.append(self.vertices[3].rotateZ(60).rotateX(30))
         #for v in self.vertices:
         #        r = v.rotateZ(120)
 	#	t.append(r)
@@ -85,15 +73,21 @@ class Simulation:
 
         # Define the vertices that compose each of the 6 faces. These numbers are
         # indices to the vertices list defined above.
-        self.faces  = [(0,1,2,3),(4,5,6,7),(8,9,10,11),(12,13,14,15)]
+        #self.faces  = [(0,1,2,3,4,5,6,7,8,9,10,11)]
 
         # Define colors for each face
-        self.colors = [(255,0,255),(125,125,125),(100,100,100),(111,118,222)]
+        #self.colors = [(0,140,255),(125,125,125),(100,100,100),(111,118,222)]
 
         self.angle = 0
         
     def run(self):
         """ Main Loop """
+	mymod = 0
+	angle = 0.0
+	cx = 0
+	cy = 140
+	cz = 255
+	counter=0
         while 1:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -101,42 +95,44 @@ class Simulation:
                     sys.exit()
 
             self.clock.tick(50)
+
             self.screen.fill((0,32,0))
 
             # It will hold transformed vertices.
             t = []
             
+	    angle_quantum = 2*math.pi / 144
+
             for v in self.vertices:
                 # Rotate the point around X axis, then around Y axis, and finally around Z axis.
-                r = v.rotateX(self.angle).rotateY(self.angle).rotateZ(self.angle)
+                r = v.rotateX(angle).rotateY(angle).rotateZ(angle)
                 # Transform the point from 3D to 2D
-                p = r.project(self.screen.get_width(), self.screen.get_height(), 256, 4)
+                #p = r.project(self.screen.get_width(), self.screen.get_height(), 10, 100)
+
                 # Put the point in the list of transformed vertices
-                t.append(p)
+                t.append((r.x, r.y))
 
-            # Calculate the average Z values of each face.
-            avg_z = []
-            i = 0
-            for f in self.faces:
-                z = (t[f[0]].z + t[f[1]].z + t[f[2]].z + t[f[3]].z) / 4.0
-                avg_z.append([i,z])
-                i = i + 1
+	    mymod = (mymod + 1 )%4	
 
-            # Draw the faces using the Painter's algorithm:
-            # Distant faces are drawn before the closer ones.
-            for tmp in sorted(avg_z,key=itemgetter(1),reverse=True):
-                face_index = tmp[0]
-                f = self.faces[face_index]
-                pointlist = [(t[f[0]].x, t[f[0]].y), (t[f[1]].x, t[f[1]].y),
-                             (t[f[1]].x, t[f[1]].y), (t[f[2]].x, t[f[2]].y),
-                             (t[f[2]].x, t[f[2]].y), (t[f[3]].x, t[f[3]].y),
-                             (t[f[3]].x, t[f[3]].y), (t[f[0]].x, t[f[0]].y)]
-                pygame.draw.polygon(self.screen,self.colors[face_index],pointlist)
+	    mymod = 0
 
-                
-            self.angle += 1
+	    if counter == 0:
+	    	cx = (cx + 1) % 256
+
+	    if counter == 1:
+	    	cy = (cy + 1) % 256
+
+	    if counter == 2:
+	    	cz = (cz + 1) % 256
+
+	    counter = (counter + 1)%3
+
+            pygame.draw.polygon(self.screen,(cx,cy,cz),t,0) ## 0 == filled
+
+            angle += angle_quantum
             
             pygame.display.flip()
 
 if __name__ == "__main__":
+
     Simulation().run()

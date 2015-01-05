@@ -1,6 +1,9 @@
-# Originally:   Pygame/PyopenGL example by Bastiaan Zapf, Apr 2009
+# Pygame/PyopenGL example by Bastiaan Zapf, Apr 2009
 ###   From http://python-opengl-examples.blogspot.sg/
 #
+# Draw an helix, wiggle it pleasantly
+#
+# Keywords: Alpha Blending, Textures, Animation, Double Buffer
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -111,7 +114,6 @@ while not done:
 	        if (i%2==0):
 	            glTexCoord2f(0,i);
 	            #glVertex3f( R*cos(i/r)+r*sin(j/r), R*cos(j/r), R*sin(j/r)+r*sin(i/r));            
-		    ##glColor3f(sin(i/r/10), cos(i/r/10),cos(i/r/5))
 	            glVertex3f( R*cos(i/r)*sin(j/r), R*cos(j/r), R*sin(j/r)*sin(i/r));            
 	           ## glVertex3f( cos(i/r)*sin(j/r), -2.5+i*0.05, sin(i/r));            
 	#            glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);

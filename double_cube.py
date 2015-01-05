@@ -50,100 +50,6 @@ def init():
 
 	return True
 
-import sys
-import OpenGL.GL as gl
-from OpenGL.GLUT import *
-from OpenGL.GLU import *
-from OpenGL.GL import *
-import sys
-
-Vertices = ((-1,-1,-1), (1,-1,-1),
-            (1,1,-1), (-1,1,-1),
-            (-1,-1,1), (1,-1,1),
-            (1,1,1), (-1,1,1))
-
-Colors   = ((0,0,0), (1,0,0),
-            (1,1,0), (0,1,0),
-            (0,0,1), (1,0,1),
-            (1,1,1), (0,1,1))
-
-
-def face(a,b,c,d):
-    '''draw a face defined by four vertex indices'''
-    glBegin(GL_QUADS)
-    glColor3fv(Colors[a]);    glVertex3fv(Vertices[a]);
-    glColor3fv(Colors[b]);    glVertex3fv(Vertices[b]);
-    glColor3fv(Colors[c]);    glVertex3fv(Vertices[c]);
-    glColor3fv(Colors[d]);    glVertex3fv(Vertices[d]);
-    glEnd()
-
-def draw_radiating_spiral(x,y,z,radius_max, nos_turns):
-    for i in range(nos_turns):
-    		glBegin(GL_LINE_STRIP)
-    		glColor3fv(Colors[a]);    
-		glVertex3fv(x,y,z);
-		if (x != 0):
-			x += r * (-y/x) * cos(theta)
-			y += r * sin(theta)
-    glColor3fv(Colors[b]);    
-    glVertex3fv(Vertices[b]);
-    glColor3fv(Colors[c]);    
-    glVertex3fv(Vertices[c]);
-    glColor3fv(Colors[d]);    
-    glVertex3fv(Vertices[d]);
-    glEnd()
-		
-	
-	
-def colorcube():
-    '''Draws the entire cube, six faces'''
-    face(0,3,2,1)
-    face(2,3,7,6)
-    face(0,4,7,3)
-    face(1,2,6,5)
-    face(4,5,6,7)
-    face(0,1,5,4)
-
-def edge(A, B):
-    '''Sends two vertices down the pipeline.  Presumably they form an edge'''
-    glVertex3fv(Vertices[A]);
-    glVertex3fv(Vertices[B]);
-
-def wireCube():
-    glBegin(GL_LINES)
-    ## back
-    edge(0,1)
-    edge(1,2)
-    edge(2,3)
-    edge(3,0)
-    ## front
-    edge(4,5)
-    edge(5,6)
-    edge(6,7)
-    edge(7,4)
-    ## sides
-    edge(0,4)
-    edge(1,5)
-    edge(2,6)
-    edge(3,7)
-    glEnd()
-
-
-def normal_face():
-	norm_face(3,6,2,7)
-	norm_face(2,1,3,6)
-	norm_face(6,4,1,3)
-	norm_face(1,6,2,5)
-	norm_face(4,7,6,5)
-	norm_face(5,1,6,4)
-	norm_face(7,6,3,4)
-	norm_face(0,4,3,1)
-	
-v1=u2-u1
-v2=u3-u2
-
-n1=v1xv2
-n1 + peak......vector for spewing
 
 def display():
 	global xrot, yrot
@@ -159,17 +65,11 @@ def display():
 	glRotatef(xrot, 1.0, 0.0, 0.0)
 	glRotatef(yrot, 0.0, 1.0, 0.0)
 
-#    	glutWireCube(1)
-	wireCube()
+    	glutWireCube(1)
  	glColor3f(0.5, 0.0, 1.0)
-##	glutWireDodecahedron(2)
-	colorcube()
-
+	glutWireCube(2)
     	glFlush()
     	glutSwapBuffers()
-
-
-
 
 
 def resize(*args):
