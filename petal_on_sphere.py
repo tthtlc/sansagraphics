@@ -1,5 +1,7 @@
 ### originally from dancing_quad_spiral.py
 
+import logging 
+
 import sys
 from mysansagraphic import *
 
@@ -20,6 +22,11 @@ import random
 def signal_handler(signal, frame):
         print 'You pressed Ctrl+C!'
         sys.exit(0)
+
+##logging.basicConfig()
+#import logging
+#logger = logging.getLogger("OpenGL.error")
+#logger.addHandler(NullHandler())
 
 signal.signal(signal.SIGINT, signal_handler)
 ###signal.pause()
