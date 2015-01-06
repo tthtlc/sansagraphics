@@ -23,9 +23,9 @@ sudo easy_install matplotlib  (which include pylab)
 
 sudo apt-get install python-scitools python-matplotlib
 
-sudo apt-get install python-pygame
+sudo apt-get install python-pygame python-pyglet
 
-sudo apt-get install python python-numpy python-opengl python-qt4 python-qt4-gl
+sudo apt-get install python-tk python python-numpy python-opengl python-qt4 python-qt4-gl
 
 sudo apt-get install qt
 
