@@ -34,3 +34,8 @@ sudo apt-get install libc6-dev build-essential
 sudo apt-get install libglib2.0-dev zlib1g-dev
 
 sudo apt-get install linux-tools-common
+
+For Ubuntu 12.04:
+
+sudo apt-get install python-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev   libsdl1.2-dev libsmpeg-dev python-numpy subversion libportmidi-dev ffmpeg libswscale-dev libavformat-dev libavcodec-dev
+
