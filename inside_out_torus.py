@@ -5,6 +5,7 @@ from math import pi, sin, cos
 import pyglet
 from pyglet.gl import *
 
+counter=0
 try:
     # Try and create a window with multisampling (antialiasing)
     config = Config(sample_buffers=1, samples=4, 
@@ -14,6 +15,11 @@ except pyglet.window.NoSuchConfigException:
     # Fall back to no multisampling for old hardware
     window = pyglet.window.Window(resizable=True)
 
+@window.event
+def on_mouse_press(x, y, button, modifiers):
+    a = (GLuint * 1)(0)
+    glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_INT, a)
+    print a[0]
 @window.event
 def on_resize(width, height):
     # Override the default on_resize handler to create a 3D projection
@@ -32,10 +38,12 @@ def update(dt):
     rx %= 360
     ry %= 360
     rz %= 360
+
 pyglet.clock.schedule(update)
 
 @window.event
 def on_draw():
+    global counter
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
     glTranslatef(0, 0, -4)
@@ -43,6 +51,7 @@ def on_draw():
     glRotatef(ry, 0, 1, 0)
     glRotatef(rx, 1, 0, 0)
     batch.draw()
+    counter=counter+1
 
 def setup():
     # One-time GL setup

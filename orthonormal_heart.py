@@ -7,6 +7,9 @@
 # Import a library of functions called 'pygame'
 import pygame
 import math
+from OpenGL.GL import *
+import os
+import sys
  
 # Initialize the game engine
 pygame.init()
@@ -102,6 +105,10 @@ while done == False:
     # Go ahead and update the screen with what we've drawn.
     # This MUST happen after all the other drawing commands.
     pygame.display.flip()
+    width,height=screen.get_size()
+    color_array = glReadPixels(0, 0, width, height, GL_RGB, GL_INT, outputType=None)
+    ##color_array = glReadPixels(0, 0, width, height, GL_RGB, GL_INT, color_array)
+    print 'refcount for array ', sys.getrefcount(color_array)
  
 # Be IDLE friendly
 pygame.quit()
