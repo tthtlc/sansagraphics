@@ -106,9 +106,17 @@ while done == False:
     # This MUST happen after all the other drawing commands.
     pygame.display.flip()
     width,height=screen.get_size()
-    color_array = glReadPixels(0, 0, width, height, GL_RGB, GL_INT, outputType=None)
+    print width, height
+    #color_array = glReadPixels(0, 0, width, height, GL_RGB, GL_INT, outputType=None)
+    buffer = ( GLubyte * (3*width*height) )(0)
+    glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, buffer)
+
     ##color_array = glReadPixels(0, 0, width, height, GL_RGB, GL_INT, color_array)
-    print 'refcount for array ', sys.getrefcount(color_array)
+    for i in range(width):
+    	if (buffer[i]):
+		print buffer[i]
+    	if (buffer[i*height]):
+		print buffer[i*height]
  
 # Be IDLE friendly
 pygame.quit()
