@@ -25,6 +25,8 @@ sudo apt-get install python-scitools python-matplotlib
 
 sudo apt-get install python-pygame python-pyglet
 
+sudo apt-get build-dep python-pygame
+
 sudo apt-get install python-tk python python-numpy python-opengl python-qt4 python-qt4-gl
 
 sudo apt-get install qt
