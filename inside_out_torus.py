@@ -97,12 +97,12 @@ class Torus(object):
         v_step = 2 * pi / (inner_slices - 1)
         u = 0.
         for i in range(slices):
-            cos_u = cos(2*u)
-            sin_u = sin(2*u)
+            cos_u = cos(u)
+            sin_u = sin(u)
             v = 0.
             for j in range(inner_slices):
-                cos_v = cos(2*v)
-                sin_v = sin(2*v)
+                cos_v = cos(v)
+                sin_v = sin(v)
 
                 d = (radius + inner_radius * cos_v)
                 x = d * (cos_u +2)* cos_u
