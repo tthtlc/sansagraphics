@@ -58,7 +58,7 @@ class Simulation:
 	PI = math.pi
 	init_point=Point3D(200,200,0)
 	temp = []
-	ngon = 36
+	ngon = 24
 	angle = 2*PI/ngon
 	(tx,ty,tz) = (200,200,200)
 	for i in range(0,ngon):
@@ -117,18 +117,18 @@ class Simulation:
 	    mymod = 0
 
 	    if counter == 0:
-	    	cx = (cx + 1) % 256
+	    	cx = (cx + 6) % 256
 
 	    if counter == 1:
-	    	cy = (cy + 1) % 256
+	    	cy = (cy + 7) % 256
 
 	    if counter == 2:
-	    	cz = (cz + 1) % 256
+	    	cz = (cz + 8) % 256
 
 	    counter = (counter + 1)%3
 
             pygame.draw.polygon(self.screen,(cx,cy,cz),t,0) ## 0 == filled
-
+	    
             angle += angle_quantum
             
             pygame.display.flip()

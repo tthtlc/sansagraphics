@@ -15,14 +15,21 @@ import pygame # just to get a display
 
 # get an OpenGL surface
 
+xcolor = 0.0
+ycolor = 0.0
+zcolor = 0.0
+
 pygame.init() 
 pygame.display.set_mode((800,600), pygame.OPENGL|pygame.DOUBLEBUF)
 
 # How to catch errors here?
 
-done = False
+done = 0
 
 t=0
+
+moving_angle=math.pi/30
+delta = 0.0
 
 while not done:
 
@@ -84,17 +91,17 @@ while not done:
               [0.0,0,0,0],
               [0.0,0,0,0]]];
 
-    glTexImage2Df(GL_TEXTURE_2D, 0,4,0,GL_RGBA,
+    glTexImage2Df(GL_TEXTURE_2D, 0,1,0,GL_RGBA,
                   texdata)
 
     glEnable(GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE); # XXX Why GL_ONE?
 # alternatively:
-#    glEnable(GL_DEPTH_TEST);
+#   glEnable(GL_DEPTH_TEST);
 
-    glEnable( GL_TEXTURE_2D );
+    #glEnable( GL_TEXTURE_2D );
     # use the texture
-    glBindTexture( GL_TEXTURE_2D, texture );
+    #glBindTexture( GL_TEXTURE_2D, texture );
 
     # vertices & texture data
 
@@ -119,42 +126,46 @@ while not done:
         ##glVertex3f( cos(i*theta), sin(i*theta*4)-cos(i*theta*3), sin(i*theta));
 	theta1 += theta
 	phi1 = 2*math.pi - 2*theta1
-	ry = cos(theta1)
-	rx = sin(theta1)*cos(phi1)
-	rz = sin(theta1)*sin(phi1)
-	rx1 = sin(phi1)*cos(theta1)
-	ry1 = cos(theta1)+sin(phi1)
+	delta += moving_angle
+	ry = cos(theta1 + delta)
+	rx = sin(theta1 + delta)*cos(phi1 + delta)
+	rz = sin(theta1 + delta)*sin(phi1 + delta)
+	rx1 = sin(phi1+delta)*cos(theta1+delta)
+	ry1 = cos(theta1+delta)+sin(phi1+delta)
 
-        glVertex3f( rx, ry, rz)
-        glVertex3f( rx1, ry1, rz)
         #glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
         #glVertex3f( cos(i*theta), sin(i*theta)+cos(i*theta), sin(i*theta));            
 #            glVertex3f( cos(i/r+3.14)*pulse2, -2.5+i*0.05+d+pulse2*1, sin(i/r+3.14)*pulse2);
-        
+	if (i==0):
+		sx=rx
+		sy=ry
+		sz=rz
+		sx1=rx1
+		sy1=ry1
+		sz1=rz
+		
+        glVertex3f( rx, ry, rz)
+        glVertex3f( rx1, ry1, rz)
 
+    #glVertex3f( sx, sy, sz)
+    #glVertex3f( sx1, sy1, sz1)
     glEnd();
     xcolor += 0.02
     ycolor += 0.03
-	zcolor += 0.01
-	if xcolor > 1.0:
-		xcolor = 0.0
-	if ycolor > 1.0:
-		ycolor = 0.0
-	if zcolor > 1.0:
-		zcolor = 0.0
- 	glColor3f(xcolor, ycolor, zcolor)
-    	glFlush()
-    	glutSwapBuffers()
+    zcolor += 0.01
 
+    if xcolor > 1.0:
+	xcolor = 0.0
+    if ycolor > 1.0:
+	ycolor = 0.0
+    if zcolor > 1.0:
+	zcolor = 0.0
 
-def resize(*args):
-	glMatrixMode(GL_PROJECTION)
-	glLoadIdentity()
-
-	glViewport(0, 0, args[0], args[1])
-
+    glColor3f(xcolor, ycolor, zcolor)
+    #glColor3f(0.3, 0.4, 0.5)
 
     glFlush()
-
+    #glutSwapBuffers()
+    #glFlush()
     glDeleteTextures(texture)
     pygame.display.flip()

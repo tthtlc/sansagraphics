@@ -130,9 +130,9 @@ def nlobe(radius,phi,theta,yc, lobe_number):
         cy=(math.sin((theta*i)*3-math.pi/2)+1)
         cz=(math.sin((theta*i)*5-math.pi/4)+1)
 
-        ##glColor3f(cx, cy, cz)
+        glColor3f(cx, cy, cz)
         ##glColor3f(0.0, 0.0, 1.0)
-    	glColor3fv(Colors[lobe_number%8])
+    	#glColor3fv(Colors[lobe_number%8])
 
     glEnd();
     return 

@@ -7,6 +7,9 @@ from math import pi, sin, cos
 import pyglet
 from pyglet.gl import *
 
+mywidth=0
+myheight=0
+
 try:
     # Try and create a window with multisampling (antialiasing)
     config = Config(sample_buffers=1, samples=4, 
@@ -19,6 +22,9 @@ except pyglet.window.NoSuchConfigException:
 @window.event
 def on_resize(width, height):
     # Override the default on_resize handler to create a 3D projection
+    global mywidth, myheight
+    mywidth = width
+    myheight = height
     glViewport(0, 0, width, height)
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
@@ -38,9 +44,16 @@ pyglet.clock.schedule(update)
 
 @window.event
 def on_mouse_press(x, y, button, modifiers):
-    a = (GLuint * 1)(0)
-    glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_INT, a)
-    print a[0]
+    global mywidth, myheight
+    num=(mywidth+1)*(myheight+1)*3
+    print num
+    #a = (GLbyte * mywidth * myheight)(0)
+    a = (GLubyte * (3 * num))(0)
+    glReadPixels(0, 0, mywidth, myheight, GL_RGB, GL_UNSIGNED_BYTE,a)
+    print a
+    print a[1]
+    print a[2]
+    print a[3]
 
 @window.event
 def on_draw():
