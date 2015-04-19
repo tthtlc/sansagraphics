@@ -1,4 +1,4 @@
-### originally from dancing_quad_spiral.py
+### originally from crown_circling.py
 
 import sys
 from mysansagraphic import *
@@ -114,6 +114,7 @@ def circling_on_sphere(circle_radius, sphere_radius, turns):
 	
 	        glVertex3f( rx, ry, rz )
 	    	glColor3fv(Colors[i%8])
+	        glVertex3f( rx, ry, rz + 2.0 )
 		theta += theta1
 	y_rotate_angle += yrotate1
     glVertex3f( rx0, ry0, rz0 )
