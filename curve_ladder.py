@@ -16,7 +16,6 @@ import math
 import signal
 import random
 
-
 def signal_handler(signal, frame):
         print 'You pressed Ctrl+C!'
         sys.exit(0)
@@ -55,6 +54,13 @@ def init():
 
 	return True
 
+import sys
+import OpenGL.GL as gl
+from OpenGL.GLUT import *
+from OpenGL.GLU import *
+from OpenGL.GL import *
+import sys
+
 Vertices = ((-1,-1,-1), (1,-1,-1),
             (1,1,-1), (-1,1,-1),
             (-1,-1,1), (1,-1,1),
@@ -65,8 +71,11 @@ Colors   = ((0.2,0.5,0.9), (1,0,0),
             (0,0,1), (1,0,1),
             (1,1,1), (0,1,1))
 
+n=1
 
 def circling_on_sphere(circle_radius, sphere_radius, turns):
+
+    global n
 
     glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
     glEnable(GL_BLEND)
@@ -86,8 +95,8 @@ def circling_on_sphere(circle_radius, sphere_radius, turns):
 		## theta = wrt x axis, on the zx plane (normal increment)
 		#phi1=math.pi*math.sin(ngon*theta)/4
 		#phi=math.pi/2 - phi1
-		cx=circle_radius*math.sin(theta)
-		cy=circle_radius*math.cos(2*theta)
+		cx=(circle_radius*(1+0.5*math.cos(10*theta)))*math.sin(theta)
+		cy=(circle_radius*(1+0.5*math.cos(10*theta)))*math.cos(theta*n)
 		cz=sphere_radius
 		(rx,ry,rz)=point_rotatey(cx,cy,cz, y_rotate_angle)
 		#rx=radius*math.sin(phi)*math.cos(theta)
@@ -105,11 +114,11 @@ def circling_on_sphere(circle_radius, sphere_radius, turns):
 	
 	        glVertex3f( rx, ry, rz )
 	    	glColor3fv(Colors[i%8])
-	        glVertex3f( rx, ry, rz + 2.0 )
+	        #glVertex3f( rx, ry, rz )
 		theta += theta1
 	y_rotate_angle += yrotate1
-    glVertex3f( rx0, ry0, rz0 )
-    glVertex3f( rx1, ry1, rz1 )
+    #glVertex3f( rx0, ry0, rz0 )
+    #glVertex3f( rx1, ry1, rz1 )
 
     glEnd()
     return 
@@ -131,7 +140,7 @@ def display():
 
  	glColor3f(0.5, 0.0, 1.0)
 
-	circling_on_sphere(1.0, 2.0, 30)
+	circling_on_sphere(1.0, 2.0, 60)
 
     	glFlush()
     	glutSwapBuffers()
@@ -151,9 +160,13 @@ def resize(*args):
 def idle():
 	global xrot, yrot
 	global mouseDown
+	global n
+	
 	if not (mouseDown):
 		xrot += 0.3
 		yrot += 0.4
+	else:
+		n = n+1
 
 	glutPostRedisplay()
 
@@ -205,7 +218,7 @@ def main():
 
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE)
 
-	glutCreateWindow(sys.argv[0])
+	glutCreateWindow("Polyhedral Surface")
 
 	glutDisplayFunc(display)
 	glutKeyboardFunc(keyboard)
@@ -224,4 +237,5 @@ def main():
 	return 0
 
 if __name__ == "__main__":
+    print 'Please click the mouse:   LHS'
     main()
