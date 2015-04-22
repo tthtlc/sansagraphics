@@ -7,9 +7,15 @@ except:
   print ''' Error: PyOpenGL not installed properly '''
   sys.exit(  )
 
-import array
+#import array
 import signal
-import random
+import math
+#import random
+##import OpenGL.GL as gl
+##from OpenGL.GLUT import *
+##from OpenGL.GLU import *
+##from OpenGL.GL import *
+
 
 def signal_handler(signal, frame):
         print 'You pressed Ctrl+C!'
@@ -18,7 +24,6 @@ def signal_handler(signal, frame):
 signal.signal(signal.SIGINT, signal_handler)
 ###signal.pause()
 
-import math
 
 xrotspiral = 1.0
 zrotspiral = 1.0
@@ -72,13 +77,6 @@ def init():
         #glEnable(GL_POLYGON_SMOOTH)
 
 	return True
-
-import sys
-import OpenGL.GL as gl
-from OpenGL.GLUT import *
-from OpenGL.GLU import *
-from OpenGL.GL import *
-import sys
 
 Vertices = ((-1,-1,-1), (1,-1,-1),
             (1,1,-1), (-1,1,-1),
