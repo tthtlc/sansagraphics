@@ -8,7 +8,7 @@ from sys import exit
 
 # size must be a power of 2 or you will get rounding errors in the image
 # E.g. 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, ...
-size = 4096
+size = 512
 
 pygame.init()
 surface = pygame.display.set_mode((size, size), 0, 32)
@@ -29,7 +29,7 @@ def pump():
             pygame.quit()
             exit()
 
-def point(x, y):
+def point(x, y, v1):
     # get the escape value of a specific coordinate in the Mandelbrot set
     zy = y * (yb - ya) / size  + ya
     zx = x * (xb - xa) / size  + xa
@@ -38,15 +38,15 @@ def point(x, y):
 
     for i in xrange(maxIt):
         if abs(z) > 2.0: break
-        z = z * z * z -1
+        z = z * z * z - v1*c
     return i
 
 def col(c):
     # return a color variable computed from a escape value
     return (c % 4 * 64, c % 8 * 32, c % 16 * 16)
 
-def mandel(x, y, i_size):
-    p1 = point(x, y)
+def mandel(x, y, i_size, v1):
+    p1 = point(x, y, v1)
     half = i_size / 2
     # if half > 1 then there are still possible sub-divisions
     if half > 1:
@@ -54,19 +54,19 @@ def mandel(x, y, i_size):
         # be filled instead of sub-divided - test the square
         test = False
         for i in xrange(i_size):
-            t1 = point(x, y + i)
-            t2 = point(x + i, y)
-            t3 = point(x + i_size, y + i)
-            t4 = point(x + i, y + i_size)
+            t1 = point(x, y + i, v1)
+            t2 = point(x + i, y, v1)
+            t3 = point(x + i_size, y + i, v1)
+            t4 = point(x + i, y + i_size, v1)
             if (p1 != t1 or p1 != t2 or p1 !=t3 or p1 != t4):
                 test = True
                 break
         if test:
             # The colors all around the square are not equal so sub-divide
-            mandel(x, y, half)
-            mandel(x + half, y, half)
-            mandel(x + half, y + half, half)
-            mandel(x, y + half, half)
+            mandel(x, y, half, v1)
+            mandel(x + half, y, half, v1)
+            mandel(x + half, y + half, half, v1)
+            mandel(x, y + half, half, v1)
         else:
             # This is a base case, all square border points are same color
             # fill area and return back up the stack
@@ -74,9 +74,9 @@ def mandel(x, y, i_size):
     else:
         # This is a base case, a 2x2 block. Plot the four pixels
         # and return back up the stack
-        p2 = point(x + i_size - 1, y)
-        p3 = point(x + i_size - 1, y + i_size - 1)
-        p4 = point(x, y + i_size - 1)
+        p2 = point(x + i_size - 1, y, v1)
+        p3 = point(x + i_size - 1, y + i_size - 1, v1)
+        p4 = point(x, y + i_size - 1, v1)
         surface.lock()
         surface.set_at((x, y), col(p1))
         surface.set_at((x + i_size - 1, y), col(p2))
@@ -88,7 +88,7 @@ def mandel(x, y, i_size):
     pump()
 
 # calculate the image
-mandel(0, 0, size)
+mandel(0, 0, size, v1)
 
 # Wait for user to click close widget on window
 while True:
