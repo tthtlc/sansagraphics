@@ -16,19 +16,17 @@ def fern(t, size, sign):
     """
 
     if size > 1:          # The base case is just a straight line
-        t.forward(size)
         t.right(70*sign)
         fern(t, size * 0.5, sign*-1)   # Go 1/3 of the way
+        t.forward(size*50)
+        t.forward(-size*50)
         t.left(70*sign)
-        t.forward(size)
-        t.left(70*sign)
-        fern(t, size * 0.5, sign)
-        t.right(70*sign)
-        t.right(7*sign)
-        fern(t, size -1 , sign)
-        t.left(7*sign)
+        fern(t, size * 0.5, sign*-1)   # Go 1/3 of the way
+        t.forward(size*50)
+        t.forward(-size*50)
         #t.left(60)
         #fern(t, size-1, sign/3)
 
 
-fern(t, 16, 1)
+fern(t, 3, 1)
+raw_input()
