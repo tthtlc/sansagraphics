@@ -50,7 +50,7 @@ ts = t.getscreen()
 ts.colormode(255)
 angle=90
 
-newlength=300
+newlength=100
 
 a(p, 2, 90, newlength)
 newlength=newlength/2
