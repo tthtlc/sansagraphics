@@ -85,7 +85,7 @@ def display():
     	#glutWireCube(1)
  	glColor3f(0.5, 0.0, 1.0)
 	#glutWireSphere(4,10,10)
-	DrawEllipsoid(30, 30, 2.1, 5.1, 10.1)
+	DrawEllipsoid(30, 30, 1.1, 2.1, 5.1)
 
 	#void glutSolidTorus(GLdouble innerRadius,
         #            GLdouble outerRadius,
@@ -164,7 +164,7 @@ def mouseMotion(*args):
 def main():
 	glutInit(sys.argv)
 	glutInitWindowPosition(50, 50)
-	glutInitWindowSize(500, 500)
+	glutInitWindowSize(1024, 768)
 
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE)
 
