@@ -14,6 +14,10 @@ import signal
 import random
 
 mygraycode=[]
+#print len(mygraycode)
+mygraycode=GrayCode(8)
+#print mygraycode
+#print len(mygraycode)
 
 def signal_handler(signal, frame):
         print 'You pressed Ctrl+C!'
@@ -55,7 +59,10 @@ def init():
 
 	return True
 
+counter=0
+
 def DrawEllipsoid(uistacks, uislices, fA, fB, fC):
+	global counter, counter1, counter2, mygraycode
 	tstep = math.pi/uislices
 	sstep = math.pi/uistacks
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
@@ -66,11 +73,13 @@ def DrawEllipsoid(uistacks, uislices, fA, fB, fC):
 	#	s = -2*math.pi/2
 		vart=1
 		myvars=1
-		varu=2
+		counter1=(counter+1)%256
+		counter2=(counter1+1)%256
+ 		glColor3b(mygraycode[counter], mygraycode[counter1], mygraycode[counter2])
+		counter=(counter+1)%256
 		for j in range(uistacks+1):
 			s = sstep*j
- 			glColor3f(mygraycode[counter], 0.0, 1.0)
-			glVertex3f(fA * math.cos(varu*t)*math.cos(vart*t) * math.cos(myvars*s), fB * math.cos(vart*t) * math.sin(varu*t)*math.sin(myvars*s), fC * math.sin(vart*t))
+			glVertex3f(fA * math.cos(vart*t) * math.cos(myvars*s), fB * math.cos(vart*t) * math.sin(myvars*s), fC * math.sin(vart*t))
 			glVertex3f(fA * math.cos(vart*t+tstep) * math.cos(myvars*s), fB * math.cos(vart*t+tstep) * math.sin(myvars*s), fC * math.sin(vart*t+tstep))
 		glEnd()
 
@@ -93,7 +102,7 @@ def display():
     	#glutWireCube(1)
  	glColor3f(0.5, 0.0, 1.0)
 	#glutWireSphere(4,10,10)
-	DrawEllipsoid(60, 4, 1.1, 2.1, 5.1)
+	DrawEllipsoid(10, 10, 1.1, 2.1, 5.1)
 
 	#void glutSolidTorus(GLdouble innerRadius,
         #            GLdouble outerRadius,
@@ -196,6 +205,5 @@ def main():
 	
 if __name__ == "__main__":
 
-    mygraycode=GrayCode(8)
 
     main()
