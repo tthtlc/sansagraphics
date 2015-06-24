@@ -1,4 +1,6 @@
 import sys
+from graycode import *
+
 try:
   from OpenGL.GLUT import *
   from OpenGL.GL import *
@@ -10,6 +12,8 @@ except:
 import array
 import signal
 import random
+
+mygraycode=[]
 
 def signal_handler(signal, frame):
         print 'You pressed Ctrl+C!'
@@ -65,6 +69,7 @@ def DrawEllipsoid(uistacks, uislices, fA, fB, fC):
 		varu=2
 		for j in range(uistacks+1):
 			s = sstep*j
+ 			glColor3f(mygraycode[counter], 0.0, 1.0)
 			glVertex3f(fA * math.cos(varu*t)*math.cos(vart*t) * math.cos(myvars*s), fB * math.cos(vart*t) * math.sin(varu*t)*math.sin(myvars*s), fC * math.sin(vart*t))
 			glVertex3f(fA * math.cos(vart*t+tstep) * math.cos(myvars*s), fB * math.cos(vart*t+tstep) * math.sin(myvars*s), fC * math.sin(vart*t+tstep))
 		glEnd()
@@ -188,6 +193,9 @@ def main():
 	glutMainLoop()
 
 	return 0
-
+	
 if __name__ == "__main__":
+
+    mygraycode=GrayCode(8)
+
     main()
