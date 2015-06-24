@@ -1,4 +1,6 @@
 import sys
+from graycode import *
+
 try:
   from OpenGL.GLUT import *
   from OpenGL.GL import *
@@ -10,6 +12,10 @@ except:
 import array
 import signal
 import random
+
+mygraycode=[]
+mygraycode=GrayCode(8)
+counter=0
 
 def signal_handler(signal, frame):
         print 'You pressed Ctrl+C!'
@@ -52,6 +58,8 @@ def init():
 	return True
 
 def DrawEllipsoid(uistacks, uislices, fA, fB, fC):
+	global counter, counter1, counter2, mygraycode
+
 	tstep = math.pi/uislices
 	sstep = math.pi/uistacks
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
@@ -62,6 +70,10 @@ def DrawEllipsoid(uistacks, uislices, fA, fB, fC):
 	#	s = -2*math.pi/2
 		vart=1
 		myvars=1
+		counter1=(counter+1)%256
+		counter2=(counter1+1)%256
+ 		glColor3b(mygraycode[counter], mygraycode[counter1], mygraycode[counter2])
+		counter=(counter+1)%256
 		for j in range(uistacks+1):
 			s = sstep*j
 			glVertex3f(fA * math.cos(vart*t) * math.cos(myvars*s), fB * math.cos(vart*t) * math.sin(myvars*s), fC * math.sin(vart*t))
