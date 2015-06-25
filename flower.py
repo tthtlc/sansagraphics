@@ -19,7 +19,6 @@ blue =  [  0,  0,255]
 green = [  0,255,  0]
 red =   [255,  0,  0]
 
-PI = 3.141592653
 r=100
 R=100
  
@@ -37,10 +36,13 @@ colour=red
 thickness=2
 i=0
 ntotal=60
-ddelta = 2*PI/ntotal
+ddelta = 2*math.pi/ntotal
 delta=ddelta*20*5
 a=2.0
 b=3.0
+cx=0
+cy=0
+cz=0
 
 while done == False:
  
@@ -65,12 +67,12 @@ while done == False:
     colour=red
     for n in range(ntotal*3):
         ##pygame.draw.line(screen,red,[0,10+y_offset],[100,110+y_offset],5)
-	theta = n * 2*PI/ntotal
+	theta = n * 2*math.pi/ntotal
 	y_offset = R*math.cos((theta-delta)*a)+r*math.cos((theta-delta)*b) + 240.0
-	x_offset = R*math.sin((theta-delta)*a)+r*math.sin((theta-delta+PI)*b) + 400.0
-        cx=int(120*(math.sin((theta-delta)/10)+1)+10)
-	cy=int(120*(math.sin((theta-delta)*6/10)+1)+10)
-        cz=int(120*(math.sin((theta-delta)/10-PI)+1)+10)
+	x_offset = R*math.sin((theta-delta)*a)+r*math.sin((theta-delta+math.pi)*b) + 400.0
+        cx=(cx+7)%255
+	cy=(cy+5)%255
+	cz=(cz+3)%255
 
 	if (n>0):
         	pygame.draw.line(screen,[cx,cy,cz],[prevx,prevy],[x_offset,y_offset],thickness)

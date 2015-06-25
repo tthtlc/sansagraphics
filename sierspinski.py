@@ -6,6 +6,14 @@ from OpenGL.GLUT import *
 from OpenGL.GLU import *
 
 import random
+import signal
+
+def signal_handler(signal, frame):
+        print 'You pressed Ctrl+C!'
+        sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
+###signal.pause()
 
 def initFun():
     glClearColor(1.0,1.0,1.0,0.0)

@@ -12,6 +12,7 @@ size = 512
 
 pygame.init()
 surface = pygame.display.set_mode((size, size), 0, 32)
+print "slow !!!!!!!!!"
 
 # Mandelbrot drawing area
 xa = -2.0
