@@ -64,22 +64,23 @@ def DrawEllipsoid(uistacks, uislices, fA, fB, fC):
 	sstep = math.pi/uistacks
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
 	#t = -math.pi/2
+	counter1=(counter+8)%40
+	counter2=(counter1+8)%40
+ 	##print mygraycode[counter], mygraycode[counter1], mygraycode[counter2]
 	for i in range(uislices):
 		t = tstep*i
 		glBegin(GL_TRIANGLE_STRIP)
 	#	s = -2*math.pi/2
 		vart=1
 		myvars=1
-		counter1=(counter+1)%256
-		counter2=(counter1+1)%256
- 		glColor3b(mygraycode[counter], mygraycode[counter1], mygraycode[counter2])
-		counter=(counter+1)%256
 		for j in range(uistacks+1):
 			s = sstep*j
 			glVertex3f(fA * math.cos(vart*t) * math.cos(myvars*s), fB * math.cos(vart*t) * math.sin(myvars*s), fC * math.sin(vart*t))
 			glVertex3f(fA * math.cos(vart*t+tstep) * math.cos(myvars*s), fB *math.cos(vart*t+tstep) * math.sin(myvars*s), fC * math.sin(vart*t+tstep))
+ 			glColor3b(mygraycode[counter], mygraycode[counter1], mygraycode[counter2])
 		glEnd()
-
+ 	###print(mygraycode[counter], mygraycode[counter1], mygraycode[counter2])
+	counter=(counter+8)%80
 
 def display():
 	global xrot, yrot, zrot
@@ -97,7 +98,7 @@ def display():
 	glRotatef(zrot, 0.0, 0.0, 1.0)
 
     	#glutWireCube(1)
- 	glColor3f(0.5, 0.0, 1.0)
+ 	#glColor3f(0.5, 0.0, 1.0)
 	#glutWireSphere(4,10,10)
 	DrawEllipsoid(20, 20, 1.1, 2.1, 5.1)
 
@@ -107,9 +108,9 @@ def display():
 	#void glutWireTorus(GLdouble innerRadius,
         #           GLdouble outerRadius,
         #          GLint nsides, GLint rings);
-
     	glFlush()
     	glutSwapBuffers()
+
 
 
 def resize(*args):
