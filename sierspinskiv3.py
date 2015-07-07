@@ -8,12 +8,25 @@ from OpenGL.GLU import *
 import random
 import signal
 
+# Some api in the chain is translating the keystrokes to this octal string
+# so instead of saying: ESCAPE = 27, we use the following.
+ESCAPE = '\033'
+
+# Number of the glut window.
+window = 0
+
 def signal_handler(signal, frame):
         print 'You pressed Ctrl+C!'
         sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
 ###signal.pause()
+
+def keyPressed(*args):
+        # If escape is pressed, kill everything.
+    if args[0] == ESCAPE:
+            glutDestroyWindow(window)
+            sys.exit()
 
 def initFun():
     glClearColor(1.0,1.0,1.0,0.0)
@@ -28,31 +41,36 @@ def displayFun():
     glClear(GL_COLOR_BUFFER_BIT)
     glBegin(GL_POINTS)
 
-    x=[0.0,640.0,320.0]
-    y=[0.0,0.0  ,480.0]
+    x=[0.0,640.0,320.0,320.0]
+    y=[0.0,0.0  ,480.0,0]
+    z=[0.0,0.0,0.0,480.0]
 
     curx=0
-    cury=320
-    glVertex2f(curx,cury)
+    cury=320.0
+    curz=0
+    glVertex3f(curx,cury,curz)
     # Monte Carlo method of generating the points
     for i in range(0,500000):
-        idx=random.randint(0,2)  
+        idx=random.randint(0,3)  
 	## the following is a tree method
 	## previous curx and cury will determine future values, shifted by 
 	## one of 3 method:    0=>no change, 1=>to the right by 640/2 and then
 	## to about 45degree=>by 320/2 and 480/2.
         curx=(curx+x[idx])/2.0
         cury=(cury+y[idx])/2.0
-        glVertex2f(curx,cury)
+        curz=(curz+z[idx])/2.0
+        glVertex3f(curx,cury,curz)
     glEnd()
     glFlush()
+
 
 if __name__ == '__main__':
     glutInit()
     glutInitWindowSize(640,480)
-    glutCreateWindow("Sierpinski")
+    window=glutCreateWindow("Sierpinski")
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB)
     glutDisplayFunc(displayFun)
+    glutKeyboardFunc(keyPressed)
     initFun()
     glutMainLoop()
 

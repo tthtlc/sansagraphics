@@ -133,23 +133,23 @@ def main():
    	# Register the drawing function with glut, BUT in Python land, at least using PyOpenGL, we need to
 	# set the function pointer and invoke a function to actually register the callback, otherwise it
 	# would be very much like the C version of the code.	
-	glutSetDisplayFuncCallback(DrawGLScene)
-	glutDisplayFunc()
+	#glutSetDisplayFuncCallback(DrawGLScene)
+	glutDisplayFunc(DrawGLScene)
 	
 	# Uncomment this line to get full screen.
 	#glutFullScreen()
 
 	# When we are doing nothing, redraw the scene.
-	glutSetIdleFuncCallback(DrawGLScene)
-	glutIdleFunc()
+	#glutSetIdleFuncCallback(DrawGLScene)
+	glutIdleFunc(DrawGLScene)
 	
 	# Register the function called when our window is resized.
-	glutSetReshapeFuncCallback(ReSizeGLScene)
-	glutReshapeFunc()
+	#glutSetReshapeFuncCallback(ReSizeGLScene)
+	glutReshapeFunc(ReSizeGLScene)
 	
 	# Register the function called when the keyboard is pressed.  
-	glutSetKeyboardFuncCallback(keyPressed)
-	glutKeyboardFunc()
+	#glutSetKeyboardFuncCallback(keyPressed)
+	glutKeyboardFunc(keyPressed)
 
 	# Initialize our window. 
 	InitGL(640, 480)

@@ -1,8 +1,4 @@
-### originally from crown_circling.py
-
 import sys
-from mysansagraphic import *
-
 try:
   from OpenGL.GLUT import *
   from OpenGL.GL import *
@@ -12,10 +8,8 @@ except:
   sys.exit(  )
 
 import array
-import math
 import signal
 import random
-
 
 def signal_handler(signal, frame):
         print 'You pressed Ctrl+C!'
@@ -25,9 +19,6 @@ signal.signal(signal.SIGINT, signal_handler)
 ###signal.pause()
 
 import math
-
-xrotspiral = 1.0
-zrotspiral = 1.0
 
 PI = 3.141592653
 ngon=120
@@ -42,11 +33,14 @@ mouseDown = False
 
 xrot = 0.2
 yrot = 0.0
+zrot = 0.0
 
 xdiff = 0.0
 ydiff = 0.0
+ndisc = 20
 
 def init():
+#	glClearColor(0.93, 0.93, 0.93, 0.0)
 	glClearColor(1.0,1.0,1.0,0.0)
 	glClearColor(0.0, 0.0, 0.0, 1.0)
 	glClearColor(0.0, 0.0, 0.0, 0.0)
@@ -57,76 +51,27 @@ def init():
 
 	return True
 
-import sys
-import OpenGL.GL as gl
-from OpenGL.GLUT import *
-from OpenGL.GLU import *
-from OpenGL.GL import *
-import sys
+def DrawEllipsoid(uistacks, uislices, fA, fB, fC):
+	tstep = math.pi/uislices
+	sstep = math.pi/uistacks
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+	#t = -math.pi/2
+	for i in range(uislices):
+		t = tstep*i
+		glBegin(GL_TRIANGLE_STRIP)
+	#	s = -2*math.pi/2
+		vart=1
+		myvars=2
+		for j in range(uistacks+1):
+			s = sstep*j
+			glVertex3f(fA * math.cos(vart*t) * math.cos(myvars*s) * math.sin(s), fB * math.cos(vart*t) * math.sin(myvars*s) * math.sin(s), fC * math.sin(vart*t) * math.cos(s))
+			glVertex3f(fA * math.cos(vart*t+tstep) * math.cos(myvars*s)*math.sin(s), fB *math.cos(vart*t+tstep) * math.sin(myvars*s)*math.sin(s), fC * math.sin(vart*t+tstep)*math.cos(s))
+		glEnd()
 
-Vertices = ((-1,-1,-1), (1,-1,-1),
-            (1,1,-1), (-1,1,-1),
-            (-1,-1,1), (1,-1,1),
-            (1,1,1), (-1,1,1))
-
-Colors   = ((0.2,0.5,0.9), (1,0,0),
-            (1,1,0), (0,1,0),
-            (0,0,1), (1,0,1),
-            (1,1,1), (0,1,1))
-
-
-def circling_on_sphere(circle_radius, sphere_radius, turns):
-
-    glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
-    glEnable(GL_BLEND)
-
-    glBegin(GL_LINE_STRIP)
-
-    ngon=60
-    theta1=2*math.pi/ngon
-    sphere_gon=5
-    yrotate1=360.0/turns
-    theta=0.0
-    y_rotate_angle=0.0
-
-    for i in range(0,turns):
-	for i in range(0,ngon):
-		## phi = wrt y axis (sinusoidal, between 45 deg and 135 deg)
-		## theta = wrt x axis, on the zx plane (normal increment)
-		#phi1=math.pi*math.sin(ngon*theta)/4
-		#phi=math.pi/2 - phi1
-		cx=circle_radius*math.sin(theta)
-		cy=circle_radius*math.cos(theta)
-		cz=sphere_radius
-		(rx,ry,rz)=point_rotatey(cx,cy,cz, y_rotate_angle)   ### point_rotatey --> y axis
-		#rx=radius*math.sin(phi)*math.cos(theta)
-		#rz=radius*math.sin(phi)*math.sin(theta)
-		#ry=radius*math.cos(phi)
-	
-#		if (i==0):
-#			rx0=rx
-#			ry0=ry
-#			rz0=rz
-#		if (i==1):
-#			rx1=rx
-#			ry1=ry
-#			rz1=rz
-	
-	        glVertex3f( rx, ry, rz )
-	    	glColor3fv(Colors[i%8])
-	        #glVertex3f( rx, ry, rz + 2.0 )
-		theta += theta1
-	y_rotate_angle += yrotate1
-#	glVertex3f( rx0, ry0, rz0 )
-#	glVertex3f( rx1, ry1, rz1 )
-
-    glEnd()
-    return 
 
 def display():
-	global xrot, yrot
-	global xrotspiral, zrotspiral
-
+	global xrot, yrot, zrot
+	global ndisc
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glLoadIdentity()
 
@@ -137,13 +82,23 @@ def display():
 
 	glRotatef(xrot, 1.0, 0.0, 0.0)
 	glRotatef(yrot, 0.0, 1.0, 0.0)
+	glRotatef(zrot, 0.0, 0.0, 1.0)
 
+    	#glutWireCube(1)
  	glColor3f(0.5, 0.0, 1.0)
+	#glutWireSphere(4,10,10)
+	DrawEllipsoid(20, 20, 1.1, 2.1, 5.1)
 
-	circling_on_sphere(1.0, 2.0, 30)
+	#void glutSolidTorus(GLdouble innerRadius,
+        #            GLdouble outerRadius,
+        #            GLint nsides, GLint rings);
+	#void glutWireTorus(GLdouble innerRadius,
+        #           GLdouble outerRadius,
+        #          GLint nsides, GLint rings);
 
     	glFlush()
     	glutSwapBuffers()
+
 
 def resize(*args):
 	glMatrixMode(GL_PROJECTION)
@@ -158,11 +113,12 @@ def resize(*args):
 
 
 def idle():
-	global xrot, yrot
+	global xrot, yrot, zrot
 	global mouseDown
 	if not (mouseDown):
-		xrot += 0.3
-		yrot += 0.4
+		xrot += 0.3 
+		yrot += 0.3
+		zrot += 1.0
 
 	glutPostRedisplay()
 
@@ -210,11 +166,11 @@ def mouseMotion(*args):
 def main():
 	glutInit(sys.argv)
 	glutInitWindowPosition(50, 50)
-	glutInitWindowSize(500, 500)
+	glutInitWindowSize(1024, 768)
 
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE)
 
-	glutCreateWindow("Polyhedral Surface")
+	glutCreateWindow("13 - Solid Shapes")
 
 	glutDisplayFunc(display)
 	glutKeyboardFunc(keyboard)

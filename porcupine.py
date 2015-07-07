@@ -30,7 +30,7 @@ xrotspiral = 1.0
 zrotspiral = 1.0
 
 PI = 3.141592653
-ngon=120
+ngon=5
 angle_step=2*PI/ngon
 r1_step = 0.005
 r2_step = 0.001
@@ -80,9 +80,8 @@ def circling_on_sphere(circle_radius, sphere_radius, turns):
     glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
     glEnable(GL_BLEND)
 
-    glBegin(GL_LINE_STRIP)
 
-    ngon=60
+    ngon=30
     theta1=2*math.pi/ngon
     sphere_gon=5
     yrotate1=360.0/turns
@@ -95,6 +94,7 @@ def circling_on_sphere(circle_radius, sphere_radius, turns):
 		## theta = wrt x axis, on the zx plane (normal increment)
 		#phi1=math.pi*math.sin(ngon*theta)/4
 		#phi=math.pi/2 - phi1
+    		glBegin(GL_LINES)
 		cx=circle_radius*math.sin(theta)
 		cy=circle_radius*math.cos(theta)
 		cz=sphere_radius
@@ -112,15 +112,16 @@ def circling_on_sphere(circle_radius, sphere_radius, turns):
 #			ry1=ry
 #			rz1=rz
 	
-	        glVertex3f( rx, ry, rz )
+	        glVertex3f( 0.0, 0.0, 0.0 )
+	        glVertex3f( cx*rx, cx*ry, cx*rz )
 	    	glColor3fv(Colors[i%8])
+    		glEnd()
 	        #glVertex3f( rx, ry, rz + 2.0 )
 		theta += theta1
 	y_rotate_angle += yrotate1
 #	glVertex3f( rx0, ry0, rz0 )
 #	glVertex3f( rx1, ry1, rz1 )
 
-    glEnd()
     return 
 
 def display():
@@ -140,7 +141,7 @@ def display():
 
  	glColor3f(0.5, 0.0, 1.0)
 
-	circling_on_sphere(1.0, 2.0, 30)
+	circling_on_sphere(1.0, 2.0, 15)
 
     	glFlush()
     	glutSwapBuffers()

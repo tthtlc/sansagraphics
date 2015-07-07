@@ -56,7 +56,7 @@ def DrawEllipsoid(uistacks, uislices, fA, fB, fC):
 	sstep = math.pi/uistacks
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
 	#t = -math.pi/2
-	for i in range(uislices):
+	for i in range(2*uislices):
 		t = tstep*i
 		glBegin(GL_TRIANGLE_STRIP)
 	#	s = -2*math.pi/2
@@ -88,6 +88,8 @@ def display():
  	glColor3f(0.5, 0.0, 1.0)
 	#glutWireSphere(4,10,10)
 	DrawEllipsoid(20, 20, 1.1, 2.1, 5.1)
+	DrawEllipsoid(20, 20, 2.1, 5.1, 1.1)
+	DrawEllipsoid(20, 20, 5.1, 1.1, 2.1)
 
 	#void glutSolidTorus(GLdouble innerRadius,
         #            GLdouble outerRadius,

@@ -68,7 +68,11 @@ ydiff = 0.0
 ndisc = 20
 
 def init():
-	glClearColor(0.93, 0.93, 0.93, 0.0)
+#       glClearColor(0.93, 0.93, 0.93, 0.0)
+#        glClearColor(1.0,1.0,1.0,0.0)
+#        glClearColor(0.0, 0.0, 0.0, 1.0)
+        glClearColor(0.0, 0.0, 0.0, 0.0)
+
 
 	glEnable(GL_DEPTH_TEST)
 	glDepthFunc(GL_LEQUAL)
