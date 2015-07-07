@@ -34,8 +34,13 @@ def displayFun():
     curx=0
     cury=320
     glVertex2f(curx,cury)
-    for i in range(0,500):
-        idx=random.randint(0,2)
+    # Monte Carlo method of generating the points
+    for i in range(0,500000):
+        idx=random.randint(0,2)  
+	## the following is a tree method
+	## previous curx and cury will determine future values, shifted by 
+	## one of 3 method:    0=>no change, 1=>to the right by 640/2 and then
+	## to about 45degree=>by 320/2 and 480/2.
         curx=(curx+x[idx])/2.0
         cury=(cury+y[idx])/2.0
         glVertex2f(curx,cury)
