@@ -44,8 +44,8 @@ def figure_of_eight(n, centerx, centery, a, b):
     for i in range(0, n+1):
 
 	angle = i*phi
-	x_offset = radius*(math.cos(a*angle))+centerx
-	y_offset = radius*(math.sin(b*angle))+centery
+	x_offset = radius*(math.cos(a*1*angle))+centerx
+	y_offset = radius*(math.sin(b*2*angle))+centery
 	if (i>0) and (xorigin!=999.9):
 		cx=int(120*(math.sin(2*(angle))+1)+10)
 		cy=int(120*(math.sin(angle)+1)+10)
