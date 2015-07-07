@@ -34,7 +34,7 @@ def displayFun():
     curx=0
     cury=320
     glVertex2f(curx,cury)
-    for i in range(0,500000):
+    for i in range(0,500):
         idx=random.randint(0,2)
         curx=(curx+x[idx])/2.0
         cury=(cury+y[idx])/2.0
