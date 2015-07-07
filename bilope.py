@@ -21,7 +21,7 @@ signal.signal(signal.SIGINT, signal_handler)
 import math
 
 PI = 3.141592653
-ngon=120
+ngon=30
 angle_step=2*PI/ngon
 r1_step = 0.005
 r2_step = 0.001
@@ -51,21 +51,29 @@ def init():
 
 	return True
 
-def DrawEllipsoid(uistacks, uislices, fA, fB, fC):
+def draw_bilope(uistacks, uislices, radius):
 	tstep = math.pi/uislices
 	sstep = math.pi/uistacks
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+	cx=0.1
+	cy=0.2
+	cz=0.3
 	#t = -math.pi/2
 	for i in range(2*uislices):
 		t = tstep*i
-		glBegin(GL_TRIANGLE_STRIP)
+		glBegin(GL_LINES)
 	#	s = -2*math.pi/2
 		vart=1
 		myvars=1
-		for j in range(uistacks+1):
+		for j in range(uistacks):
 			s = sstep*j
-			glVertex3f(fA * math.cos(vart*t) * math.cos(myvars*s), fB * math.cos(vart*t) * math.sin(myvars*s), fC * math.sin(vart*t))
-			glVertex3f(fA * math.cos(vart*t+tstep) * math.cos(myvars*s), fB *math.cos(vart*t+tstep) * math.sin(myvars*s), fC * math.sin(vart*t+tstep))
+			glVertex3f(0.0,0.0,0.0)
+			glVertex3f(radius *math.cos(2*t)* math.cos(vart*t) * math.cos(myvars*s), radius *math.cos(2*t)* math.cos(vart*t) * math.sin(myvars*s), radius *math.cos(2*t)* math.sin(vart*t))
+			#glVertex3f(radius *math.cos(2*t)* math.cos(vart*t+tstep) * math.cos(myvars*s), radius *math.cos(2*t)*math.cos(vart*t+tstep) * math.sin(myvars*s), radius *math.cos(2*t)* math.sin(vart*t+tstep))
+ 		glColor3f(cx,cy,cz)
+		cx = (cx + 0.1)%1.0
+		cy = (cy + 0.1)%1.0
+		cz = (cz + 0.1)%1.0
 		glEnd()
 
 
@@ -87,9 +95,7 @@ def display():
     	#glutWireCube(1)
  	glColor3f(0.5, 0.0, 1.0)
 	#glutWireSphere(4,10,10)
-	DrawEllipsoid(20, 20, 1.1, 2.1, 5.1)
-	DrawEllipsoid(20, 20, 2.1, 5.1, 1.1)
-	DrawEllipsoid(20, 20, 5.1, 1.1, 2.1)
+	draw_bilope(30, 60, 2.0)
 
 	#void glutSolidTorus(GLdouble innerRadius,
         #            GLdouble outerRadius,
