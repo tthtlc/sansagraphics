@@ -11,15 +11,10 @@ except:
   print ''' Error: PyOpenGL not installed properly '''
   sys.exit(  )
 
-import pygame
-
 import array
 import math
 import signal
 import random
-
-pygame.init
-pygame.display.set_mode((800,600), pygame.OPENGL|pygame.DOUBLEBUF)
 
 def signal_handler(signal, frame):
         print 'You pressed Ctrl+C!'
@@ -147,7 +142,6 @@ def display():
 
     	glFlush()
     	glutSwapBuffers()
-	pygame.display.flip()
 
 def resize(*args):
 	glMatrixMode(GL_PROJECTION)
