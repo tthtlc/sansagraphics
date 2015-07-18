@@ -54,7 +54,7 @@ def init():
 def draw_square(uistacks, uislices, fA, fB, fC):
 	tstep = 2*math.pi/uislices
 	sstep = 2*math.pi/uistacks
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+	#glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
 	#t = -math.pi/2
 	for i in range(uislices):
 		t = tstep*i
