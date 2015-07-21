@@ -62,13 +62,13 @@ def DrawEllipsoid(uistacks, uislices, fA, fB, fC):
 	#	s = -2*math.pi/2
 		vart=1
 		myvars=1
-		for j in range(uistacks+1):
+		for j in range(2*uistacks+1):
 			s = sstep*j
 			#glVertex3f(fA * math.cos(vart*t) * math.cos(myvars*s), fB * math.cos(vart*t) * math.sin(myvars*s), fC * math.sin(vart*t))
 			#glVertex3f(fA * math.cos(vart*t+tstep) * math.cos(myvars*s), fB *math.cos(vart*t+tstep) * math.sin(myvars*s), fC * math.sin(vart*t+tstep))
 			glVertex3f(fA * math.sin(t/2)* math.cos(vart*t) * math.cos(myvars*s), fB * math.sin(t/2)* math.cos(vart*t) * math.sin(myvars*s), fC * math.sin(t/2)* math.sin(vart*t))
 			glVertex3f(fA * math.sin(t/2+tstep)* math.cos(vart*t+tstep) * math.cos(myvars*s), fB *math.sin(t/2+tstep)* math.cos(vart*t+tstep) * math.sin(myvars*s), fC * math.sin(t/2+tstep)* math.sin(vart*t+tstep))
-			if (i>uislices):
+			if (j>uistacks):
  				glColor3f(0.8, 0.8, 0.0)
 			else:
  				glColor3f(0.5, 0.0, 1.0)
