@@ -38,6 +38,7 @@ zrot = 0.0
 xdiff = 0.0
 ydiff = 0.0
 ndisc = 20
+counter=0
 
 def init():
 #	glClearColor(0.93, 0.93, 0.93, 0.0)
@@ -53,7 +54,7 @@ def init():
 
 def display():
 	global xrot, yrot, zrot
-	global ndisc
+	global ndisc, counter
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glLoadIdentity()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
@@ -76,6 +77,18 @@ def display():
 	glutWireTorus(1, 3, 5, 5)
  	glColor3f(0.5, 0.9, 1.0)
 	glutSolidTorus(2, 4, 6, 18)
+	glutSolidDodecahedron()
+	glutSolidOctahedron()
+	glutSolidTetrahedron()
+ 	glColor3f(1.0, 0.0, 0.0)
+	glutSolidIcosahedron()
+ 	glColor3f(0.0, 1.0, 0.0)
+	if (counter%25==0):
+		glutSolidTeapot(2.0)
+	counter = counter + 1
+ 	glColor3f(1.0, 1.0, 0.0)
+	glutSolidCone(1.0,1.0,10,10)
+	glutSolidCube(1.0)
         #            GLdouble outerRadius,
         #            GLint nsides, GLint rings);
 	#void glutWireTorus(GLdouble innerRadius,

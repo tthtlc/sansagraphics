@@ -60,12 +60,12 @@ def DrawEllipsoid(uistacks, uislices, fA, fB, fC):
 		t = tstep*i
 		#glBegin(GL_LINES)
 	#	s = -2*math.pi/2
+		glBegin(GL_TRIANGLE_STRIP)
 		for j in range(uistacks+1):
-			glBegin(GL_TRIANGLE_STRIP)
 			s = sstep*j
 			glVertex3f(fA * math.cos(t) * math.cos(s), fB * math.cos(t) * math.sin(s), fC * math.sin(t))
 			glVertex3f(fA * math.cos(t+tstep) * math.cos(s), fB * math.cos(t+tstep) * math.sin(s), fC * math.sin(t+tstep))
-			glEnd()
+		glEnd()
 
 
 def display():
@@ -86,7 +86,7 @@ def display():
     	#glutWireCube(1)
  	glColor3f(0.5, 0.0, 1.0)
 	#glutWireSphere(4,10,10)
-	DrawEllipsoid(60, 3, 1.1, 2.1, 5.1)
+	DrawEllipsoid(24, 12, 1.1, 2.1, 5.1)
 
 	glutSolidTorus(1, 5, 5, 5)
         #            GLdouble outerRadius,
