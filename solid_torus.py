@@ -51,28 +51,12 @@ def init():
 
 	return True
 
-def DrawEllipsoid(uistacks, uislices, fA, fB, fC):
-	tstep = math.pi/uislices
-	sstep = math.pi/uistacks
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
-	#t = -math.pi/2
-	for i in range(2*uislices):
-		t = tstep*i
-		#glBegin(GL_LINES)
-	#	s = -2*math.pi/2
-		for j in range(uistacks+1):
-			glBegin(GL_TRIANGLE_STRIP)
-			s = sstep*j
-			glVertex3f(fA * math.cos(t) * math.cos(s), fB * math.cos(t) * math.sin(s), fC * math.sin(t))
-			glVertex3f(fA * math.cos(t+tstep) * math.cos(s), fB * math.cos(t+tstep) * math.sin(s), fC * math.sin(t+tstep))
-			glEnd()
-
-
 def display():
 	global xrot, yrot, zrot
 	global ndisc
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glLoadIdentity()
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
 
 	gluLookAt(
 		0.0, 0.0, 10.0,
@@ -83,12 +67,15 @@ def display():
 	glRotatef(yrot, 0.0, 1.0, 0.0)
 	glRotatef(zrot, 0.0, 0.0, 1.0)
 
-    	#glutWireCube(1)
  	glColor3f(0.5, 0.0, 1.0)
-	#glutWireSphere(4,10,10)
-	DrawEllipsoid(60, 3, 1.1, 2.1, 5.1)
+	glutWireSphere(2,10,10)
+ 	glColor3f(0.5, 0.3, 0.3)
+    	glutWireCube(1)
+ 	glColor3f(0.5, 0.6, 0.6)
 
-	glutSolidTorus(1, 5, 5, 5)
+	glutWireTorus(1, 3, 5, 5)
+ 	glColor3f(0.5, 0.9, 1.0)
+	glutSolidTorus(2, 4, 6, 18)
         #            GLdouble outerRadius,
         #            GLint nsides, GLint rings);
 	#void glutWireTorus(GLdouble innerRadius,
