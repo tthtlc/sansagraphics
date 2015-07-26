@@ -51,7 +51,7 @@ def DrawEllipsoid(uistacks, uislices, fA, fB, fC):
 		t = tstep*i
 		glBegin(GL_LINES)
 	#	s = -2*math.pi/2
-		vart=2
+		vart=4
 		myvars=1
 		for j in range(uistacks+1):
 			s = sstep*j
