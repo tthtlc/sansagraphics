@@ -44,7 +44,7 @@ def point(x, y):
     z = zx + zy * 1j
     c = z
     for i in xrange(maxIt):
-        if abs(z) > 3.5: break
+        if abs(z) > 10.5: break
         z = 0.5 * z * z + c * z
     return i
 
