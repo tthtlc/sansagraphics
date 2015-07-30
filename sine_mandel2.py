@@ -94,8 +94,7 @@ def mandel(x, y, i_size):
     pump()
 
 def GetInput():
-    global mouseDown
-    global xa, xb, ya, yb, size
+    global mouseDown, xa, xb, ya, yb, size
     key = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == QUIT:####or key[K_ESCAPE]:

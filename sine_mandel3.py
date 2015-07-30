@@ -42,8 +42,8 @@ def point(x, y):
     z = zx + zy * 1j
     c = z
     for i in xrange(maxIt):
-        if abs(z) > 3.5: break
-        z = 1.5 * z * z * z + c * z + c
+        if abs(z) > 20.5: break
+        z = 0.5 * z * z + c * z
     return i
 
 def col(c):
@@ -94,7 +94,8 @@ def mandel(x, y, i_size):
     pump()
 
 def GetInput():
-    global mouseDown, xa, xb, ya, yb, size
+    global mouseDown
+    global xa, xb, ya, yb, size
     key = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == QUIT:####or key[K_ESCAPE]:
@@ -104,14 +105,18 @@ def GetInput():
 		x,y = event.pos
 		mouseDown = True
     		surface.fill(col(0), (0, 0, size, size))
+
 		new_xa=xa+x*(xb-xa)/size/1.0-(xb-xa)/8.0
 		new_xb=xa+x*(xb-xa)/size/1.0+(xb-xa)/8.0
 		new_ya=ya+y*(yb-ya)/size/1.0-(yb-ya)/8.0
 		new_yb=ya+y*(yb-ya)/size/1.0+(yb-ya)/8.0
+
 		xa = new_xa
 		xb = new_xb
 		ya = new_ya
 		yb = new_yb
+		print x,y, size
+		print xa, xb, ya, yb
 # calculate the image
 
 # Wait for user to click close widget on window
