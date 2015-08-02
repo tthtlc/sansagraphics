@@ -43,7 +43,7 @@ def point(x, y):
     c = z
     for i in xrange(maxIt):
         if abs(z) > 1000.9: break
-        z = 0.5 * z * z * z * z * z * z + c * z * z
+        z = 4.5 * z * z * z * z * z * z + c
     return i
 
 def col(c):
