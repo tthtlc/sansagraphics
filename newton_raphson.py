@@ -13,7 +13,7 @@ from OpenGL.GLU import *
 
 # size must be a power of 2 or you will get rounding errors in the image
 # E.g. 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, ...
-size = 1024
+size = 512
 
 pygame.init()
 surface = pygame.display.set_mode((size, size), 0, 32)
