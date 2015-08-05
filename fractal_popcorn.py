@@ -41,6 +41,8 @@ def point(x, y):
     h = 0.05
     x1 = y * (yb - ya) / size  + ya
     y1 = x * (xb - xa) / size  + xa
+    y0 = y1
+    x0 = x1
     z = x1 + y1 * 1j
     #c = 0.56667 - 0.5 * 1j
     #x1 = 0.001
@@ -48,12 +50,11 @@ def point(x, y):
     for i in xrange(maxIt):
     	z = x1 + y1 * 1j
         myabs = abs(z)
-        if myabs > 1.5: break
-        elif myabs > 2.0: break
-        elif myabs > 2.5: break
-        elif myabs > 3.0: break
-	x2 = x1 - h * math.sin(y1 + math.tan(3*y1))
-	y2 = y1 - h * math.sin(x1 + math.tan(3*x1))
+        if myabs > 1.0: break
+	x2 = x1 - h * math.sin(y0 + math.tan(3*y0))
+	y2 = y1 - h * math.sin(x0 + math.tan(3*x0))
+	x0 = x1
+	y0 = y1
 	x1 = x2
 	y1 = y2
     return i
