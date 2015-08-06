@@ -29,7 +29,7 @@ yb = 1.5
 mouseDown = True
 
 # maximum iterations
-maxIt = 2
+maxIt = 256
 
 def pump():
     # pump the event queue so the window is responsive, exit if signaled
@@ -56,7 +56,7 @@ def point(x, y):
         myabs = abs(z)
         if myabs > 2.0: break
 	x2 = x1 - h * math.sin(y0 + math.tan(3*y0))
-	y2 = y1 - h * math.sin(x0 + math.tan(3*x0))
+	y2 = y1 - h * math.sin(x0 + math.tan(5*x0))
 	x0 = x1
 	y0 = y1
 	x1 = x2
@@ -65,7 +65,6 @@ def point(x, y):
 
 def col(c):
     # return a color variable computed from a escape value
-    print c
     return (c % 4 * 64, c % 8 * 32, c % 16 * 16)
     #return ((((c % 16) * 16) + c % 8 * 32)%256 , c % 8 * 32 , (((256-c) % 16) * 16))
 
