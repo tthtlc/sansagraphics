@@ -74,11 +74,11 @@ while not done:
     #pulse = sin(t/30)*0.5+0.5 # try this one
     pulse = 0
 
-    texdata=[[[0.0,0,1,1],
+    texdata=[[[1.0,1,1,1],
               [0.0,0,0,0],
               [0.0,1,0,1],
               [0.0,0,0,0]],
-             [[0.0,0,0,0],
+             [[0.0,1,1,0],
               [pulse,pulse,pulse,1],
               [pulse,pulse,pulse,1],
               [0.0,0,0,0]],
@@ -86,20 +86,20 @@ while not done:
               [1,pulse,pulse,1],
               [pulse,pulse,0,1],
               [0.0,0,0,0]],
-             [[0.0,0,0,0],
+             [[1.0,0,0,0],
               [0.0,0,0,0],
               [0.0,0,0,0],
               [0.0,0,0,0]]];
 
-    glTexImage2Df(GL_TEXTURE_2D, 0,1,0,GL_RGBA,
+    glTexImage2Df(GL_TEXTURE_2D, 0,4,0,GL_RGBA,  ## 4=max? 3=ugly
                   texdata)
 
     glEnable(GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE); # XXX Why GL_ONE?
 # alternatively:
-#   glEnable(GL_DEPTH_TEST);
+    #glEnable(GL_DEPTH_TEST);
 
-    #glEnable( GL_TEXTURE_2D );
+    glEnable( GL_TEXTURE_2D );
     # use the texture
     #glBindTexture( GL_TEXTURE_2D, texture );
 
@@ -161,7 +161,7 @@ while not done:
     if zcolor > 1.0:
 	zcolor = 0.0
 
-    glColor3f(xcolor, ycolor, zcolor)
+    #glColor3f(xcolor, ycolor, zcolor)
     #glColor3f(0.3, 0.4, 0.5)
 
     glFlush()
