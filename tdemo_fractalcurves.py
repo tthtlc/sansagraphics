@@ -76,25 +76,14 @@ class CurvesTurtle(Pen):
         self.lt(60 * dir)
         self.fractal(dist / 3, depth - 1, dir)
 
-def main():
-    ft = CurvesTurtle()
-
-    ft.reset()
-    ft.speed(0)
-    ft.ht()
-    ft.tracer(1,0)
-    ft.pu()
-
-    size = 6
-    ft.setpos(-33*size, -32*size)
-    ft.pd()
+def myhilbert(ft,size):
 
     ta=clock()
     ft.fillcolor("red")
     ft.fill(True)
     ft.fd(size)
 
-    ft.hilbert(size, 6, 1)
+    ft.hilbert(size, 7, 1)
 
     # frame
     ft.fd(size)
@@ -112,24 +101,46 @@ def main():
     ft.fill(False)
     tb=clock()
     res =  "Hilbert: %.2fsec. " % (tb-ta)
+    return res
 
-    sleep(3)
-
-    ft.reset()
-    ft.speed(0)
-    ft.ht()
-    ft.tracer(1,0)
-
-    ta=clock()
-    ft.color("black", "blue")
+def mykoch_positive(ft):
+    res = 0	
     ft.fill(True)
-    ft.fractalgon(3, 250, 4, 1)
+    ft.color("green")
+    ta=clock()
+    ft.fractalgon(3, 200, 4, 1)
+    tb=clock()
+    res = "Koch: %.2fsec." % (tb-ta)
+    return res
+
+def mykoch_negative(ft):
     ft.fill(True)
     ft.color("red")
     ft.fractalgon(3, 200, 4, -1)
     ft.fill(False)
     tb=clock()
-    res +=  "Koch: %.2fsec." % (tb-ta)
+    res =  "Koch: %.2fsec." % (tb-ta)
+    return res
+
+def main():
+    ft = CurvesTurtle()
+
+    ft.reset()
+    ft.speed(0)
+    ft.ht()
+    ft.tracer(1,0)
+    ft.pu()
+
+    size = 6
+    ft.setpos(-33*size, -32*size)
+    ft.pd()
+
+    myhilbert(ft,size)
+    sleep(1)
+    mykoch_positive(ft)
+    sleep(1)
+    mykoch_negative(ft)
+
     return res
 
 if __name__  == '__main__':
