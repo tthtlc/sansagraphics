@@ -40,10 +40,10 @@ def point(x, y):
     zy = y * (yb - ya) / size  + ya
     zx = x * (xb - xa) / size  + xa
     z = zx + zy * 1j
-    c = z
+    c = z*z*z+0.5   ######CHANGE!!!!!!!!!!!!!!!!
     for i in xrange(maxIt):
-        if abs(z) > 10.5: break
-        z = 1.5 * z * z * z + c * z + c
+        if abs(z) > 5350.5: break
+        z = c*z * z + c
     return i
 
 def col(c):

@@ -43,7 +43,11 @@ def point(x, y):
     c = z
     for i in xrange(maxIt):
         if abs(z) > 10.5: break
-        z = 1.5 * z * z * z + c * z + c
+        z = 0.5 * z * z + c * z
+    if ((i*7)%2)==0:
+	return 255
+    else:
+	return 0
     return i
 
 def col(c):
@@ -104,14 +108,18 @@ def GetInput():
 		x,y = event.pos
 		mouseDown = True
     		surface.fill(col(0), (0, 0, size, size))
+
 		new_xa=xa+x*(xb-xa)/size/1.0-(xb-xa)/8.0
 		new_xb=xa+x*(xb-xa)/size/1.0+(xb-xa)/8.0
 		new_ya=ya+y*(yb-ya)/size/1.0-(yb-ya)/8.0
 		new_yb=ya+y*(yb-ya)/size/1.0+(yb-ya)/8.0
+
 		xa = new_xa
 		xb = new_xb
 		ya = new_ya
 		yb = new_yb
+		print x,y, size
+		print xa, xb, ya, yb
 # calculate the image
 
 # Wait for user to click close widget on window
