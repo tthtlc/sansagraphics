@@ -40,10 +40,11 @@ def point(x, y):
     zy = y * (yb - ya) / size  + ya
     zx = x * (xb - xa) / size  + xa
     z = zx + zy * 1j
-    c = z*z*z+0.5   ######CHANGE!!!!!!!!!!!!!!!!
+    c = xa + ya * 1j
+    ###c = 100.5   ######CHANGE!!!!!!!!!!!!!!!!
     for i in xrange(maxIt):
-        if abs(z) > 5350.5: break
-        z = c*z * z + c
+        if abs(z) > 600.0: break
+        z = z * z + c
     return i
 
 def col(c):
@@ -144,5 +145,5 @@ while True:
     GetInput()
     if (mouseDown):
     	#InitScreen()
-	mandel(0, 0, size)
+	mandel(int(xa), int(ya), size)
 	mouseDown = False
