@@ -108,8 +108,8 @@ while not done:
 
     glBegin(GL_TRIANGLE_STRIP);
     #pulse2 = 0.5
-    long_ngon = 60
-    lat_ngon = 30
+    long_ngon = 30
+    lat_ngon = 20
     theta_delta=2*math.pi/long_ngon
     phi_delta=math.pi/lat_ngon
     theta=0.0
