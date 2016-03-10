@@ -85,7 +85,7 @@ def main():
     ft.tracer(1,0)
     ft.pu()
 
-    size = 6
+    size = 3
     ft.setpos(-33*size, -32*size)
     ft.pd()
 
@@ -95,7 +95,7 @@ def main():
     ft.fd(size)
 
 #    ft.hilbert(size, 5, 1)
-    ft.fractalgon(6, 250, 6, 1)
+    ft.fractalgon(3, 250, 6, 1)
 
 ###    # frame
 ###    ft.fd(size)
@@ -135,6 +135,6 @@ def main():
 if __name__  == '__main__':
     msg = main()
     print msg
-    mainloop()
+#    mainloop()
 
 
