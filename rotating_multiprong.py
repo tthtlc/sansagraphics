@@ -45,7 +45,7 @@ alongside other vertex lists with minimal overhead.
 '''
 
 from math import pi, sin, cos
-
+import sys
 import pyglet
 from pyglet.gl import *
 
@@ -69,13 +69,17 @@ def on_resize(width, height):
     return pyglet.event.EVENT_HANDLED
 
 def update(dt):
-    global rx, ry, rz
+    global rx, ry, rz, total_count
     rx += dt * 1
     ry += dt * 80
     rz += dt * 30
     rx %= 360
     ry %= 360
     rz %= 360
+    total_count += 1
+    if (total_count>int(sys.argv[1])):
+	sys.exit(0)
+
 pyglet.clock.schedule(update)
 
 @window.event
@@ -175,5 +179,6 @@ setup()
 batch = pyglet.graphics.Batch()
 torus = Torus(1, 0.3, 100, 60, batch=batch)
 rx = ry = rz = 0
+total_count=0
 
 pyglet.app.run()

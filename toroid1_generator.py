@@ -7,6 +7,7 @@
 # Import a library of functions called 'pygame'
 import pygame
 import math
+import time
  
 # Initialize the game engine
 pygame.init()
@@ -82,8 +83,7 @@ while done == False:
     a = a/2.0
     
     pygame.display.flip()
-    print "Press enter.."
-    raw = raw_input()
+    time.sleep(1)
  
 # Be IDLE friendly
 pygame.quit()

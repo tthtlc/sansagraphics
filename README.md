@@ -8,13 +8,17 @@ Miscellaneous scripts to implement mathematical objects in graphics.
 
 How to see the drawing
 ---
+To see the list of drawings with fixed timers installed:
+
+Run bash mystart.sh 
 
 For example, to see "Twisted Ribbon Surface" in action:
 
 python twisting_ribbon_surface.py
 
+What are the python packages to be installed?
+---
 At runtime you may discover missing python modules, just Google for it and install it.
-
 For example, for Ubuntu 14.04, here are some of the additional steps needed:
 
 sudo easy_install pyopengl

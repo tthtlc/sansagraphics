@@ -5,7 +5,7 @@ try:
   from OpenGL.GLU import *
 except:
   print ''' Error: PyOpenGL not installed properly '''
-  sys.exit(  )
+  sys.exit(0)
 
 import array
 import signal
@@ -102,11 +102,14 @@ def resize(*args):
 
 
 def idle():
-	global xrot, yrot
+	global xrot, yrot, total_count
 	global mouseDown
 	if not (mouseDown):
 		xrot += 0.3
 		yrot += 0.4
+	total_count += 1
+	if (total_count>int(sys.argv[1])):
+		sys.exit(0)
 
 	glutPostRedisplay()
 
@@ -152,6 +155,7 @@ def mouseMotion(*args):
 
 
 def main():
+	global total_count
 	glutInit(sys.argv)
 	glutInitWindowPosition(50, 50)
 	glutInitWindowSize(500, 500)
@@ -166,10 +170,9 @@ def main():
 	glutMouseFunc(mouse)
 	glutMotionFunc(mouseMotion)
 	glutReshapeFunc(resize)
-
 	if not (init()):
 		return 1
-
+	total_count=0
 	glutIdleFunc(idle)
 
 	glutMainLoop()
