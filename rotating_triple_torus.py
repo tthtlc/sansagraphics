@@ -42,6 +42,9 @@ be used on supporting hardware automatically.
 
 The vertex list is added to a batch, allowing it to be easily rendered
 alongside other vertex lists with minimal overhead.
+
+
+To install:  pip install pyglet
 '''
 
 from math import pi, sin, cos

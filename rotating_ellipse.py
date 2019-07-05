@@ -20,23 +20,24 @@ signal.signal(signal.SIGINT, signal_handler)
 import math
 
 PI = 3.141592653
-ngon=120
-angle_step=2*PI/ngon
+ngon=30
+angle_step=2*math.pi/ngon
 r1_step = 0.05
 r2_step = -0.05
 delta=0.0
-theta1 = 2*PI/30
+theta1 = 0 ##2*math.pi/3
 
 def draw_ellipse(R1, R2, alpha, beta,theta):
 	global delta
 	global ngon
 	i=0
 	angle=0
+
 	glBegin(GL_POLYGON)
 
         cx=(math.sin((theta-delta)*2)+1)
-        cy=(math.sin((theta-delta)*2-PI/2)+1)
-        cz=(math.sin((theta-delta)*2-PI/4)+1)
+        cy=(math.sin((alpha-delta)*2-PI/2)+1)
+        cz=(math.sin((beta-delta)*2-PI/4)+1)
 
         glColor3f(cx, cy, cz)
 
@@ -48,6 +49,7 @@ def draw_ellipse(R1, R2, alpha, beta,theta):
 	    angle += angle_step
 	    i+=1
 	glEnd()
+	delta += 2*math.pi/60
 
 fullscreen = False
 mouseDown = False
@@ -87,15 +89,15 @@ def display():
 	alpha=2*PI/8
 	R1=1
 	R2=0.8
-	theta=0.0
+	theta=2*math.pi/30
 
 	for i in range(ndisc):
-		R1 += r1_step
-		R2 += r2_step
-		alpha += 2*angle_step
-		beta -= angle_step
+		#R1 += r1_step
+		#R2 += r2_step
+		alpha += angle_step
+		beta += angle_step
 		theta += theta1
-		draw_ellipse(R1, R2, alpha, beta,theta)
+		draw_ellipse(R1, R2, alpha, beta, theta)
 
 	glFlush()
 	glutSwapBuffers()
