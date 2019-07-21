@@ -34,8 +34,8 @@ def on_resize(width, height):
 
 def update(dt):
     global rx, ry, rz
-    rx += dt * 1
-    ry += dt * 80
+    rx += dt * 30
+    ry += dt * 30
     rz += dt * 30
     rx %= 360
     ry %= 360
@@ -109,12 +109,12 @@ class Torus(object):
         v_step = 2 * pi / (inner_slices - 1)
         u = 0.
         for i in range(slices):
-            cos_u = cos(2*u)
-            sin_u = sin(2*u)
+            cos_u = cos(1*u)
+            sin_u = sin(1*u)
             v = 0.
             for j in range(inner_slices):
-                cos_v = cos(2*v)
-                sin_v = sin(2*v)
+                cos_v = cos(1*v)
+                sin_v = sin(1*v)
 
                 d = (radius + inner_radius * cos_v)
                 x = d * (cos_u +2)* cos_u

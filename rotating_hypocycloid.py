@@ -7,6 +7,7 @@
 # Import a library of functions called 'pygame'
 import pygame
 import math
+import time
  
 # Initialize the game engine
 pygame.init()
@@ -27,15 +28,12 @@ factorb=1.0
 factorc=1.0
 factord=1.0
 
-PI = 3.141592653
- 
 # Set the height and width of the screen
 size = [800,480]
 screen = pygame.display.set_mode(size)
  
 pygame.display.set_caption("Sansagraphics World")
  
-#Loop until the user clicks the close button.
 done = False
 clock = pygame.time.Clock()
  
@@ -45,12 +43,11 @@ i=0
 xorigin=999.9
 yorigin=999.9
 delta=0.0
-total_rot=10000
+total_rot=1000
 counter=0
-counter1=0
 counter_max=len(special_group)
-counter1_max=20
 spanning_rate=1.0
+ngon=30
 
 while done == False:
  
@@ -80,37 +77,30 @@ while done == False:
     if thickness > 100:
 	thickness=0
     (a,b) = special_group[counter]
-    ##print a,b
+
+    phi_step = 2*math.pi/ngon
+    phi = 0.0
+
     for n in range(total_rot):
-        ##pygame.draw.line(screen,red,[0,10+y_offset],[100,110+y_offset],5)
-	phi = n * 2*PI/120
+
+	phi += phi_step
 	x_offset = x_factor*((a-b)*math.cos(factora*phi-delta)-b*math.cos(factorc*(a-b)/b*phi))+400.0
 	y_offset = y_factor*((a-b)*math.sin(factorb*phi-delta)-b*math.sin(factord*(a-b)/b*phi))+240.0
 
 	if (n>0) and (xorigin!=999.9):
 		cx=int(120*(math.sin(2*(phi-delta))+1)+10)
 		cy=int(120*(math.sin(phi-delta)+1)+10)
-		cz=int(120*(math.sin(phi-delta-PI)+1)+10)
+		cz=int(120*(math.sin(phi-delta-math.pi)+1)+10)
         	pygame.draw.line(screen,[cx,cy,cz],[xorigin,yorigin],[x_offset,y_offset],2)
-		delta=delta+0.0001*spanning_rate
+		delta=delta+0.01*spanning_rate
 
 	xorigin = x_offset
 	yorigin = y_offset
 	
-    	##pygame.draw.ellipse(screen,black,[y_offset,x_offset,30,30],1/3) 
-     
-    # Go ahead and update the screen with what we've drawn.
-    # This MUST happen after all the other drawing commands.
-    counter1+=1
-    if counter1>counter1_max:
-    	counter+=1
-	counter1=0
-    	if counter>counter_max:
-		counter=0
-		counter1=0
+    counter += 1
+    counter = counter % 13
+    time.sleep(0.25)
+
     pygame.display.flip()
-    ###print "Press enter.."
-    ###factorf = raw_input()
- 
-# Be IDLE friendly
+
 pygame.quit()

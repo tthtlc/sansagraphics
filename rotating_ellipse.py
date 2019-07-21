@@ -19,8 +19,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 import math
 
-PI = 3.141592653
-ngon=30
+ngon=20
 angle_step=2*math.pi/ngon
 r1_step = 0.05
 r2_step = -0.05
@@ -33,15 +32,15 @@ def draw_ellipse(R1, R2, alpha, beta,theta):
 	i=0
 	angle=0
 
-	glBegin(GL_POLYGON)
+	glBegin(GL_LINE_STRIP)
 
         cx=(math.sin((theta-delta)*2)+1)
-        cy=(math.sin((alpha-delta)*2-PI/2)+1)
-        cz=(math.sin((beta-delta)*2-PI/4)+1)
+        cy=(math.sin((alpha-delta)*2-math.pi/2)+1)
+        cz=(math.sin((beta-delta)*2-math.pi/4)+1)
 
         glColor3f(cx, cy, cz)
 
-	while i < ngon:
+	while i < ngon+1:
 	    y = R1*math.sin(angle+alpha)*math.cos(beta)
 	    x = R2*math.sin(angle)*math.sin(beta)
 	    z = R2*math.cos(angle)
@@ -50,6 +49,7 @@ def draw_ellipse(R1, R2, alpha, beta,theta):
 	    i+=1
 	glEnd()
 	delta += 2*math.pi/60
+	#glFlush()
 
 fullscreen = False
 mouseDown = False
@@ -85,8 +85,8 @@ def display():
 	glRotatef(xrot, 1.0, 0.0, 0.0)
 	glRotatef(yrot, 0.0, 1.0, 0.0)
 
-	beta=2*PI/8
-	alpha=2*PI/8
+	beta=2*math.pi/8
+	alpha=2*math.pi/8
 	R1=1
 	R2=0.8
 	theta=2*math.pi/30
@@ -98,9 +98,8 @@ def display():
 		beta += angle_step
 		theta += theta1
 		draw_ellipse(R1, R2, alpha, beta, theta)
-
-	glFlush()
 	glutSwapBuffers()
+
 
 
 def resize(*args):

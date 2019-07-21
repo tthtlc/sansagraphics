@@ -398,6 +398,7 @@ def mouseMotion(*args):
 	global xrot, yrot
 	global xdiff, ydiff
 	global mouseDown
+	print("bbb")
 	if (mouseDown):
 		yrot = args[0] - xdiff
 		xrot = args[1] + ydiff

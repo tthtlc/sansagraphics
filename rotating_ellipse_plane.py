@@ -9,7 +9,6 @@ except:
 
 import array
 import signal
-import random
 
 def signal_handler(signal, frame):
         print 'You pressed Ctrl+C!'
@@ -19,31 +18,40 @@ signal.signal(signal.SIGINT, signal_handler)
 ###signal.pause()
 
 import math
+xrot = 0.2
+yrot = 0.0
 
-PI = 3.141592653
-ngon=6
-angle_step=2*PI/ngon
-r1_step = 0.005
-r2_step = 0.001
-delta=0.6
-theta1 = 2*PI/ngon
+xdiff = 0.0
+ydiff = 0.0
+
+### theta is rotation about the z-axis
+def draw_ellipse_z(R1, R2, theta, xoffset, yoffset, zoffset):
+	angle=0
+	ngon=30
+	angle_step=2*math.pi/ngon
+
+	glBegin(GL_LINE_STRIP)
+
+        cx=(math.sin(theta))
+        cy=(math.cos(theta))
+        cz=(math.sin(theta))
+
+        glColor3f(cx, cy, cz)
+
+	### angle is the angle of rotation about the tilted x-z plane, which is again rotated about the z-axis with theta
+	for i in range(ngon+1):
+	    x = xoffset+R2*math.cos(angle)*math.cos(theta)
+	    z = zoffset+R1*math.sin(angle)
+	    y = yoffset+R2*math.cos(angle)*math.sin(theta)
+	    glVertex3f(x,y,z)
+	    angle += angle_step
+	glEnd()
 
 fullscreen = False
 mouseDown = False
 
-xrot = 0.2
-yrot = 0.0
-zrot = 0.0
-
-xdiff = 0.0
-ydiff = 0.0
-ndisc = 20
-
 def init():
-#	glClearColor(0.93, 0.93, 0.93, 0.0)
-	glClearColor(1.0,1.0,1.0,0.0)
-	glClearColor(0.0, 0.0, 0.0, 1.0)
-	glClearColor(0.0, 0.0, 0.0, 0.0)
+	glClearColor(0.93, 0.93, 0.93, 0.0)
 
 	glEnable(GL_DEPTH_TEST)
 	glDepthFunc(GL_LEQUAL)
@@ -53,34 +61,38 @@ def init():
 
 
 def display():
-	global xrot, yrot, zrot
-	global ndisc
+	global xrot, yrot
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glLoadIdentity()
 
 	gluLookAt(
-		0.0, 0.0, 10.0,
+		5.0, 5.0, 5.0,
 		0.0, 0.0, 0.0,
 		0.0, 1.0, 0.0)
 
 	glRotatef(xrot, 1.0, 0.0, 0.0)
 	glRotatef(yrot, 0.0, 1.0, 0.0)
-	glRotatef(zrot, 0.0, 0.0, 1.0)
 
-    	##glutWireCube(1)
- 	glColor3f(0.5, 0.0, 1.0)
-	glutWireTorus(0.5,1.5,5,5)
+	R1=0.8
+	R2=0.6
+	R3=1.0
+	ngon=8
+	theta_step=2*math.pi/ngon
+	theta=0.0
 
-	#void glutSolidTorus(GLdouble innerRadius,
-        #            GLdouble outerRadius,
-        #            GLint nsides, GLint rings);
-	#void glutWireTorus(GLdouble innerRadius,
-        #           GLdouble outerRadius,
-        #          GLint nsides, GLint rings);
+	for i in range(ngon):
 
-    	glFlush()
-    	glutSwapBuffers()
+		xoffset=R3*math.cos(theta)
+		yoffset=R3*math.sin(theta)
+		zoffset=0.0
+		draw_ellipse_z(R1, R2, theta, xoffset, yoffset, zoffset)
+		theta += theta_step
 
+	### note that the flush/Swp must be outside the glBegin/glEnd() eternal loop.
+	### only do it ONCE per display() is called.
+
+	glFlush()
+	glutSwapBuffers()
 
 def resize(*args):
 	glMatrixMode(GL_PROJECTION)
@@ -95,12 +107,11 @@ def resize(*args):
 
 
 def idle():
-	global xrot, yrot, zrot
+	global xrot, yrot
 	global mouseDown
 	if not (mouseDown):
-		xrot += 0.3 
-		yrot += 0.3
-		zrot += 1.0
+		xrot += 0.8
+		yrot += 0.8
 
 	glutPostRedisplay()
 
@@ -152,7 +163,7 @@ def main():
 
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE)
 
-	glutCreateWindow("Torus Shapes")
+	glutCreateWindow("Rotating Ellipse Plane")
 
 	glutDisplayFunc(display)
 	glutKeyboardFunc(keyboard)

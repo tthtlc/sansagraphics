@@ -77,8 +77,8 @@ def update(dt):
     ry %= 360
     rz %= 360
     total_count += 1
-    if (total_count>int(sys.argv[1])):
-	sys.exit(0)
+    if (total_count>10):
+	window.clear()
 
 pyglet.clock.schedule(update)
 
@@ -126,8 +126,7 @@ def setup():
 
 class Torus(object):
     list = None
-    def __init__(self, radius, inner_radius, slices, inner_slices, 
-                 batch, group=None):
+    def __init__(self, radius, inner_radius, slices, inner_slices, cycle, batch, group=None):
         # Create the vertex and normal arrays.
         vertices = []
         normals = []
@@ -136,7 +135,7 @@ class Torus(object):
         v_step = 2 * pi / (inner_slices - 1)
         u = 0.
         for i in range(slices):
-            cos_u = cos(3*u)
+            cos_u = cos(cycle*u)
             sin_u = sin(u)
             v = 0.
             for j in range(inner_slices):
@@ -177,8 +176,10 @@ class Torus(object):
 
 setup()
 batch = pyglet.graphics.Batch()
-torus = Torus(1, 0.3, 100, 60, batch=batch)
-rx = ry = rz = 0
-total_count=0
+
+for n in range(int(sys.argv[1])):
+	torus = Torus(1, 0.3, 100, 60, n, batch=batch)
+	rx = ry = rz = 0
+	total_count=0
 
 pyglet.app.run()

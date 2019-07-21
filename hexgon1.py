@@ -72,8 +72,9 @@ while done == False:
     # Clear the screen and set the screen background
  
     ## my_ngon(R, r, ngon, angle_offset, xoffset, yoffset):
-    my_ngon(200, 0, 6, angle_offset, 400, 240)
-    angle_offset+=2*PI/6/10
+    ngon=3
+    my_ngon(200, 0, ngon, angle_offset, 400, 240)
+    angle_offset+=2*PI/ngon/10  ### rotate 10 times
 
     ##pygame.draw.ellipse(screen,black,[y_offset,x_offset,30,30],1/3) 
      

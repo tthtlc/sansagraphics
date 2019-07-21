@@ -63,7 +63,6 @@ while not done:
 
     # a texture
 
-    #pulse = sin(t/30)*0.5+0.5 # try this one
     pulse = 0
 
     texdata=[[[1.0,1,1,1],   
@@ -97,7 +96,6 @@ while not done:
 
     # vertices & texture data
 
-    #glBegin(GL_TRIANGLE_STRIP);
     glBegin(GL_LINES);
     #pulse2 = 0.5
     round = 12

@@ -3,6 +3,7 @@
 # Simpson College Computer Science
 # http://programarcadegames.com/
 # http://simpson.edu/computer-science/
+import time
  
 ##  http://mathworld.wolfram.com/Epicycloid.html
 # Import a library of functions called 'pygame'
@@ -19,10 +20,13 @@ blue =  [  0,  0,255]
 green = [  0,255,  0]
 red =   [255,  0,  0]
 
+
 PI = 3.141592653
+ysize=1000
+xsize=800
  
 # Set the height and width of the screen
-size = [800,480]
+size = [ysize,xsize]
 screen = pygame.display.set_mode(size)
  
 pygame.display.set_caption("Sansagraphics World")
@@ -40,7 +44,7 @@ def chasing_ngon(radius, ngon,xoffset,yoffset):
 	angle_step=2*math.pi/ngon
 	a = yoffset
 	b = xoffset
-	niteration=10*ngon
+	niteration=8*ngon
 
 	prevy = a + radius*math.sin(myangle)
     	prevx = b + radius*math.cos(myangle)
@@ -76,6 +80,14 @@ def my_ngon(R, r, ngon, angle_offset, xoffset, yoffset):
 	prevy=y_offset
 
 screen.fill(white)
+xcenteroffset=xsize/2
+ycenteroffset=ysize/2
+small_radius=ysize/20
+large_radius=ysize/6
+iteration_steps=120
+yoffset = small_radius*math.sin((0.0))+ ycenteroffset
+xoffset = small_radius*math.cos((0.0))+ xcenteroffset
+##time.sleep(5)
 
 while done == False:
  
@@ -94,9 +106,11 @@ while done == False:
     # Clear the screen and set the screen background
  
     ## my_ngon(R, r, ngon, angle_offset, xoffset, yoffset):
-    ### my_ngon(200, -100, 5, angle_offset, 400, 240)
-    chasing_ngon(200, 3,200.0,200.0)
-    angle_offset+=2*PI/6/10
+    ## chasing_ngon(200, 3,200.0,200.0)
+    my_ngon(large_radius, 0, 3, angle_offset, xoffset, yoffset)
+    angle_offset+=2*PI/iteration_steps
+    yoffset = small_radius*math.sin((angle_offset))+ ycenteroffset
+    xoffset = small_radius*math.cos((angle_offset))+ xcenteroffset
 
     ##pygame.draw.ellipse(screen,black,[y_offset,x_offset,30,30],1/3) 
      
