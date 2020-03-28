@@ -97,8 +97,8 @@ while not done:
 
     # vertices & texture data
 
-    glBegin(GL_TRIANGLE_STRIP);
-    #glBegin(GL_LINES);
+    #glBegin(GL_TRIANGLE_STRIP);
+    glBegin(GL_LINES);
     #pulse2 = 0.5
     round = 12
     ngon = 90

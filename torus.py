@@ -36,6 +36,7 @@ while not done:
     glLoadIdentity()
     gluPerspective(90,1,0.01,1000)
     gluLookAt(sin(t/200.0)*3,sin(t/500.0)*3,cos(t/200.0)*3,0,0,0,0,1,0)
+#    gluLookAt(0,0,1,0,0,0,0,1,0)
 
     glMatrixMode(GL_MODELVIEW)
 
@@ -44,8 +45,8 @@ while not done:
     glEnable( GL_TEXTURE_2D );
     glEnable( GL_COLOR_MATERIAL );
 
-    round = 90
-    ngon = 30
+    round = 10
+    ngon = 10
     stepsize=2*math.pi/ngon
     stepsize2=2*math.pi/round
     theta=0.0
@@ -53,10 +54,11 @@ while not done:
     R=1.0
     r=0.2
 
-    for j in range(round+1):
+    for j in range(round):
 	rx = (R + r*cos(theta))*cos(delta)
 	rz = (R + r*cos(theta))*sin(delta)
 	ry = (r*sin(theta))
+        #glBegin(GL_LINES);
         glBegin(GL_LINE_STRIP);
 	glVertex3f( rx, ry, rz)
     	glColor3f(1.0,1.0,0.0)

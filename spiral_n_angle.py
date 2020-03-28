@@ -19,7 +19,7 @@ def draw_n_angle(nos_angle, max_turns):
 	for i in range(max_turns): 
 		p.forward(i*3)
 		p.left(angle)
-		p.left(1)
+		p.left(4)
 	###	p.pencolor((0.2,0.8,0.55))
 		j = (j+2)%256
 		k = (k+2)%256
@@ -28,8 +28,8 @@ def draw_n_angle(nos_angle, max_turns):
 
 while True:
  
-    draw_n_angle(n,60)
-    n = n+1
+    draw_n_angle(n,90)
+    n = n+5
  
     print "Press enter.."
     raw = raw_input()
