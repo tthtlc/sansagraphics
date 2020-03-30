@@ -17,7 +17,6 @@ white = [255,255,255]
 blue =  [  0,  0,255]
 green = [  0,255,  0]
 red =   [255,  0,  0]
-radius=1.0
 
 PI = 3.141592653
  
@@ -33,9 +32,12 @@ clock = pygame.time.Clock()
  
 total_rot=100
 theta=2.0*PI/total_rot
-a=200.0
-b=50.0
+a=40.0
+b=10.0
 ### a/b=3....three cusp
+c=1.0
+d=1.0
+phi=0.0
 
 while done == False:
  
@@ -50,15 +52,14 @@ while done == False:
     # inside the main while done==False loop.
      
     # Clear the screen and set the screen background
-    screen.fill(black)
+    #screen.fill(black)
  
-    phi=0.0
-    xorigin = radius*((a-b)*math.cos(phi)+b*math.cos((a-b)*phi/b))+400.0
-    yorigin = radius*((a-b)*math.sin(phi)-b*math.sin((a-b)*phi/b))+240.0
+    xorigin = ((a-b)*math.cos(phi)+b*math.cos((a-b)*phi/b))+400.0
+    yorigin = ((a-b)*math.sin(phi)-b*math.sin((a-b)*phi/b))+240.0
     for n in range(total_rot):
         phi += theta
-        x_offset = radius*((a-b)*math.cos(phi)+b*math.cos((a-b)*phi/b))+400.0
-        y_offset = radius*((a-b)*math.sin(phi)-b*math.sin((a-b)*phi/b))+240.0
+        x_offset = ((a-b)*math.cos(phi)+b*math.cos((a-b)*phi/b))+400.0
+        y_offset = ((a-b)*math.sin(phi)-b*math.sin((a-b)*phi/b))+240.0
 
         pygame.draw.line(screen,green,[xorigin,yorigin],[x_offset,y_offset],2)
         xorigin = x_offset
@@ -66,9 +67,15 @@ while done == False:
 	
     	##pygame.draw.ellipse(screen,black,[y_offset,x_offset,30,30],1/3) 
      
-    pygame.display.flip()
+    pygame.display.update()
+    phi += 3*theta
+    #pygame.display.flip()
     print "Press enter.."
     raw_input()
+    #screen.fill(black)
+    #a += 20.0
+    b += 10.0
+    a = 4*b
  
 # Be IDLE friendly
 pygame.quit()
