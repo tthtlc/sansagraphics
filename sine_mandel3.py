@@ -99,24 +99,22 @@ def GetInput():
     key = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == QUIT:####or key[K_ESCAPE]:
-		pygame.quit()	
-		sys.exit()
-	elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-		x,y = event.pos
-		mouseDown = True
-    		surface.fill(col(0), (0, 0, size, size))
-
-		new_xa=xa+x*(xb-xa)/size/1.0-(xb-xa)/8.0
-		new_xb=xa+x*(xb-xa)/size/1.0+(xb-xa)/8.0
-		new_ya=ya+y*(yb-ya)/size/1.0-(yb-ya)/8.0
-		new_yb=ya+y*(yb-ya)/size/1.0+(yb-ya)/8.0
-
-		xa = new_xa
-		xb = new_xb
-		ya = new_ya
-		yb = new_yb
-		print x,y, size
-		print xa, xb, ya, yb
+            pygame.quit()	
+            sys.exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            x,y = event.pos
+            mouseDown = True
+            surface.fill(col(0), (0, 0, size, size))
+            new_xa=xa+x*(xb-xa)/size/1.0-(xb-xa)/8.0
+            new_xb=xa+x*(xb-xa)/size/1.0+(xb-xa)/8.0
+            new_ya=ya+y*(yb-ya)/size/1.0-(yb-ya)/8.0
+            new_yb=ya+y*(yb-ya)/size/1.0+(yb-ya)/8.0
+            xa = new_xa
+            xb = new_xb
+            ya = new_ya
+            yb = new_yb
+            print(x,y, size)
+            print(xa, xb, ya, yb)
 # calculate the image
 
 # Wait for user to click close widget on window
@@ -148,6 +146,6 @@ def InitScreen():
 while True:
     GetInput()
     if (mouseDown):
-    	#InitScreen()
-	mandel(0, 0, size)
-	mouseDown = False
+        #InitScreen()
+        mandel(0, 0, size)
+        mouseDown = False

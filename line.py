@@ -2,9 +2,9 @@
 from math import *
 NT = float
 
-from pylab import *
+#from pylab import *
 #from matplotlib.matlab import *
-from matplotlib.pylab import *
+#from matplotlib.pylab import *
 
 
 xconst = 0.2
@@ -21,20 +21,20 @@ yc=0.0
 theta=0.0
 angle_quantum=2*PI/n
 for i in range(2*n):
-	x=[]
-	y=[]
-	xline=xline+0.5
-	yline=m*xline+c
-#	xline=0.0
-#	yline=0.0
-	x.append(xline)
-	y.append(yline)
+    x=[]
+    y=[]
+    xline=xline+0.5
+    yline=m*xline+c
+#    xline=0.0
+#    yline=0.0
+    x.append(xline)
+    y.append(yline)
 
-	xcircle=r*cos(theta)+xc
-	ycircle=r*sin(theta)+yc
-	theta = theta + angle_quantum
-	x.append(xcircle)
-	y.append(ycircle)
+    xcircle=r*cos(theta)+xc
+    ycircle=r*sin(theta)+yc
+    theta = theta + angle_quantum
+    x.append(xcircle)
+    y.append(ycircle)
 
-	plot(x,y)
+    plot(x,y)
 show()

@@ -13,7 +13,7 @@ methods are taken from the PythonCard example
 scripts for turtle-graphics.
 """
 from turtle import *
-from time import sleep, clock
+#from time import sleep, clock
 
 class CurvesTurtle(Pen):
     # example derived from
@@ -145,5 +145,5 @@ def main():
 
 if __name__  == '__main__':
     msg = main()
-    print msg
+    print(msg)
     mainloop()

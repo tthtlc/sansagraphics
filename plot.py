@@ -3,7 +3,7 @@ from math import *
 NT = float
 
 from pylab import *
-#from matplotlib.matlab import *
+from matplotlib.matlab import *
 from matplotlib.pylab import *
 
 

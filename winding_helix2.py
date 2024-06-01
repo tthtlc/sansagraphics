@@ -55,21 +55,21 @@ while not done:
     r=0.2
 
     for j in range(round+1):
-	rx = (R + r*cos(theta))*cos(delta)
-	rz = (R + r*cos(theta))*sin(delta)
-	ry = (r*sin(theta))
+        rx = (R + r*cos(theta))*cos(delta)
+        rz = (R + r*cos(theta))*sin(delta)
+        ry = (r*sin(theta))
         glBegin(GL_LINE_STRIP);
-	glVertex3f( rx, ry, rz)
-    	glColor3f(1.0,1.0,0.0)
-	for i in range(ngon):
-		theta += stepsize + offsetsize
-		delta += stepsize2
-	
-		rx = (R + r*cos(theta))*cos(delta)
-		rz = (R + r*cos(theta))*sin(delta)
-		ry = (r*sin(theta))
-	
-	        glVertex3f( rx, ry, rz)
+        glVertex3f( rx, ry, rz)
+        glColor3f(1.0,1.0,0.0)
+        for i in range(ngon):
+            theta += stepsize + offsetsize
+            delta += stepsize2
+    
+            rx = (R + r*cos(theta))*cos(delta)
+            rz = (R + r*cos(theta))*sin(delta)
+            ry = (r*sin(theta))
+    
+            glVertex3f( rx, ry, rz)
 
         glEnd();
 

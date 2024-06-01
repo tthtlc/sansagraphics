@@ -110,33 +110,33 @@ while not done:
 
     for i in range(0,round*ngon):
 
-	#pulse2 += 0.5
+    #pulse2 += 0.5
         #if (i%2==0):
         #    glTexCoord2f(0,i);
         #    glVertex3f( cos(i/r), -2.5+i*0.05, sin(i/r));            
 #            glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
         #else:
         #glTexCoord2f(1,i);
-	## orig
+    ## orig
         ##glVertex3f( cos(i*theta), sin(i*theta*4)-cos(i*theta*3), sin(i*theta));
-	theta1 += theta
-	phi1 = 2*math.pi - theta1
+    theta1 += theta
+    phi1 = 2*math.pi - theta1
 
-	delta1 += theta
+    delta1 += theta
 
-	ry = 2*cos(theta1)
-	rx = 2*sin(theta1)*cos(phi1)
-	rz = 2*sin(theta1)*sin(phi1)
-	rx1 = 2*sin(phi1+delta1)*cos(theta1)
-	ry1 = 2*cos(theta1+delta1)+2*sin(phi1)
-	rz1 = 2*sin(theta1+delta1)+2*sin(phi1)
-	
+    ry = 2*cos(theta1)
+    rx = 2*sin(theta1)*cos(phi1)
+    rz = 2*sin(theta1)*sin(phi1)
+    rx1 = 2*sin(phi1+delta1)*cos(theta1)
+    ry1 = 2*cos(theta1+delta1)+2*sin(phi1)
+    rz1 = 2*sin(theta1+delta1)+2*sin(phi1)
+    
 
-        glVertex3f( rx, ry, rz)
-        glVertex3f( rx1, ry1, rz)
-        #glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
-        #glVertex3f( cos(i*theta), sin(i*theta)+cos(i*theta), sin(i*theta));            
-#            glVertex3f( cos(i/r+3.14)*pulse2, -2.5+i*0.05+d+pulse2*1, sin(i/r+3.14)*pulse2);
+    glVertex3f( rx, ry, rz)
+    glVertex3f( rx1, ry1, rz)
+    #glVertex3f( cos(i/r)*pulse2, -2.5+i*0.05, sin(i/r)*pulse2);
+    #glVertex3f( cos(i*theta), sin(i*theta)+cos(i*theta), sin(i*theta));            
+#   glVertex3f( cos(i/r+3.14)*pulse2, -2.5+i*0.05+d+pulse2*1, sin(i/r+3.14)*pulse2);
         
 
     glEnd();
