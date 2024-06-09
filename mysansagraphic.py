@@ -2,134 +2,133 @@ import sys
 import math
 
 def translate(x0, y0, z0, x,y,z):
-	x = x0 + x
-	y = y0 + y
-	z = z0 + z
-        return (x, y, z)
+    x = x0 + x
+    y = y0 + y
+    z = z0 + z
+    return (x, y, z)
 
 
 def spherical_to_cartesian3d(r,phi,theta):
-	x = r*math.sin(phi)*math.cos(theta)
-	y = r*math.sin(phi)*math.sin(theta)
-	z = r*math.cos(phi)
-	return (x,y,z)
+    x = r*math.sin(phi)*math.cos(theta)
+    y = r*math.sin(phi)*math.sin(theta)
+    z = r*math.cos(phi)
+    return (x,y,z)
 
 def cartesian3d_to_spherical(x,y,z):
-	r = math.sqrt(x*x+y*y+z*z)
-	phi = math.acos(z/r)
-	theta = y/r/math.sin(phi)
-	return (r, phi, theta)
+    r = math.sqrt(x*x+y*y+z*z)
+    phi = math.acos(z/r)
+    theta = y/r/math.sin(phi)
+    return (r, phi, theta)
 
 def planespiral(radius,ngon,turn,phi,theta,yc):
 
-	glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
-	glEnable(GL_BLEND)
+    glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE)
+    glEnable(GL_BLEND)
 
-    	glBegin(GL_LINE_STRIP)
- 	#glColor3f(0.1, 0.2, 0.3)
-	theta = 2 * math.pi / ngon
-	rad1=radius/turn/ngon
-	rad=0.0
-	y=0.0
-	for i in range(ngon*turn):
-    		glColor3fv(Colors[i%8])
-		x = rad * math.cos(4*i*theta) 
-		z = rad * math.sin(i*theta)
-		y += yc 
-		(x1,y1,z1) = point_rotatex(x,y,z, phi)
-		(x2,y2,z2) = point_rotatez(x1,y1,z1, theta)
-		
-		rad += rad1
-    		glVertex3fv((x2,y2,z2))
-    	glEnd()
-	return 
+    glBegin(GL_LINE_STRIP)
+    #glColor3f(0.1, 0.2, 0.3)
+    theta = 2 * math.pi / ngon
+    rad1=radius/turn/ngon
+    rad=0.0
+    y=0.0
+    for i in range(ngon*turn):
+        glColor3fv(Colors[i%8])
+        x = rad * math.cos(4*i*theta) 
+        z = rad * math.sin(i*theta)
+        y += yc 
+        (x1,y1,z1) = point_rotatex(x,y,z, phi)
+        (x2,y2,z2) = point_rotatez(x1,y1,z1, theta)
+        rad += rad1
+        glVertex3fv((x2,y2,z2))
+    glEnd()
+    return 
 
 def planecircle(radius,ngon):
-    	glBegin(GL_LINE_STRIP)
- 	glColor3f(0.1, 0.2, 0.3)
-        theta = 2 * math.pi / ngon
-	for i in range(ngon):
-		x = radius * math.cos(i*theta)
-		z = radius * math.sin(i*theta)
-		y = 0.0
-    		glVertex3fv((x,y,z))
-    	glEnd()
-	return
+    glBegin(GL_LINE_STRIP)
+    glColor3f(0.1, 0.2, 0.3)
+    theta = 2 * math.pi / ngon
+    for i in range(ngon):
+        x = radius * math.cos(i*theta)
+        z = radius * math.sin(i*theta)
+        y = 0.0
+        glVertex3fv((x,y,z))
+    glEnd()
+    return
 
 def rotate_phi_theta(r, phi, theta, delta_r, delta_phi, delta_theta):
-	r = r+delta_r
-	phi = phi+delta_phi
-	theta = theta+delta_theta
-	new_vertices=[]
-        for v in range(len(vertices)):
-		(x,y,z) = vertices[v]
-		x *= math.sin(theta) * math.cos(alpha)
-		y *= math.cos(theta)
-		z *= math.sin(theta) * math.sin(alpha)
-        	new_vertices.append((x,y,z))
-	return new_vertices
+    r = r+delta_r
+    phi = phi+delta_phi
+    theta = theta+delta_theta
+    new_vertices=[]
+    for v in range(len(vertices)):
+        (x,y,z) = vertices[v]
+        x *= math.sin(theta) * math.cos(alpha)
+        y *= math.cos(theta)
+        z *= math.sin(theta) * math.sin(alpha)
+        new_vertices.append((x,y,z))
+    return new_vertices
 
 
 def rotate_theta_alpha(vertices, theta, alpha):
-	new_vertices=[]
-        for v in range(len(vertices)):
-		(x,y,z) = vertices[v]
-		x *= math.sin(theta) * math.cos(alpha)
-		y *= math.cos(theta)
-		z *= math.sin(theta) * math.sin(alpha)
-        	new_vertices.append((x,y,z))
-	return new_vertices
+    new_vertices=[]
+    for v in range(len(vertices)):
+        (x,y,z) = vertices[v]
+        x *= math.sin(theta) * math.cos(alpha)
+        y *= math.cos(theta)
+        z *= math.sin(theta) * math.sin(alpha)
+        new_vertices.append((x,y,z))
+    return new_vertices
 
 def point_rotatex(x,y,z, angle):
-	rad = angle * math.pi / 180
-	cosa = math.cos(rad)
-	sina = math.sin(rad)
-	y1 = y * cosa - z * sina
-	z1 = y * sina + z * cosa
-	return (x,y1,z1)
+    rad = angle * math.pi / 180
+    cosa = math.cos(rad)
+    sina = math.sin(rad)
+    y1 = y * cosa - z * sina
+    z1 = y * sina + z * cosa
+    return (x,y1,z1)
 
 def plane_rotatex(vertices, angle):
-        """ Rotates the point around the X axis by the given angle in degrees. """
-	new_vertices=[]
-	for i in range(len(vertices)):
-		(x,y,z) = vertices[i]
-		(x,y,z)=point_rotatex(x,y,z,angle)	
-		new_vertices.append((x,y,z))
-	return new_vertices
+    """ Rotates the point around the X axis by the given angle in degrees. """
+    new_vertices=[]
+    for i in range(len(vertices)):
+        (x,y,z) = vertices[i]
+        (x,y,z)=point_rotatex(x,y,z,angle)    
+        new_vertices.append((x,y,z))
+    return new_vertices
 
 def point_rotatey(x,y,z, angle):
-	rad = angle * math.pi / 180
-	cosa = math.cos(rad)
-	sina = math.sin(rad)
-	z1 = z * cosa - x * sina
-	x1 = z * sina + x * cosa
-	return (x1,y,z1)
+    rad = angle * math.pi / 180
+    cosa = math.cos(rad)
+    sina = math.sin(rad)
+    z1 = z * cosa - x * sina
+    x1 = z * sina + x * cosa
+    return (x1,y,z1)
  
 def plane_rotatey(vertices, angle):
-        """ Rotates the point around the Y axis by the given angle in degrees. """
-	new_vertices=[]
-	for i in range(len(vertices)):
-		(x,y,z) = vertices[i]
-		(x,y,z)=point_rotatey(x,y,z,angle)	
-		new_vertices.append((x,y,z))
-	return new_vertices
+    """ Rotates the point around the Y axis by the given angle in degrees. """
+    new_vertices=[]
+    for i in range(len(vertices)):
+        (x,y,z) = vertices[i]
+        (x,y,z)=point_rotatey(x,y,z,angle)    
+        new_vertices.append((x,y,z))
+    return new_vertices
 
 def point_rotatez(x,y,z,angle):
-	rad = angle * math.pi / 180
-	cosa = math.cos(rad)
-        sina = math.sin(rad)
-        x1 = x * cosa - y * sina
-        y1 = x * sina + y * cosa
-	return (x1,y1,z)
+    rad = angle * math.pi / 180
+    cosa = math.cos(rad)
+    sina = math.sin(rad)
+    x1 = x * cosa - y * sina
+    y1 = x * sina + y * cosa
+    return (x1,y1,z)
  
 def plane_rotatez(vertices, angle):
-        """ Rotates the point around the Z axis by the given angle in degrees. """
-	new_vertices=[]
-	for i in range(len(vertices)):
-		(x,y,z) = vertices[i]
-		(x,y,z)=point_rotatez(x,y,z,angle)	
-		new_vertices.append([x,y,z])
-	return new_vertices
+    """ Rotates the point around the Z axis by the given angle in degrees. """
+    new_vertices=[]
+    for i in range(len(vertices)):
+        (x,y,z) = vertices[i]
+        (x,y,z)=point_rotatez(x,y,z,angle)    
+        new_vertices.append([x,y,z])
+    return new_vertices
 
 def face(a,b,c,d):
     '''draw a face defined by four vertex indices'''

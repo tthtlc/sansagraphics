@@ -1,8 +1,17 @@
+#import array
+import signal
+#import random
 import sys
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 import numpy as np
+
+def signal_handler(signal, frame):
+        print('You pressed Ctrl+C!')
+        sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
 
 # Define the parametric equations for the trefoil knot
 def trefoil_knot(u, v):
@@ -61,6 +70,7 @@ def reshape(w, h):
     glMatrixMode(GL_MODELVIEW)
 
 def keyboard(key, x, y):
+    print("%d"%(key))
     if key == b'\x1b':  # ESC key
         sys.exit()
 
