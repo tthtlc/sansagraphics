@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complex Line Drawing</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #333;
+        }
+        canvas {
+            border: 1px solid black;
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="complexLineCanvas" width="600" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('complexLineCanvas');
+        const ctx = canvas.getContext('2d');
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const numLines = 160;
+
+        // Function to draw the complex pattern
+        function drawComplexPattern() {
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 0.5;
+            for (let i = 0; i < numLines; i++) {
+                const angle1 = (i / numLines) * 2 * Math.PI;
+                const angle2 = ((i + 180) / numLines) * 2 * Math.PI;
+                const x1 = centerX + 100 * Math.cos(angle1) * Math.sin(angle2);
+                const y1 = centerY + 200 * Math.sin(angle1) * Math.sin(angle2);
+                const x2 = centerX + 300 * Math.cos(angle2) * Math.sin(angle1);
+                const y2 = centerY + 400 * Math.sin(angle2) * Math.sin(angle1);
+
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }
+        }
+
+        drawComplexPattern();
+    </script>
+</body>
+</html>
+
