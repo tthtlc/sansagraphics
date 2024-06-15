@@ -149,7 +149,6 @@ def mouse(*args):
 	else:
 		mouseDown = False
 
-
 def mouseMotion(*args):
 	global xrot, yrot
 	global xdiff, ydiff
@@ -158,7 +157,6 @@ def mouseMotion(*args):
 		yrot = args[0] - xdiff
 		xrot = args[1] + ydiff
 	glutPostRedisplay()
-
 
 def main():
 	glutInit(sys.argv)

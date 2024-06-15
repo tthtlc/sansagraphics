@@ -88,14 +88,6 @@ def display():
  	glColor3f(0.5, 0.0, 1.0)
 	#glutWireSphere(4,10,10)
 	draw_bilope(20, 20, 2.0)
-
-	#void glutSolidTorus(GLdouble innerRadius,
-        #            GLdouble outerRadius,
-        #            GLint nsides, GLint rings);
-	#void glutWireTorus(GLdouble innerRadius,
-        #           GLdouble outerRadius,
-        #          GLint nsides, GLint rings);
-
     	glFlush()
     	glutSwapBuffers()
 
