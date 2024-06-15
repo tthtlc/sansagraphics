@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Complex Line Drawing</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #333;
+        }
+        canvas {
+            border: 1px solid black;
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="complexLineCanvas" width="600" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('complexLineCanvas');
+        const ctx = canvas.getContext('2d');
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const numLines = 360;
+
+        let angleMultiplier1 = 2;
+        let angleMultiplier2 = 4;
+        let radius1 = 100;
+        let radius2 = 400;
+        let angleOffset = 0;
+
+        // Function to draw the complex pattern
+        function drawComplexPattern() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 0.5;
+
+            for (let i = 0; i < numLines; i++) {
+                const angle1 = (i / numLines) * 2 * Math.PI;
+                const angle2 = ((i + 180) / numLines) * 2 * Math.PI;
+                const x1 = centerX + radius1 * Math.cos(angleMultiplier1 * (angle1 + angleOffset)) * Math.sin(angle2 + angleOffset);
+                const y1 = centerY + radius1 * Math.sin(angleMultiplier2 * (angle1 + angleOffset)) * Math.sin(angle2 + angleOffset);
+                const x2 = centerX + radius2 * Math.cos(angle2 + angleOffset) * Math.sin(angle1 + angleOffset);
+                const y2 = centerY + radius2 * Math.sin(angle2 + angleOffset) * Math.sin(angle1 + angleOffset);
+
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }
+
+            // Update parameters to create animation
+            angleOffset += 0.01;
+            angleMultiplier1 = 2 + Math.sin(angleOffset) * 2;
+            angleMultiplier2 = 4 + Math.cos(angleOffset) * 2;
+            radius1 = 100 + Math.sin(3*angleOffset) * 50;
+            radius2 = 400 + Math.cos(angleOffset) * 50;
+
+            requestAnimationFrame(drawComplexPattern);
+        }
+
+        drawComplexPattern();
+    </script>
+</body>
+</html>
+

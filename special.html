@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Mesh Line Drawing</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        canvas {
+            border: 1px solid black;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="meshCanvas" width="600" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('meshCanvas');
+        const ctx = canvas.getContext('2d');
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const scale = 100;
+        const numU = 200;
+        const numV = 100;
+
+        function drawMesh() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#FF0000';
+            ctx.lineWidth = 0.5;
+
+            function meshX(u, v) {
+                return Math.cos(2*u) * (3 + Math.cos(v));
+            }
+
+            function meshY(u, v) {
+                return Math.sin(6*u) * (3 + Math.cos(v));
+            }
+
+            function meshZ(u, v) {
+                return Math.sin(v) + Math.sin(u);
+            }
+
+            for (let i = 0; i <= numU; i++) {
+                const u = (i / numU) * 2 * Math.PI;
+                ctx.beginPath();
+                for (let j = 0; j <= numV; j++) {
+                    const v = (j / numV) * 2 * Math.PI;
+                    const x = meshX(u, v);
+                    const y = meshY(u, v);
+                    const z = meshZ(u, v);
+
+                    // Simple 2D projection
+                    const xProj = centerX + x * scale;
+                    const yProj = centerY - y * scale;
+
+                    if (j === 0) {
+                        ctx.moveTo(xProj, yProj);
+                    } else {
+                        ctx.lineTo(xProj, yProj);
+                    }
+                }
+                ctx.stroke();
+            }
+
+            for (let j = 0; j <= numV; j++) {
+                const v = (j / numV) * 2 * Math.PI;
+                ctx.beginPath();
+                for (let i = 0; i <= numU; i++) {
+                    const u = (i / numU) * 2 * Math.PI;
+                    const x = meshX(u, v);
+                    const y = meshY(u, v);
+                    const z = meshZ(u, v);
+
+                    // Simple 2D projection
+                    const xProj = centerX + x * scale;
+                    const yProj = centerY - y * scale;
+
+                    if (i === 0) {
+                        ctx.moveTo(xProj, yProj);
+                    } else {
+                        ctx.lineTo(xProj, yProj);
+                    }
+                }
+                ctx.stroke();
+            }
+        }
+
+        drawMesh();
+    </script>
+</body>
+</html>
+

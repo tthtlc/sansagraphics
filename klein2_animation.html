@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klein Bottle Line Drawing</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        canvas {
+            border: 1px solid black;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="kleinBottleCanvas" width="600" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('kleinBottleCanvas');
+        const ctx = canvas.getContext('2d');
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        let scale = 50;
+        let scale2 = 50;
+        const numU = 60;
+        const numV = 60;
+        let time = 0;
+
+        function drawKleinBottle() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 0.5;
+
+            function kleinBottleX(u, v) {
+                if (u < Math.PI) {
+                    return scale2 * Math.cos(u) * (1 + Math.sin(u)) + scale * Math.cos(u) * Math.cos(v + time);
+                } else {
+                    return scale2 * Math.cos(u) * (1 + Math.sin(u)) + scale * Math.cos(v + Math.PI + time);
+                }
+            }
+
+            function kleinBottleY(u, v) {
+                if (u < Math.PI) {
+                    return scale2 * Math.sin(u) * (1 + Math.sin(u)) + scale * Math.sin(u) * Math.cos(v + time);
+                } else {
+                    return scale2 * Math.sin(u) * (1 + Math.sin(u));
+                }
+            }
+
+            function kleinBottleZ(u, v) {
+                if (u < Math.PI) {
+                    return scale * Math.sin(v + time);
+                } else {
+                    return scale * Math.sin(v + Math.PI + time);
+                }
+            }
+
+            for (let i = 0; i <= numU; i++) {
+                const u = (i / numU) * 2 * Math.PI;
+                ctx.beginPath();
+                for (let j = 0; j <= numV; j++) {
+                    const v = (j / numV) * 2 * Math.PI;
+                    const x = kleinBottleX(u, v);
+                    const y = kleinBottleY(u, v);
+                    const z = kleinBottleZ(u, v);
+
+                    // Simple 2D projection
+                    const xProj = centerX + x - z * 0.5;
+                    const yProj = centerY + y - z * 0.5;
+
+                    if (j === 0) {
+                        ctx.moveTo(xProj, yProj);
+                    } else {
+                        ctx.lineTo(xProj, yProj);
+                    }
+                }
+                ctx.stroke();
+            }
+
+            for (let j = 0; j <= numV; j++) {
+                const v = (j / numV) * 2 * Math.PI;
+                ctx.beginPath();
+                for (let i = 0; i <= numU; i++) {
+                    const u = (i / numU) * 2 * Math.PI;
+                    const x = kleinBottleX(u, v);
+                    const y = kleinBottleY(u, v);
+                    const z = kleinBottleZ(u, v);
+
+                    // Simple 2D projection
+                    const xProj = centerX + x - z * 0.5;
+                    const yProj = centerY + y - z * 0.5;
+
+                    if (i === 0) {
+                        ctx.moveTo(xProj, yProj);
+                    } else {
+                        ctx.lineTo(xProj, yProj);
+                    }
+                }
+                ctx.stroke();
+            }
+        }
+
+        function animate() {
+            time += 0.01;
+            scale = 50 + 50 * Math.sin(time * Math.PI);
+            scale2 = 50 + 50 * Math.cos(2 * time * Math.PI);
+            drawKleinBottle();
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
+
