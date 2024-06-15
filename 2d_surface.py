@@ -8,7 +8,7 @@ try:
   from OpenGL.GL import *
   from OpenGL.GLU import *
 except:
-  print ''' Error: PyOpenGL not installed properly '''
+  print('Error: PyOpenGL not installed properly')
   sys.exit(  )
 
 import array
@@ -18,7 +18,7 @@ import random
 
 
 def signal_handler(signal, frame):
-        print 'You pressed Ctrl+C!'
+        print('u pressed ctrl-c')
         sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -40,15 +40,15 @@ xdiff = 0.0
 ydiff = 0.0
 
 def init():
-	glClearColor(1.0,1.0,1.0,0.0)
-	glClearColor(0.0, 0.0, 0.0, 1.0)
-	glClearColor(0.0, 0.0, 0.0, 0.0)
+    glClearColor(1.0,1.0,1.0,0.0)
+    glClearColor(0.0, 0.0, 0.0, 1.0)
+    glClearColor(0.0, 0.0, 0.0, 0.0)
 
-	glEnable(GL_DEPTH_TEST)
-	glDepthFunc(GL_LEQUAL)
-	glClearDepth(1.0)
+    glEnable(GL_DEPTH_TEST)
+    glDepthFunc(GL_LEQUAL)
+    glClearDepth(1.0)
 
-	return True
+    return True
 
 import sys
 import OpenGL.GL as gl
@@ -81,135 +81,128 @@ def my2d_surface(radius1, radius2, turns1, turns2):
 
     for i in range(0,turns1):
         glBegin(GL_LINE_STRIP)
-    	for j in range(0,turns2):
-		if j==0:
-			rx=radius1*math.cos(j*jtheta)
-			ry=radius2*math.sin(i*itheta)
-			rz=radius1*math.cos(i*itheta)+radius2*math.sin(j*jtheta)
-		#if (j%2==0):
-		glVertex3f( radius1*math.cos(j*jtheta), radius2*math.sin(i*itheta), (radius1*math.cos(i*itheta))+radius2*math.sin(j*jtheta) )
-		#else:
-		#	glVertex3f( radius1*math.cos(j*jtheta+xshift), radius2*math.sin(i*itheta+yshift), (radius1*math.cos(i*itheta+zshift))+radius2*math.sin(j*jtheta+zshift) )
-                glColor3fv(Colors[i%8])
-	glVertex3f( rx, ry, rz )
-    	glEnd()
-
+        for j in range(0,turns2):
+            rx=radius1*math.cos(j*jtheta)
+            ry=radius2*math.sin(i*itheta)
+            rz=radius1*math.cos(i*itheta)+radius2*math.sin(j*jtheta)
+            glVertex3f( radius1*math.cos(j*jtheta), radius2*math.sin(i*itheta), (radius1*math.cos(i*itheta))+radius2*math.sin(j*jtheta) )
+            glColor3fv(Colors[i%8])
+        glVertex3f( rx, ry, rz )
+        glEnd()
     return 
 
 def display():
-	global xrot, yrot
-	global turns1, turns2, count
+    global xrot, yrot
+    global turns1, turns2, count
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-	glLoadIdentity()
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+    glLoadIdentity()
 
-	gluLookAt(
-		0.0, 0.0, 10.0,
-		0.0, 0.0, 0.0,
-		0.0, 1.0, 0.0)
+    gluLookAt(
+        0.0, 0.0, 10.0,
+        0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0)
 
-	glRotatef(xrot, 1.0, 0.0, 0.0)
-	glRotatef(yrot, 0.0, 1.0, 0.0)
+    glRotatef(xrot, 1.0, 0.0, 0.0)
+    glRotatef(yrot, 0.0, 1.0, 0.0)
 
- 	glColor3f(0.5, 0.0, 1.0)
+    glColor3f(0.5, 0.0, 1.0)
 
-	if count>60:
-		count=0
-		turns1 = random.randint(20,30)
-		turns2 = random.randint(20,30)
-		print turns1, turns2
-	count = count + 1
-	my2d_surface(2.0, 2.0, turns1, turns2)
-
-    	glFlush()
-    	glutSwapBuffers()
+    if count>60:
+        count=0
+    turns1 = random.randint(20,30)
+    turns2 = random.randint(20,30)
+    count = count + 1
+    my2d_surface(2.0, 2.0, turns1, turns2)
+    glFlush()
+    glutSwapBuffers()
 
 def resize(*args):
-	glMatrixMode(GL_PROJECTION)
-	glLoadIdentity()
+    glMatrixMode(GL_PROJECTION)
+    glLoadIdentity()
 
-	glViewport(0, 0, args[0], args[1])
+    glViewport(0, 0, args[0], args[1])
 
-	gluPerspective(45.0, 1.0 * args[0] / args[0], 1.0, 100.0)
+    gluPerspective(45.0, 1.0 * args[0] / args[0], 1.0, 100.0)
 
-	glMatrixMode(GL_MODELVIEW)
-	glLoadIdentity()
+    glMatrixMode(GL_MODELVIEW)
+    glLoadIdentity()
 
 
 def idle():
-	global xrot, yrot
-	global mouseDown
-	if not (mouseDown):
-		xrot += 0.3
-		yrot += 0.4
+    global xrot, yrot
+    global mouseDown
+    if not (mouseDown):
+        xrot += 0.3
+        yrot += 0.4
 
-	glutPostRedisplay()
+    glutPostRedisplay()
 
 
 def keyboard(*args):
-	##print args[0]
-	if (args[0]==27):
-	##	print args[0]
-		sys.exit(1)
+    ##print args[0]
+    if (args[0]==27):
+    ##    print args[0]
+        sys.exit(1)
 
 
 def specialKeyboard(*args):
-	##print args[0]
-	if (args[0] == GLUT_KEY_F1):
-		fullscreen = not(fullscreen)
+    ##print args[0]
+    if (args[0] == GLUT_KEY_F1):
+        fullscreen = not(fullscreen)
 
-		if (fullscreen):
-			glutFullScreen()
-		else:
-			glutReshapeWindow(500, 500)
-			glutPositionWindow(50, 50)
+        if (fullscreen):
+            glutFullScreen()
+        else:
+            glutReshapeWindow(500, 500)
+            glutPositionWindow(50, 50)
 
 def mouse(*args):
-	global xrot, yrot
-	global xdiff, ydiff
-	global mouseDown
-	if (args[0] == GLUT_LEFT_BUTTON and args[1] == GLUT_DOWN):
-		mouseDown = True
-		xdiff = args[2] - yrot
-		ydiff = -args[3] + xrot
-	else:
-		mouseDown = False
+    global xrot, yrot
+    global xdiff, ydiff
+    global mouseDown
+    if (args[0] == GLUT_LEFT_BUTTON and args[1] == GLUT_DOWN):
+        mouseDown = True
+        xdiff = args[2] - yrot
+        ydiff = -args[3] + xrot
+    else:
+        mouseDown = False
 
 
 def mouseMotion(*args):
-	global xrot, yrot
-	global xdiff, ydiff
-	global mouseDown
-	if (mouseDown):
-		yrot = args[0] - xdiff
-		xrot = args[1] + ydiff
-	glutPostRedisplay()
+    global xrot, yrot
+    global xdiff, ydiff
+    global mouseDown
+    if (mouseDown):
+        yrot = args[0] - xdiff
+        xrot = args[1] + ydiff
+    glutPostRedisplay()
 
 
 def main():
-	glutInit(sys.argv)
-	glutInitWindowPosition(50, 50)
-	glutInitWindowSize(500, 500)
+    glutInit(sys.argv)
+    glutInitWindowPosition(50, 50)
+    glutInitWindowSize(500, 500)
 
-	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE)
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE)
 
-	glutCreateWindow("Polyhedral Surface")
+    glutCreateWindow("Polyhedral Surface")
 
-	glutDisplayFunc(display)
-	glutKeyboardFunc(keyboard)
-	glutSpecialFunc(specialKeyboard)
-	glutMouseFunc(mouse)
-	glutMotionFunc(mouseMotion)
-	glutReshapeFunc(resize)
+    glutDisplayFunc(display)
+    glutKeyboardFunc(keyboard)
+    glutSpecialFunc(specialKeyboard)
+    glutMouseFunc(mouse)
+    glutMotionFunc(mouseMotion)
+    glutReshapeFunc(resize)
 
-	if not (init()):
-		return 1
+    if not (init()):
+        return 1
 
-	glutIdleFunc(idle)
+    glutIdleFunc(idle)
 
-	glutMainLoop()
+    glutMainLoop()
 
-	return 0
+    return 0
 
 if __name__ == "__main__":
     main()

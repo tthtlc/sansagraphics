@@ -11,7 +11,7 @@ try:
   from OpenGL.GL import *
   from OpenGL.GLU import *
 except:
-  print ''' Error: PyOpenGL not installed properly '''
+  print('Error: PyOpenGL not installed properly')
   sys.exit(  )
 
 import array

@@ -6,7 +6,7 @@ try:
   from OpenGL.GL import *
   from OpenGL.GLU import *
 except:
-  print ''' Error: PyOpenGL not installed properly '''
+  print('Error: PyOpenGL not installed properly')
   sys.exit(  )
 
 import array
@@ -16,7 +16,7 @@ import random
 
 
 def signal_handler(signal, frame):
-        print 'You pressed Ctrl+C!'
+        print('u pressed ctrl-c')
         sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)

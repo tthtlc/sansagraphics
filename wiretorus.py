@@ -4,7 +4,7 @@ try:
   from OpenGL.GL import *
   from OpenGL.GLU import *
 except:
-  print ''' Error: PyOpenGL not installed properly '''
+  print(' Error: PyOpenGL not installed properly ')
   sys.exit(  )
 
 import array
@@ -12,8 +12,8 @@ import signal
 import random
 
 def signal_handler(signal, frame):
-        print 'You pressed Ctrl+C!'
-        sys.exit(0)
+    print('You pressed Ctrl+C!')
+    sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
 ###signal.pause()
@@ -66,10 +66,9 @@ def display():
 	glRotatef(xrot, 1.0, 0.0, 0.0)
 	glRotatef(yrot, 0.0, 1.0, 0.0)
 	glRotatef(zrot, 0.0, 0.0, 1.0)
-
-    	##glutWireCube(1)
- 	glColor3f(0.5, 0.0, 1.0)
-	glutWireTorus(0.5,1.5,5,5)
+	##glutWireCube(1)
+	glColor3f(0.5, 0.0, 1.0)
+	glutWireTorus(0.9,1.5,5,5)
 
 	#void glutSolidTorus(GLdouble innerRadius,
         #            GLdouble outerRadius,
@@ -78,9 +77,9 @@ def display():
         #           GLdouble outerRadius,
         #          GLint nsides, GLint rings);
 
-    	glFlush()
-    	glutSwapBuffers()
-
+	glFlush()
+	glutSwapBuffers()
+	
 
 def resize(*args):
 	glMatrixMode(GL_PROJECTION)
@@ -106,10 +105,9 @@ def idle():
 
 
 def keyboard(*args):
-	##print args[0]
-	if (args[0]==27):
-	##	print args[0]
-		sys.exit(1)
+	print(args[0])
+	if (args[0] in [b'\x1b', b'\x03']):
+	    sys.exit(1)
 
 
 def specialKeyboard(*args):

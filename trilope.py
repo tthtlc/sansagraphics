@@ -4,7 +4,7 @@ try:
   from OpenGL.GL import *
   from OpenGL.GLU import *
 except:
-  print ''' Error: PyOpenGL not installed properly '''
+  print('Error: PyOpenGL not installed properly')
   sys.exit(  )
 
 import array
@@ -12,7 +12,7 @@ import signal
 import random
 
 def signal_handler(signal, frame):
-        print 'You pressed Ctrl+C!'
+        print('u pressed ctrl-c')
         sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -66,17 +66,15 @@ def draw_bilope(uistacks, uislices, radius):
 		vart=1
 		myvars=1
 		for j in range(uistacks):
-			s = sstep*j
-			glVertex3f(0.0,0.0,0.0)
-			###glVertex3f(radius *math.cos(2*t)* math.cos(vart*t) * math.cos(myvars*s), radius *math.cos(2*t)* math.cos(vart*t) * math.sin(myvars*s), radius *math.cos(2*t)* math.sin(vart*t))
-			glVertex3f(radius *math.cos(2*t)* math.cos(vart*t) * math.cos(myvars*s), radius *math.sin(2*t)* math.cos(vart*t) * math.sin(myvars*s), radius *math.sin(2*t)* math.sin(vart*t))
-			#glVertex3f(radius *math.cos(2*t)* math.cos(vart*t+tstep) * math.cos(myvars*s), radius *math.cos(2*t)*math.cos(vart*t+tstep) * math.sin(myvars*s), radius *math.cos(2*t)* math.sin(vart*t+tstep))
- 		glColor3f(cx,cy,cz)
-		cx = (cx + 0.1)%1.0
-		cy = (cy + 0.1)%1.0
-		cz = (cz + 0.1)%1.0
+		    s = sstep*j
+		    glVertex3f(0.0,0.0,0.0)
+		    ###glVertex3f(radius *math.cos(2*t)* math.cos(vart*t) * math.cos(myvars*s), radius *math.cos(2*t)* math.cos(vart*t) * math.sin(myvars*s), radius *math.cos(2*t)* math.sin(vart*t))
+		    glVertex3f(radius *math.cos(2*t)* math.cos(vart*t) * math.cos(myvars*s), radius *math.sin(2*t)* math.cos(vart*t) * math.sin(myvars*s), radius *math.sin(2*t)* math.sin(vart*t))
+		    glColor3f(cx,cy,cz)
+		    cx = (cx + 0.1)%1.0
+		    cy = (cy + 0.1)%1.0
+		    cz = (cz + 0.1)%1.0
 		glEnd()
-
 
 def display():
 	global xrot, yrot, zrot
@@ -92,22 +90,12 @@ def display():
 	glRotatef(xrot, 1.0, 0.0, 0.0)
 	glRotatef(yrot, 0.0, 1.0, 0.0)
 	glRotatef(zrot, 0.0, 0.0, 1.0)
-
-    	#glutWireCube(1)
- 	glColor3f(0.5, 0.0, 1.0)
+	#glutWireCube(1)
+	glColor3f(0.5, 0.0, 1.0)
 	#glutWireSphere(4,10,10)
 	draw_bilope(30, 60, 2.0)
-
-	#void glutSolidTorus(GLdouble innerRadius,
-        #            GLdouble outerRadius,
-        #            GLint nsides, GLint rings);
-	#void glutWireTorus(GLdouble innerRadius,
-        #           GLdouble outerRadius,
-        #          GLint nsides, GLint rings);
-
-    	glFlush()
-    	glutSwapBuffers()
-
+	glFlush()
+	glutSwapBuffers()
 
 def resize(*args):
 	glMatrixMode(GL_PROJECTION)
@@ -161,7 +149,6 @@ def mouse(*args):
 	else:
 		mouseDown = False
 
-
 def mouseMotion(*args):
 	global xrot, yrot
 	global xdiff, ydiff
@@ -170,7 +157,6 @@ def mouseMotion(*args):
 		yrot = args[0] - xdiff
 		xrot = args[1] + ydiff
 	glutPostRedisplay()
-
 
 def main():
 	glutInit(sys.argv)

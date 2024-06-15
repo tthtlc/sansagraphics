@@ -4,7 +4,7 @@ try:
   from OpenGL.GL import *
   from OpenGL.GLU import *
 except:
-  print ''' Error: PyOpenGL not installed properly '''
+  print(' Error: PyOpenGL not installed properly ')
   sys.exit(  )
 
 import array
@@ -12,7 +12,7 @@ import signal
 import random
 
 def signal_handler(signal, frame):
-        print 'You pressed Ctrl+C!'
+        print('You pressed Ctrl+C!')
         sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -89,10 +89,9 @@ def display():
 	glRotatef(xrot, 1.0, 0.0, 0.0)
 	glRotatef(yrot, 0.0, 1.0, 0.0)
 	glRotatef(zrot, 0.0, 0.0, 1.0)
-
-    	#glutWireCube(1)
- 	glColor3f(0.5, 0.0, 1.0)
-	#glutWireSphere(4,10,10)
+	#glutWireCube(1)
+	glColor3f(0.5, 0.0, 1.0) 
+    	#glutWireSphere(4,10,10)
 	DrawEllipsoid(12, 40, 1.1, 2.1, 5.1)
 
 	#void glutSolidTorus(GLdouble innerRadius,
@@ -102,9 +101,9 @@ def display():
         #           GLdouble outerRadius,
         #          GLint nsides, GLint rings);
 
-    	glFlush()
-    	glutSwapBuffers()
-
+	glFlush()
+	glutSwapBuffers()
+	
 
 def resize(*args):
 	glMatrixMode(GL_PROJECTION)
