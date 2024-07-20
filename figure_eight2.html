@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Figure Eight with Rotating Wheel</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Set up the scene, camera, and renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Create the figure-eight path
+        const curve = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(10, 0, 0),
+            new THREE.Vector3(5, 5, 0),
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(-5, -5, 0),
+            new THREE.Vector3(-10, 0, 0),
+            new THREE.Vector3(-5, 5, 0),
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(5, -5, 0),
+            new THREE.Vector3(10, 0, 0),
+        ]);
+        curve.closed = true;
+
+        const points = curve.getPoints(50);
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+
+        // Create the figure-eight line
+        const figureEight = new THREE.Line(geometry, material);
+        scene.add(figureEight);
+
+        // Create a wheel
+        const wheelGeometry = new THREE.TorusGeometry(0.5, 0.2, 16, 100);
+        const wheelMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
+        scene.add(wheel);
+
+        // Set the camera position
+        camera.position.z = 20;
+
+        // Animation loop
+        let t = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Update the wheel position
+            const point = curve.getPointAt(t);
+            wheel.position.set(point.x, point.y, point.z);
+
+            // Update the wheel rotation
+            const tangent = curve.getTangentAt(t).normalize();
+            wheel.quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0), tangent);
+
+            t = (t + 0.001) % 1;  // Move along the curve
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
+

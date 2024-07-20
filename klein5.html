@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klein Bottle Transformation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="800"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const scale = 80;
+
+        // Rotation angles
+        const angleX = Math.PI / 6; // Rotate around the X-axis
+        const angleY = Math.PI / 6; // Rotate around the Y-axis
+        const angleZ = Math.PI / 6; // Rotate around the Z-axis
+
+        function rotateX(x, y, z, angle) {
+            const cos = Math.cos(angle);
+            const sin = Math.sin(angle);
+            return [x, y * cos - z * sin, y * sin + z * cos];
+        }
+
+        function rotateY(x, y, z, angle) {
+            const cos = Math.cos(angle);
+            const sin = Math.sin(angle);
+            return [x * cos + z * sin, y, -x * sin + z * cos];
+        }
+
+        function rotateZ(x, y, z, angle) {
+            const cos = Math.cos(angle);
+            const sin = Math.sin(angle);
+            return [x * cos - y * sin, x * sin + y * cos, z];
+        }
+
+        function drawKleinBottle() {
+            const uStep = Math.PI / 18;
+            const vStep = 2 * Math.PI / 36;
+
+            for (let u = 0; u < 2 * Math.PI; u += uStep) {
+                for (let v = 0; v < 2 * Math.PI; v += vStep) {
+                    const [x, y, z] = torusToKleinBottle(u, v);
+                    const [nextX, nextY, nextZ] = torusToKleinBottle(u + uStep, v);
+                    const [nextX2, nextY2, nextZ2] = torusToKleinBottle(u, v + vStep);
+
+                    drawLine(project(x, y, z), project(nextX, nextY, nextZ));
+                    drawLine(project(x, y, z), project(nextX2, nextY2, nextZ2));
+                }
+            }
+        }
+
+        function torusToKleinBottle(u, v) {
+            const R = 4; // Major radius
+            const r = 2; // Minor radius
+
+            // Parametric equations for a torus
+            let x = (R + r * Math.cos(v)) * Math.cos(u);
+            let y = (R + r * Math.cos(v)) * Math.sin(u);
+            let z = r * Math.sin(v);
+
+            // Transformation to create a Klein bottle
+            if (u > Math.PI) {
+                x = (R + r * Math.cos(v)) * Math.cos(u);
+                y = (R + r * Math.cos(v)) * Math.sin(u);
+                z = r * Math.sin(v);
+            }
+
+            [x, y, z] = rotateX(x, y, z, angleX);
+            [x, y, z] = rotateY(x, y, z, angleY);
+            [x, y, z] = rotateZ(x, y, z, angleZ);
+
+            return [x, y, z];
+        }
+
+        function project(x, y, z) {
+            const perspective = 500 / (500 + z);
+            return [
+                centerX + x * scale * perspective,
+                centerY - y * scale * perspective
+            ];
+        }
+
+        function drawLine(start, end) {
+            ctx.beginPath();
+            ctx.moveTo(start[0], start[1]);
+            ctx.lineTo(end[0], end[1]);
+            ctx.stroke();
+        }
+
+        ctx.clearRect(0, 0, width, height);
+        ctx.strokeStyle = 'black';
+        drawKleinBottle();
+    </script>
+</body>
+</html>
+

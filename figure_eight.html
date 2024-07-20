@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Figure Eight with Circles</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Set up the scene, camera, and renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Create two circular curves
+        const radius = 5;
+        const segments = 64;
+        const curve1 = new THREE.EllipseCurve(0, 0, radius, radius, Math.PI, -Math.PI, true, 0);
+        const curve2 = new THREE.EllipseCurve(0, 0, radius, radius, 0, Math.PI, true, 0);
+
+        // Create points for each curve and join them together
+        const points1 = curve1.getPoints(segments);
+        const points2 = curve2.getPoints(segments);
+        const points = points1.concat(points2);
+
+        // Create geometry and material for the figure-eight line
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+
+        // Create the figure-eight line
+        const figureEight = new THREE.Line(geometry, material);
+        scene.add(figureEight);
+
+        // Set the camera position
+        camera.position.z = 20;
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotating Ellipses</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+        #controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <label for="radiusX">Radius X: </label>
+        <input type="number" id="radiusX" value="100">
+        <label for="radiusY">Radius Y: </label>
+        <input type="number" id="radiusY" value="50">
+        <button onclick="drawEllipse()">Draw Ellipse</button>
+    </div>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        let ellipses = [];
+        let centerX = canvas.width / 2;
+        let centerY = canvas.height / 2;
+        let traverseAngle = 0;
+        const traverseRadius = 150;
+
+        canvas.addEventListener('click', (event) => {
+            const radiusX = parseInt(document.getElementById('radiusX').value, 10);
+            const radiusY = parseInt(document.getElementById('radiusY').value, 10);
+            drawEllipseAtPosition(centerX, centerY, radiusX, radiusY);
+            ellipses.push({x: centerX, y: centerY, radiusX: radiusX, radiusY: radiusY, angle: 0});
+            updateCenter();
+        });
+
+        function drawEllipseAtPosition(x, y, radiusX, radiusY) {
+            context.beginPath();
+            context.ellipse(x, y, radiusX, radiusY, 0, 0, 2 * Math.PI);
+            context.fillStyle = 'blue';
+            context.fill();
+            context.stroke();
+        }
+
+        function drawEllipse() {
+            const radiusX = parseInt(document.getElementById('radiusX').value, 10);
+            const radiusY = parseInt(document.getElementById('radiusY').value, 10);
+            drawEllipseAtPosition(centerX, centerY, radiusX, radiusY);
+            ellipses.push({x: centerX, y: centerY, radiusX: radiusX, radiusY: radiusY, angle: 0});
+            updateCenter();
+        }
+
+        function updateCenter() {
+            traverseAngle += Math.PI / 6;  // Update the angle by 30 degrees
+            centerX = canvas.width / 2 + traverseRadius * Math.cos(traverseAngle);
+            centerY = canvas.height / 2 + traverseRadius * Math.sin(traverseAngle);
+        }
+
+        function animateEllipses() {
+            ellipses.forEach(ellipse => {
+                context.save();
+                context.translate(ellipse.x, ellipse.y);
+                context.rotate(ellipse.angle);
+                context.beginPath();
+                context.ellipse(0, 0, ellipse.radiusX, ellipse.radiusY, 0, 0, 2 * Math.PI);
+                context.fillStyle = 'blue';
+                context.fill();
+                context.stroke();
+                context.restore();
+                ellipse.angle += 0.01;
+            });
+            requestAnimationFrame(animateEllipses);
+        }
+
+        animateEllipses();
+    </script>
+</body>
+</html>
+

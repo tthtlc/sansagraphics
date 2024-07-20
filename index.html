@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Webpages</title>
+    <style>
+        .line {
+            padding: 10px;
+        }
+    </style>
+    <script>
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function getRandomFont() {
+            const fonts = [
+                'Arial, sans-serif', 'Verdana, sans-serif', 'Helvetica, sans-serif',
+                'Tahoma, sans-serif', 'Trebuchet MS, sans-serif', 'Georgia, serif',
+                'Garamond, serif', 'Courier New, monospace', 'Brush Script MT, cursive',
+                'Lucida Console, monospace'
+            ];
+            return fonts[Math.floor(Math.random() * fonts.length)];
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const lines = document.querySelectorAll('.line');
+            lines.forEach(line => {
+                line.style.color = getRandomColor();
+                line.style.fontFamily = getRandomFont();
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>My Webpages</h1>
+    <ul>
+        <li class="line">Page 1: <a href="https://example.com/page1">https://example.com/page1</a></li>
+        <li class="line">Page 2: <a href="https://example.com/page2">https://example.com/page2</a></li>
+        <li class="line">Page 3: <a href="https://example.com/page3">https://example.com/page3</a></li>
+        <li class="line">Page 4: <a href="https://example.com/page4">https://example.com/page4</a></li>
+        <li class="line">Page 5: <a href="https://example.com/page5">https://example.com/page5</a></li>
+        <!-- Add more pages as needed -->
+    </ul>
+</body>
+</html>
+

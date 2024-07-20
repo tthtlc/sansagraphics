@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Shapes Wireframe</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="800"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const scale = 50;
+
+        function drawShapes() {
+            //drawMobiusStrip(centerX - 250, centerY - 250);
+            //drawKleinBottle(centerX + 250, centerY - 250);
+            drawTorus(centerX, centerY); 
+        }
+
+        function drawMobiusStrip(offsetX, offsetY) {
+            const uStep = Math.PI / 18;
+            const vStep = 2 * Math.PI / 36;
+
+            for (let u = 0; u < 4 * Math.PI; u += uStep) {
+                for (let v = 1.0; v < 12.5; v += vStep) {
+                    const x = (1 + v * Math.cos(u / 2)) * Math.cos(u);
+                    const y = (1 + v * Math.cos(u / 2)) * Math.sin(u);
+                    const z = v * Math.sin(u / 2);
+
+                    const nextX = (1 + v * Math.cos((u + uStep) / 2)) * Math.cos(u + uStep);
+                    const nextY = (1 + v * Math.cos((u + uStep) / 2)) * Math.sin(u + uStep);
+                    const nextZ = v * Math.sin((u + uStep) / 2);
+
+                    drawLine(offsetX, offsetY, project(x, y, z), project(nextX, nextY, nextZ));
+                }
+            }
+        }
+
+        function drawKleinBottle(offsetX, offsetY) {
+            const uStep = Math.PI / 18;
+            const vStep = 2 * Math.PI / 36;
+
+            for (let u = 0; u < 4 * Math.PI; u += uStep) {
+                for (let v = 0; v < 4 * Math.PI; v += vStep) {
+                    const x = (10 + 20 * Math.cos(u)) * Math.cos(v);
+                    const y = (30 + 10* Math.cos(u)) * Math.sin(v);
+                    const z = 20 * Math.sin(u) * Math.cos(v / 2);
+
+                    const nextX = (40 + 2 * Math.cos(u + uStep)) * Math.cos(v);
+                    const nextY = (40 + 2 * Math.cos(u + uStep)) * Math.sin(v);
+                    const nextZ = 2 * Math.sin(u + uStep) * Math.cos(v / 2);
+
+                    drawLine(offsetX, offsetY, project(x, y, z), project(nextX, nextY, nextZ));
+                }
+            }
+        }
+
+        function drawTorus(offsetX, offsetY) {
+            const uStep = Math.PI / 18;
+            const vStep = 2 * Math.PI / 36;
+
+            for (let u = 0; u < 4 * Math.PI; u += uStep) {
+                for (let v = 0; v < 4 * Math.PI; v += vStep) {
+                    const R = 40;
+                    const r = 10;
+                    const x = (R + r * Math.cos(v)) * Math.cos(u);
+                    const y = (R + r * Math.cos(v)) * Math.sin(u);
+                    const z = r * Math.sin(v);
+
+                    const nextX = (R + r * Math.cos(v + vStep)) * Math.cos(u);
+                    const nextY = (R + r * Math.cos(v + vStep)) * Math.sin(u);
+                    const nextZ = r * Math.sin(v + vStep);
+
+                    drawLine(offsetX, offsetY, project(x, y, z), project(nextX, nextY, nextZ));
+                }
+            }
+        }
+
+        function project(x, y, z) {
+            const perspective = 500 / (500 + z);
+            return [
+                centerX + x * scale * perspective,
+                centerY - y * scale * perspective
+            ];
+        }
+
+        function drawLine(offsetX, offsetY, start, end) {
+            ctx.beginPath();
+            ctx.moveTo(start[0] + offsetX, start[1] + offsetY);
+            ctx.lineTo(end[0] + offsetX, end[1] + offsetY);
+            ctx.stroke();
+        }
+
+        ctx.clearRect(0, 0, width, height);
+        ctx.strokeStyle = 'black';
+        drawShapes();
+    </script>
+</body>
+</html>
+

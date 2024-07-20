@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Circles with Polar Coordinates</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+        #controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <label for="radius">Radius: </label>
+        <input type="number" id="radius" value="50">
+        <input type="number" id="nodenumber" value="2">
+        <button onclick="drawCircle()">Draw Circle</button>
+    </div>
+    <canvas id="canvas" width="800" height="600"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+
+        canvas.addEventListener('click', (event) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const radius = parseInt(document.getElementById('radius').value, 10);
+            const radius2 = 2 * parseInt(document.getElementById('radius').value, 10);
+            const nodenumber = parseInt(document.getElementById('nodenumber').value, 2);
+            const delta0 = (Math.PI / 15);
+            for (let delta = 0; delta <= Math.PI * 2; delta += delta0) {
+            	drawCirclePolar(x, y, radius, radius2, nodenumber, delta);
+	    }
+        });
+
+        function drawCirclePolar(centerX, centerY, radius, radius2, nodenumber, delta) {
+            context.beginPath();
+            for (let angle = 0; angle <= 360; angle++) {
+                const theta = angle * (Math.PI / 180);
+                const x = centerX + ( radius2 + radius * Math.cos(nodenumber*theta + delta)) * Math.cos(theta + delta);
+                const y = centerY + ( radius2 + radius * Math.cos(nodenumber*theta + delta)) * Math.sin(theta + delta);
+                if (angle === 0) {
+                    context.moveTo(x, y);
+                } else {
+                    context.lineTo(x, y);
+                }
+            }
+            context.closePath();
+            //context.fillStyle = 'blue';
+            //context.fill();
+            context.stroke();
+        }
+
+        function drawCircle() {
+            const radius = parseInt(document.getElementById('radius').value, 10);
+            const radius2 = 2 * parseInt(document.getElementById('radius').value, 10);
+            const nodenumber = parseInt(document.getElementById('nodenumber').value, 2);
+            const x = canvas.width / 2;
+            const y = canvas.height / 2;
+            const delta0 = (Math.PI / 15);
+            for (let delta = 0; delta <= Math.PI * 2; delta += delta0) {
+            	drawCirclePolar(x, y, radius, radius2, nodenumber, delta);
+	    }
+        }
+    </script>
+</body>
+</html>
+
