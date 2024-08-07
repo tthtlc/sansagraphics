@@ -40,7 +40,7 @@
         let centerX = canvas.width / 2;
         let centerY = canvas.height / 2;
         let traverseAngle = 0;
-        const traverseRadius = 150;
+        const traverseRadius = 50;
 
         canvas.addEventListener('click', (event) => {
             const radiusX = parseInt(document.getElementById('radiusX').value, 10);
@@ -67,9 +67,9 @@
         }
 
         function updateCenter() {
-            traverseAngle += Math.PI / 6;  // Update the angle by 30 degrees
-            centerX = canvas.width / 2 + traverseRadius * Math.cos(traverseAngle);
-            centerY = canvas.height / 2 + traverseRadius * Math.sin(traverseAngle);
+            traverseAngle += Math.PI / 12;  // Update the angle by 30 degrees
+            centerX = canvas.width / 2 + traverseRadius * Math.cos(4*traverseAngle);
+            centerY = canvas.height / 2 + traverseRadius * Math.sin(4*traverseAngle);
         }
 
         function animateEllipses() {
@@ -83,7 +83,9 @@
                 context.fill();
                 context.stroke();
                 context.restore();
-                ellipse.angle += 0.01;
+                ellipse.angle += 0.2;
+            	updateCenter();
+            	//ellipses.push({x: centerX, y: centerY, radiusX: radiusX, radiusY: radiusY, angle: 0});
             });
             requestAnimationFrame(animateEllipses);
         }
@@ -92,4 +94,3 @@
     </script>
 </body>
 </html>
-
