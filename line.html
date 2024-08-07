@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Animated Line Drawing</title>
+<style>
+    canvas {
+        border: 1px solid black;
+    }
+</style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="480" height="320"></canvas>
+
+<script>
+    var canvas = document.getElementById('myCanvas');
+    var ctx = canvas.getContext('2d');
+
+    var startX = 0;
+    var startY = 160;
+    var endX = 0;
+    var endY = 160;
+    var speed = 2;
+
+    function drawLine() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+
+        endX += speed; // Update the end X position for animation
+
+        if (endX < canvas.width) {
+            window.requestAnimationFrame(drawLine); // Recursively call drawLine to animate
+        }
+    }
+
+    drawLine(); // Initial call to start the animation
+</script>
+
+</body>
+</html>
+

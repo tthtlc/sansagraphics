@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometric Line Drawing</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="lineCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('lineCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        function drawLines() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const numLines = 50;
+            const spacing = canvas.width / numLines;
+            const colors = ['#FF4500', '#FF6347', '#FF7F50', '#FFA07A'];
+
+            for (let i = 0; i < numLines; i++) {
+                const color = colors[i % colors.length];
+                ctx.strokeStyle = color;
+                ctx.beginPath();
+                ctx.moveTo(i * spacing, 0);
+                ctx.lineTo(canvas.width / 2, canvas.height / 2);
+                ctx.lineTo(canvas.width - i * spacing, canvas.height);
+                ctx.stroke();
+            }
+        }
+
+        drawLines();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drawLines();
+        });
+    </script>
+</body>
+</html>
+

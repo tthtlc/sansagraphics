@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="illusionCanvas" width="1200" height="1200"></canvas>
+
+<script>
+const canvas = document.getElementById('illusionCanvas');
+const ctx = canvas.getContext('2d');
+
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+const sector = 30;
+const maxRadius = Math.min(canvas.width, canvas.height) / 2;
+
+var sub_shift_angle = 0;
+
+function multi_spiral() {
+
+	sub_shift_angle += 2*Math.PI/sector/10;
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+	for (let shift_angle = 0; shift_angle < 4*Math.PI; shift_angle += 2*Math.PI/sector) {
+		draw_spiral(centerX, centerY, maxRadius/20, maxRadius/6, sector, shift_angle);
+	}
+        window.requestAnimationFrame(multi_spiral); // Continue the animation if the square is not yet at its max size
+}
+
+function myloop() {
+
+for (let i = 0; i < sector; i++) {
+    let angle = (i / sector) * 2 * Math.PI;
+    let x = centerX + maxRadius * Math.cos(angle);
+    let y = centerY + maxRadius * Math.sin(angle);
+
+    ctx.strokeStyle = (i % 2 === 0) ? 'black' : 'blue';
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+
+}
+}
+
+function draw_center_spiral(centerx, centery, small_rad, large_rad, mysector) {
+    for (let i = 0; i < mysector; i++) {
+        let angle = (i / mysector) * 2 * Math.PI;
+
+        let x = centerx + (small_rad+large_rad*angle) * Math.cos(angle);
+        let y = centery + (small_rad+large_rad*angle) * Math.sin(angle);
+
+        ctx.strokeStyle = (i % 2 === 0) ? 'black' : 'red';
+
+        ctx.beginPath();
+        ctx.moveTo(centerx, centery);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+    }
+}
+
+function draw_spiral(centerx, centery, small_rad, large_rad, mysector, shift_angle) {
+
+        ctx.strokeStyle = 'black';
+        ctx.beginPath();
+        ctx.moveTo(centerx, centery);
+    for (let i = 0; i < mysector; i++) {
+        let angle = (i / mysector) * 2 * Math.PI;
+
+        let x = centerx + (small_rad+large_rad*angle) * Math.cos(angle+shift_angle+sub_shift_angle);
+        let y = centery + (small_rad+large_rad*angle) * Math.sin(angle+shift_angle+sub_shift_angle);
+
+
+        ctx.lineTo(x, y);
+    }
+        ctx.stroke();
+}
+
+function draw_spoke(myx, myy, radius, mysector) {
+    for (let i = 0; i < mysector; i++) {
+        let angle = (i / mysector) * 2 * Math.PI;
+
+        let x = myx + radius * Math.cos(angle);
+        let y = myy + radius * Math.sin(angle);
+
+        ctx.strokeStyle = (i % 2 === 0) ? 'black' : 'red';
+
+        ctx.beginPath();
+        ctx.moveTo(myx, myy);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+    }
+}
+
+multi_spiral();
+
+</script>
+
+</body>
+</html>
+

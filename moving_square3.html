@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Animated Expanding Square</title>
+<style>
+    canvas {
+        border: 1px solid black;
+    }
+</style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="480" height="320"></canvas>
+
+<script>
+    var canvas = document.getElementById('myCanvas');
+    var ctx = canvas.getContext('2d');
+
+    var size = 20; // Initial size of the square
+    var maxSize = 300; // Maximum size of the square
+    var increase = 10; // Amount to increase the size of the square each frame
+
+    function drawSquare() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+
+        var x = (canvas.width - size) / 2; // Calculate the x position to keep the square centered
+        var y = (canvas.height - size) / 2; // Calculate the y position to keep the square centered
+
+        ctx.beginPath();
+        ctx.rect(x, y, size, size);
+        ctx.rect(x, y, size+10, size+10);
+        ctx.rect(x, y, size+20, size+20);
+        ctx.rect(x, y, size+30, size+30);
+        ctx.rect(x, y, size+40, size+40);
+        ctx.stroke();
+
+        size += increase; // Increase the size for the next frame
+
+        if (size < maxSize) {
+            window.requestAnimationFrame(drawSquare); // Continue the animation if the square is not yet at its max size
+        }
+	    else {
+		size=0;
+            	window.requestAnimationFrame(drawSquare); // Continue the animation if the square is not yet at its max size
+	   }
+    }
+
+    drawSquare(); // Initial call to start the animation
+</script>
+
+</body>
+</html>
+

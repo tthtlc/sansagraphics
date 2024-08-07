@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="illusionCanvas" width="1200" height="1200"></canvas>
+
+<script>
+const canvas = document.getElementById('illusionCanvas');
+const ctx = canvas.getContext('2d');
+
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+const sector = 30;
+const star_ngon = 5;
+const maxRadius = Math.min(canvas.width, canvas.height) / 2;
+var sub_shift_angle = 0;
+
+	sub_shift_angle += 2*Math.PI/sector/10;
+function draw_main_spoke(cx, cy, sub_shift_angle) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+for (let i = 0; i < star_ngon; i++) {
+	let angle = (i / star_ngon) * 2 * Math.PI;
+    let x = centerX + maxRadius * Math.cos(angle+sub_shift_angle);
+    let y = centerY + maxRadius * Math.sin(angle+sub_shift_angle);
+
+    ctx.strokeStyle = (i % 2 === 0) ? 'black' : 'blue';
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+}
+        window.requestAnimationFrame(draw_main_spoke); // Continue the animation if the square is not yet at its max size
+}
+
+function draw_spoke(myx, myy, radius, mysector) {
+    for (let i = 0; i < mysector; i++) {
+        let angle = (i / mysector) * 2 * Math.PI;
+
+        let x = myx + radius * Math.cos(angle);
+        let y = myy + radius * Math.sin(angle);
+
+        ctx.strokeStyle = (i % 2 === 0) ? 'black' : 'red';
+
+        ctx.beginPath();
+        ctx.moveTo(myx, myy);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+    }
+}
+
+draw_main_spoke();
+</script>
+
+</body>
+</html>
+
