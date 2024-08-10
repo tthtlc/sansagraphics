@@ -1,16 +1,14 @@
 #!/usr/bin/env python
 
 from math import pi, sin, cos
-
-import math
-
 import pyglet
 from pyglet.gl import *
 
+# Initialize the pyglet window
 try:
-    # Try and create a window with multisampling (antialiasing)
+    # Try to create a window with multisampling (antialiasing)
     config = Config(sample_buffers=1, samples=4, 
-                    depth_size=16, double_buffer=True,)
+                    depth_size=16, double_buffer=True)
     window = pyglet.window.Window(resizable=True, config=config)
 except pyglet.window.NoSuchConfigException:
     # Fall back to no multisampling for old hardware
@@ -54,11 +52,9 @@ def setup():
     glEnable(GL_CULL_FACE)
 
     # Uncomment this line for a wireframe view
-    #glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+    # glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
 
-    # Simple light setup.  On Windows GL_LIGHT0 is enabled by default,
-    # but this is not the case on Linux or Mac, so remember to always 
-    # include it.
+    # Simple light setup
     glEnable(GL_LIGHTING)
     glEnable(GL_LIGHT0)
     glEnable(GL_LIGHT1)
@@ -79,58 +75,40 @@ def setup():
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 
 class Donut(object):
-    list = None
     def __init__(self, uistacks, uislices, fA, fB, fC, batch, group=None):
-        # Create the vertex and normal arrays.
+        # Create the vertex and normal arrays
         vertices = []
         normals = []
 
         phi = 0.0
+        phistep = 2 * pi / (uistacks - 1)
+        thetastep = 2 * pi / (uislices - 1)
 
-	phistep = 2*math.pi/(uistacks-1)
-	thetastep = 2*math.pi/(uislices-1)
-	#glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
-
-        for i in range(2*uistacks):
-            #cos_u = cos(2*s)
-            #sin_u = sin(2*s)
+        for i in range(2 * uistacks):
             theta = 0.
-            for j in range(2*uislices):
-                #cos_v = cos(2*t)
-                #sin_v = sin(2*t)
+            for j in range(2 * uislices):
+                x = fA * sin(phi) * cos(theta)
+                y = fB * sin(phi) * sin(theta)
+                z = fC * cos(phi)
 
-                ###d = (radius + inner_radius * cos_v)
-
-		x = fA * math.sin(phi) * math.cos(theta)
-		y = fB * math.sin(phi)* math.sin(theta)
-		z = fC * math.cos(phi)
-
-                ###x = d * (cos_u +2)* cos_u
-                ###y = d * (cos_u +2)* sin_u
-                ###z = inner_radius * sin_v
-
-                #nx = cos_u * cos_v
-                #ny = sin_u * cos_v
-                #nz = sin_v
-
-		nx = fA * math.sin(phi)*math.sin(phi) *math.cos(theta) 
-		ny = fB * math.sin(phi)*math.sin(phi) *math.sin(theta) 
-		nz = fC * math.cos(phi)*math.sin(phi) 
+                nx = fA * sin(phi) * sin(theta)
+                ny = fB * sin(phi) * cos(theta)
+                nz = fC * cos(phi)
 
                 vertices.extend([x, y, z])
                 normals.extend([nx, ny, nz])
                 theta += thetastep
             phi += phistep
 
-        # Create a list of triangle indices.
+        # Create a list of triangle indices
         indices = []
-        for i in range(2*uistacks - 1):
-            for j in range(2*uislices - 1):
-                p = i * uislices + j
-                indices.extend([p, p + uislices, p + uislices + 1])
-                indices.extend([p, p + uislices + 1, p + 1])
+        for i in range(2 * uistacks - 1):
+            for j in range(2 * uislices - 1):
+                p = i * 2 * uislices + j
+                indices.extend([p, p + 2 * uislices, p + 2 * uislices + 1])
+                indices.extend([p, p + 2 * uislices + 1, p + 1])
 
-        self.vertex_list = batch.add_indexed(len(vertices)//3, 
+        self.vertex_list = batch.add_indexed(len(vertices) // 3, 
                                              GL_TRIANGLE_STRIP,
                                              group,
                                              indices,
