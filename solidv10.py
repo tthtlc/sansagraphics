@@ -1,36 +1,31 @@
 #!/usr/bin/env python
 
 from math import pi, sin, cos
-
 import math
-
 import pyglet
 from pyglet.gl import *
 
+# Set up the window with multisampling if possible
 try:
-    # Try and create a window with multisampling (antialiasing)
-    config = Config(sample_buffers=1, samples=4, 
-                    depth_size=16, double_buffer=True,)
+    config = Config(sample_buffers=1, samples=4, depth_size=16, double_buffer=True)
     window = pyglet.window.Window(resizable=True, config=config)
 except pyglet.window.NoSuchConfigException:
-    # Fall back to no multisampling for old hardware
     window = pyglet.window.Window(resizable=True)
 
 @window.event
 def on_resize(width, height):
-    # Override the default on_resize handler to create a 3D projection
     glViewport(0, 0, width, height)
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    gluPerspective(60., width / float(height), .1, 1000.)
+    gluPerspective(60.0, width / float(height), 0.1, 1000.0)
     glMatrixMode(GL_MODELVIEW)
     return pyglet.event.EVENT_HANDLED
 
 def update(dt):
     global rx, ry, rz
-    rx += dt * 1
+    rx += dt * 30
     ry += dt * 80
-    rz += dt * 30
+    rz += dt * 10
     rx %= 360
     ry %= 360
     rz %= 360
@@ -47,31 +42,22 @@ def on_draw():
     batch.draw()
 
 def setup():
-    # One-time GL setup
     glClearColor(1, 1, 1, 1)
-    glColor3f(0, 1, 0)
     glEnable(GL_DEPTH_TEST)
     glEnable(GL_CULL_FACE)
 
-    # Uncomment this line for a wireframe view
-    #glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
-
-    # Simple light setup.  On Windows GL_LIGHT0 is enabled by default,
-    # but this is not the case on Linux or Mac, so remember to always 
-    # include it.
     glEnable(GL_LIGHTING)
     glEnable(GL_LIGHT0)
     glEnable(GL_LIGHT1)
 
-    # Define a simple function to create ctypes arrays of floats:
     def vec(*args):
         return (GLfloat * len(args))(*args)
 
-    glLightfv(GL_LIGHT0, GL_POSITION, vec(.5, .5, 1, 0))
-    glLightfv(GL_LIGHT0, GL_SPECULAR, vec(.5, .5, 1, 1))
+    glLightfv(GL_LIGHT0, GL_POSITION, vec(0.5, 0.5, 1, 0))
+    glLightfv(GL_LIGHT0, GL_SPECULAR, vec(0.5, 0.5, 1, 1))
     glLightfv(GL_LIGHT0, GL_DIFFUSE, vec(1, 1, 1, 1))
-    glLightfv(GL_LIGHT1, GL_POSITION, vec(1, 0, .5, 0))
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, vec(.5, .5, .5, 1))
+    glLightfv(GL_LIGHT1, GL_POSITION, vec(1, 0, 0.5, 0))
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, vec(0.5, 0.5, 0.5, 1))
     glLightfv(GL_LIGHT1, GL_SPECULAR, vec(1, 1, 1, 1))
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, vec(0.5, 0, 0.3, 1))
@@ -79,59 +65,39 @@ def setup():
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 
 class Donut(object):
-    list = None
     def __init__(self, uistacks, uislices, fA, fB, fC, batch, group=None):
-        # Create the vertex and normal arrays.
         vertices = []
         normals = []
 
         phi = 0.0
+        phistep = 2 * math.pi / uistacks
+        thetastep = 2 * math.pi / uislices
 
-	phistep = 2*math.pi/(uistacks-1)
-	thetastep = 2*math.pi/(uislices-1)
-	#glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+        for i in range(uistacks):
+            theta = 0.0
+            for j in range(uislices):
+                x = fA * sin(4 * phi) * sin(phi) * cos(theta) * cos(2 * theta)
+                y = fB * sin(4 * phi) * sin(phi) * sin(theta) * cos(2 * theta)
+                z = fC * sin(4 * phi) * cos(phi)
 
-        for i in range(2*uistacks):
-            #cos_u = cos(2*s)
-            #sin_u = sin(2*s)
-            theta = 0.
-            for j in range(2*uislices):
-                #cos_v = cos(2*t)
-                #sin_v = sin(2*t)
-
-                ###d = (radius + inner_radius * cos_v)
-
-		x = fA * math.sin(4*phi)*math.sin(phi) * math.cos(theta) * math.cos(2*theta)
-		y = fB * math.sin(4*phi)*math.sin(phi)* math.sin(theta) * math.cos(2*theta)
-		z = fC * math.sin(4*phi)*math.cos(phi)
-
-                ###x = d * (cos_u +2)* cos_u
-                ###y = d * (cos_u +2)* sin_u
-                ###z = inner_radius * sin_v
-
-                #nx = cos_u * cos_v
-                #ny = sin_u * cos_v
-                #nz = sin_v
-
-		nx = fA * math.sin(4*phi)*math.sin(phi)*math.sin(phi) *math.cos(theta)  * math.cos(2*theta)
-		ny = fB * math.sin(4*phi)*math.sin(phi)*math.sin(phi) *math.sin(theta)  * math.cos(2*theta)
-		nz = fC * math.sin(4*phi)*math.cos(phi)*math.sin(phi) 
+                nx = fA * sin(4 * phi) * sin(phi) * sin(theta) * cos(2 * theta)
+                ny = fB * sin(4 * phi) * sin(phi) * cos(theta) * cos(2 * theta)
+                nz = fC * sin(4 * phi) * cos(phi) * sin(phi)
 
                 vertices.extend([x, y, z])
                 normals.extend([nx, ny, nz])
                 theta += thetastep
             phi += phistep
 
-        # Create a list of triangle indices.
         indices = []
-        for i in range(2*uistacks - 1):
-            for j in range(2*uislices - 1):
+        for i in range(uistacks - 1):
+            for j in range(uislices - 1):
                 p = i * uislices + j
                 indices.extend([p, p + uislices, p + uislices + 1])
                 indices.extend([p, p + uislices + 1, p + 1])
 
-        self.vertex_list = batch.add_indexed(len(vertices)//3, 
-                                             GL_TRIANGLE_STRIP,
+        self.vertex_list = batch.add_indexed(len(vertices) // 3,
+                                             GL_TRIANGLES,
                                              group,
                                              indices,
                                              ('v3f/static', vertices),
