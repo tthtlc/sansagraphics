@@ -5,7 +5,7 @@ import matplotlib.cm as cm
 from matplotlib.animation import FuncAnimation
 
 # Initialize parameters
-a, b, c, d, e, f = 3, 2, 4, 1, 5, 3
+a, b, c, d, e, f = 2, 2, 2, 2, 5, 3
 u = np.linspace(0, 2 * np.pi, 100)
 v = np.linspace(0, 2 * np.pi, 100)
 u, v = np.meshgrid(u, v)
