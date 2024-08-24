@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Pattern</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="patternCanvas" width="500" height="500"></canvas>
+    <script>
+        const canvas = document.getElementById('patternCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const radius = 100;
+        const lineWidth = 2;
+
+        ctx.lineWidth = lineWidth;
+        ctx.strokeStyle = '#000';
+
+        function drawPattern() {
+            const offsetX = radius;
+            const offsetY = radius;
+            const spacing = 10;
+
+            for (let i = 0; i <= width / radius; i++) {
+                for (let j = 0; j <= height / radius; j++) {
+                    drawArcs(i * offsetX, j * offsetY, radius, spacing);
+                }
+            }
+        }
+
+        function drawArcs(x, y, radius, spacing) {
+            for (let r = radius; r > 0; r -= spacing) {
+                ctx.beginPath();
+                ctx.arc(x, y, r, 0, Math.PI * 2, false);
+                ctx.stroke();
+            }
+        }
+
+        drawPattern();
+    </script>
+</body>
+</html>
+
