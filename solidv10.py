@@ -46,23 +46,23 @@ def setup():
     glEnable(GL_DEPTH_TEST)
     glEnable(GL_CULL_FACE)
 
-    glEnable(GL_LIGHTING)
-    glEnable(GL_LIGHT0)
-    glEnable(GL_LIGHT1)
+    #glEnable(GL_LIGHTING)
+    #glEnable(GL_LIGHT0)
+    #glEnable(GL_LIGHT1)
 
     def vec(*args):
         return (GLfloat * len(args))(*args)
 
-    glLightfv(GL_LIGHT0, GL_POSITION, vec(0.5, 0.5, 1, 0))
-    glLightfv(GL_LIGHT0, GL_SPECULAR, vec(0.5, 0.5, 1, 1))
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, vec(1, 1, 1, 1))
-    glLightfv(GL_LIGHT1, GL_POSITION, vec(1, 0, 0.5, 0))
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, vec(0.5, 0.5, 0.5, 1))
-    glLightfv(GL_LIGHT1, GL_SPECULAR, vec(1, 1, 1, 1))
+    #glLightfv(GL_LIGHT0, GL_POSITION, vec(0.5, 0.5, 1, 0))
+    #glLightfv(GL_LIGHT0, GL_SPECULAR, vec(0.5, 0.5, 1, 1))
+    #glLightfv(GL_LIGHT0, GL_DIFFUSE, vec(1, 1, 1, 1))
+    #glLightfv(GL_LIGHT1, GL_POSITION, vec(1, 0, 0.5, 0))
+    #glLightfv(GL_LIGHT1, GL_DIFFUSE, vec(0.5, 0.5, 0.5, 1))
+    #glLightfv(GL_LIGHT1, GL_SPECULAR, vec(1, 1, 1, 1))
 
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, vec(0.5, 0, 0.3, 1))
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, vec(1, 1, 1, 1))
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
+    #glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, vec(0.5, 0, 0.3, 1))
+    #glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, vec(1, 1, 1, 1))
+    #glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 
 class Donut(object):
     def __init__(self, uistacks, uislices, fA, fB, fC, batch, group=None):
