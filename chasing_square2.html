@@ -46,7 +46,7 @@
         }
 
         function drawArcs(x, y, radius, spacing) {
-            let colorIndex = 0;
+            let colorIndex = Math.floor(Math.random() * 16);
 
             for (let r = radius; r > 0; r -= spacing) {
                 ctx.strokeStyle = colors[colorIndex % numColors];
@@ -57,8 +57,7 @@
                 colorIndex++; // Move to the next color in the array
             }
         }
-
-        drawPattern();
+ 	drawPattern();
     </script>
 </body>
 </html>
