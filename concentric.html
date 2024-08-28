@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Pattern</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="patternCanvas" width="500" height="500"></canvas>
+    <script>
+        const canvas = document.getElementById('patternCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const radius = 100;
+        const lineWidth = 2;
+
+        ctx.lineWidth = lineWidth;
+
+        const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#A133FF']; // Array of colors
+        const numColors = colors.length;
+        let baseColorIndex = 0;
+
+        function drawPattern() {
+            ctx.clearRect(0, 0, width, height); // Clear the canvas
+
+            const offsetX = width / 2;
+            const offsetY = height / 2;
+            const spacing = 10;
+
+            drawArcs(offsetX, offsetY, radius, spacing);
+        }
+
+        function drawArcs(x, y, radius, spacing) {
+            let colorIndex = baseColorIndex;
+
+            for (let r = radius; r > 0; r -= spacing) {
+                ctx.strokeStyle = colors[colorIndex % numColors];
+                ctx.beginPath();
+                ctx.arc(x, y, r, 0, Math.PI * 2, false);
+                ctx.stroke();
+                
+                colorIndex++; // Move to the next color in the array
+            }
+
+            baseColorIndex = (baseColorIndex + 1) % numColors; // Shift the base color index for the next frame
+        }
+
+        setInterval(drawPattern, 100); // Redraw the pattern every 100ms
+    </script>
+</body>
+</html>
+
