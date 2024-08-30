@@ -1,7 +1,7 @@
 
 const canvas = document.getElementById('animationCanvas');
 const ctx = canvas.getContext('2d');
-const nPoints = 60;
+const nPoints = 240;
 const bigA = 200; // Semi-major axis length of the big ellipse
 const bigB = 100; // Semi-minor axis length of the big ellipse
 const smallA = 100; // Semi-major axis length of the small ellipse
@@ -17,8 +17,8 @@ function getPoints(a, b, rotationAngle) {
 
     for (let i = 0; i < nPoints; i++) {
         const theta = (2 * Math.PI * i) / nPoints;
-        const x = centerX + (a * Math.cos(theta) * Math.cos(rotationRadians) - b * Math.sin(theta) * Math.sin(rotationRadians));
-        const y = centerY + (a * Math.cos(theta) * Math.sin(rotationRadians) + b * Math.sin(theta) * Math.cos(rotationRadians));
+        const x = centerX + (a * Math.cos(4*theta) * Math.cos(rotationRadians) - b * Math.sin(4*theta) * Math.sin(rotationRadians));
+        const y = centerY + (a * Math.cos(4*theta) * Math.sin(rotationRadians) + b * Math.sin(4*theta) * Math.cos(rotationRadians));
         points.push({ x, y });
     }
 
@@ -38,12 +38,16 @@ function drawPoints(points, color) {
 function drawLines(points1, points2) {
     ctx.strokeStyle = 'blue';
 
+    //for (let step = 0; step < points1.length; step += 3) {
+    step = 2;
     for (let i = 0; i < points1.length; i++) {
+	const j = (i + step) % points1.length;
         ctx.beginPath();
         ctx.moveTo(points1[i].x, points1[i].y);
-        ctx.lineTo(points2[i].x, points2[i].y);
+        ctx.lineTo(points2[j].x, points2[j].y);
         ctx.stroke();
     }
+    //}
 }
 
 function animate() {
